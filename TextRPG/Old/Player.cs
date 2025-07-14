@@ -4,7 +4,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-namespace TextRPG
+namespace TextRPG.Old
 
 {
     public class Player
@@ -44,14 +44,14 @@ namespace TextRPG
 
         public void ShowStatus()
         {
-            
+
             while (true)
             {
                 Console.Clear();
                 Console.WriteLine($"[상태 보기]\n");
                 Console.WriteLine($"Lv. {Level}");
                 Console.WriteLine($"{Name} ({PlayerClass})");
-                Console.WriteLine($"공격력: {Attack + (EquippedWeapon != null ? EquippedWeapon.Attack: 0) + (EquippedArmor != null ? EquippedArmor.Attack : 0)} (+{(EquippedWeapon != null ? EquippedWeapon.Attack : 0) + (EquippedArmor != null ? EquippedArmor.Attack : 0)})");
+                Console.WriteLine($"공격력: {Attack + (EquippedWeapon != null ? EquippedWeapon.Attack : 0) + (EquippedArmor != null ? EquippedArmor.Attack : 0)} (+{(EquippedWeapon != null ? EquippedWeapon.Attack : 0) + (EquippedArmor != null ? EquippedArmor.Attack : 0)})");
                 Console.WriteLine($"방어력: {Defense + (EquippedWeapon != null ? EquippedWeapon.Defense : 0) + (EquippedArmor != null ? EquippedArmor.Defense : 0)}  (+{(EquippedWeapon != null ? EquippedWeapon.Defense : 0) + (EquippedArmor != null ? EquippedArmor.Defense : 0)})");
                 Console.WriteLine($"체력: {Hp}");
                 Console.WriteLine($"골드: {Gold}\n");
@@ -72,9 +72,9 @@ namespace TextRPG
 
         public void ShowInventory()
         {
-                
 
-            while (true) 
+
+            while (true)
             {
                 Console.Clear();
 
@@ -188,7 +188,7 @@ namespace TextRPG
                         Console.WriteLine("\n장착을 해제합니다.");
                     }
                 }
-                else if(input == "0")
+                else if (input == "0")
                 {
                     ShowInventory();
                     break;
@@ -242,12 +242,12 @@ namespace TextRPG
                 Exp = Exp - requireExp;
                 Hp += 50; // 레벨업 시 체력 증가
                 Attack += 0.5f;
-                Defense += 1; 
+                Defense += 1;
                 Console.WriteLine($"\n{Level}레벨로 상승했습니다! 축하합니다!\n");
-                System.Threading.Thread.Sleep(1000);
+                Thread.Sleep(1000);
             }
-            
+
         }
     }
-    
+
 }

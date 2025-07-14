@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TextRPG
+namespace TextRPG.Old
 {
     public enum ItemType
     {
@@ -90,7 +90,7 @@ namespace TextRPG
                 "스파르타의 창",
                 "스파르타의 전사들이 사용했다는 전설의 창입니다.",
                 defense: 0,
-                attack:7,
+                attack: 7,
                 price: 100,
                 itemType: ItemType.Weapon
             );
