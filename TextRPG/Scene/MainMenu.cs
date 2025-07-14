@@ -16,10 +16,10 @@ namespace TextRPG.Scene
             Console.WriteLine();
             Console.WriteLine("1. 상태 보기");
             Console.WriteLine("2. 던전 입장");
-            // Console.WriteLine("3. 인벤토리");
-            // Console.WriteLine("4. 상점");
-            // Console.WriteLine("5. 휴식하기");
-            // Console.WriteLine("6. 게임 종료");
+            Console.WriteLine("3. 인벤토리");
+            Console.WriteLine("4. 상점");
+            Console.WriteLine("5. 휴식하기");
+            Console.WriteLine("6. 게임 종료");
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요.");
             string input = Console.ReadLine();
@@ -32,16 +32,16 @@ namespace TextRPG.Scene
                 case "2":
                     player.ShowInventory();
                     break;
-                // case "3":
+                case "3":
                     ShowShop();
                     break;
-                // case "4":
+                case "4":
                     ShowRest();
                     break;
-                // case "5":
+                case "5":
                     Dungeon.ShowDungeonMenu();
                     break;
-                // case "6":
+                case "6":
 
                     while (true)
                     {
