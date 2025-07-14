@@ -26,46 +26,46 @@ namespace TextRPG.Scene
 
             switch (input)
             {
-                case "1":
-                    player.ShowStatus();
-                    break;
-                case "2":
-                    player.ShowInventory();
-                    break;
-                case "3":
-                    ShowShop();
-                    break;
-                case "4":
-                    ShowRest();
-                    break;
-                case "5":
-                    Dungeon.ShowDungeonMenu();
-                    break;
-                case "6":
+                //case "1":
+                //    player.ShowStatus();
+                //    break;
+                //case "2":
+                //    player.ShowInventory();
+                //    break;
+                //case "3":
+                //    ShowShop();
+                //    break;
+                //case "4":
+                //    ShowRest();
+                //    break;
+                //case "5":
+                //    Dungeon.ShowDungeonMenu();
+                //    break;
+                //case "6":
 
-                    while (true)
-                    {
-                        Console.WriteLine("\n게임을 종료하시겠습니까? (y/n)\n");
-                        string exitGameCheck = Console.ReadLine();
+                //    while (true)
+                //    {
+                //        Console.WriteLine("\n게임을 종료하시겠습니까? (y/n)\n");
+                //        string exitGameCheck = Console.ReadLine();
 
-                        if (exitGameCheck == "y")
-                        {
-                            ExitGame();
-                            break;
-                        }
-                        else if (exitGameCheck == "n")
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            Console.WriteLine("잘못된 입력입니다. 다시 시도해주세요.\n");
-                        }
-                    }
-                    break;
-                default:
-                    Console.WriteLine("잘못된 입력입니다. 다시 시도해주세요.");
-                    break;
+                //        if (exitGameCheck == "y")
+                //        {
+                //            ExitGame();
+                //            break;
+                //        }
+                //        else if (exitGameCheck == "n")
+                //        {
+                //            break;
+                //        }
+                //        else
+                //        {
+                //            Console.WriteLine("잘못된 입력입니다. 다시 시도해주세요.\n");
+                //        }
+                //    }
+                //    break;
+                //default:
+                //    Console.WriteLine("잘못된 입력입니다. 다시 시도해주세요.");
+                //    break;
             }
         }
     }

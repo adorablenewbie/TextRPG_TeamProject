@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TextRPG.Scene
 {
-    abstract class Scene
+    public abstract class Scene
     {
         public Action action;
         public abstract void ShowScene();
