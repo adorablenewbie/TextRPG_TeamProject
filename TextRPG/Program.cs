@@ -15,14 +15,13 @@ namespace TextRPG
 
         public void initScenes()
         {
-            //scenes.Add("MainMenu", new MainMenu());
+            scenes.Add("StatusScene", new StatusScene());
 
         }
 
         public static void Main(string[] args)
         {
-            TextRPG.Scene.Scene statusScene = new StatusScene();
-            statusScene.ShowScene();
+            
         }
     }
 }
