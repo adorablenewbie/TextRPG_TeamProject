@@ -28,6 +28,26 @@ namespace TextRPG.Object
             this.defense = 5;
             this.gold = 1500;
             this.exp = 0;
+            this.skills = new List<Skill>();
+        }
+        
+        public void AddSkill(Skill skill)
+        {
+            if (skill != null && !skills.Contains(skill))
+            {
+                skills.Add(skill);
+            }
+            if (skills.Count > 2)
+            {
+                skills.RemoveAt(0); // 오래된 스킬 제거
+            }
+        }
+        public void RemoveSkill(Skill skill)
+        {
+            if (skill != null && skills.Contains(skill))
+            {
+                skills.Remove(skill);
+            }
         }
     }
 }

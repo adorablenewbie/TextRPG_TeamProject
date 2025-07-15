@@ -1,71 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Threading;
+using TextRPG;
+using TextRPG.Object;
+using TextRPG.SaveDatas;
 
 namespace TextRPG.Scenes
 {
-    // 던전 종류를 정의하는 열거형
-    public enum DungeonType
-    {
-        Forest,
-        Cave,
-        Castle,
-        DragonLair
-    }
-
-    // 몬스터 강도
-    public enum MonsterType
-    {
-        Weak,
-        Normal,
-        Strong
-    }
-
     // 플레이어 클래스
-    public class Player
-    {
-        public float Hp = 50;
-        public float Attack = 5;
-        public float Defense = 2;
-        public int Gold = 0;
-        public int Exp = 0;
-        public int Level = 1;
+    //public class Player
+    //{
+    //    public float Hp = 50;
+    //    public float Attack = 5;
+    //    public float Defense = 2;
+    //    public int Gold = 0;
+    //    public int Exp = 0;
+    //    public int Level = 1;
 
-        public float SumAttack() => Attack;
+    //    public float SumAttack() => Attack;
 
-        public void LevelUp()
-        {
-            if (Exp >= Level * 100)
-            {
-                Exp -= Level * 100;
-                Level++;
-                Hp += 10;
-                Attack += 2;
-                Defense += 1;
-                Console.WriteLine($"🎉 레벨업! 현재 레벨: {Level}");
-                Thread.Sleep(1000);
-            }
-        }
-    }
+    //    public void LevelUp()
+    //    {
+    //        if (Exp >= Level * 100)
+    //        {
+    //            Exp -= Level * 100;
+    //            Level++;
+    //            Hp += 10;
+    //            Attack += 2;
+    //            Defense += 1;
+    //            Console.WriteLine($"🎉 레벨업! 현재 레벨: {Level}");
+    //            Thread.Sleep(1000);
+    //        }
+    //    }
+    //}
 
-    public static class GameManager
-    {
-        public static Player player = new Player();
-    }
-
-    public class Dungeon
+    public class DungeonScene : Scene
     {
         // 던전별 등장 몬스터 목록
-        private static readonly Dictionary<DungeonType, List<(string name, MonsterType type)>> DungeonMonsters = new()
-        {
-            { DungeonType.Forest, new() { ("늑대", MonsterType.Weak), ("곰", MonsterType.Normal), ("도적", MonsterType.Strong) } },
-            { DungeonType.Cave, new() { ("이상한 박쥐", MonsterType.Weak), ("트롤", MonsterType.Normal), ("오우거", MonsterType.Strong) } },
-            { DungeonType.Castle, new() { ("해골병사", MonsterType.Weak), ("리빙아머", MonsterType.Normal), ("암흑기사", MonsterType.Strong) } },
-            { DungeonType.DragonLair, new() { ("헤츨링", MonsterType.Weak), ("작은 드래곤", MonsterType.Normal), ("성난 드래곤", MonsterType.Strong) } }
-        };
+        //private static readonly Dictionary<DungeonType, List<(string name, MonsterType type)>> DungeonMonsters = new()
+        //{
+        //    { DungeonType.Forest, new() { ("늑대", MonsterType.Weak), ("곰", MonsterType.Normal), ("도적", MonsterType.Strong) } },
+        //    { DungeonType.Cave, new() { ("이상한 박쥐", MonsterType.Weak), ("트롤", MonsterType.Normal), ("오우거", MonsterType.Strong) } },
+        //    { DungeonType.Castle, new() { ("해골병사", MonsterType.Weak), ("리빙아머", MonsterType.Normal), ("암흑기사", MonsterType.Strong) } },
+        //    { DungeonType.DragonLair, new() { ("헤츨링", MonsterType.Weak), ("작은 드래곤", MonsterType.Normal), ("성난 드래곤", MonsterType.Strong) } }
+        //};
 
         // 던전 메뉴
-        public static void ShowDungeonMenu()
+        public override void ShowScene()
         {
             while (true)
             {
@@ -109,7 +91,8 @@ namespace TextRPG.Scenes
 
                 if (input == "y")
                 {
-                    SpawnMonsters(dungeonType, GameManager.player);
+                    Fight();
+                    //SpawnMonsters(dungeonType, Player.Instance);
                     break;
                 }
                 else if (input == "n")
@@ -126,106 +109,174 @@ namespace TextRPG.Scenes
             }
         }
 
-        // 몬스터 소환 및 전투 루프
-        public static void SpawnMonsters(DungeonType dungeonType, Player player)
+        //전투 진행
+        public static void Fight()
         {
-            List<Monster> spawned = new();
-            Random rand = new();
-            int killCount = 0;
+            List<Monster> spawnedMonster = new();
+            int turn = 1;
+            Random rand = new Random();
 
             while (true)
             {
-                // 전투 시작: 몬스터 랜덤 생성
-                spawned.Clear();
-                var monsterList = DungeonMonsters[dungeonType];
-                int enemyCount = rand.Next(1, 4);
+                spawnedMonster.Clear();
+                //몬스터 생성
+                spawnedMonster.Add(Monster.monstersData[rand.Next(0, Monster.monstersData.Count)]);
 
-                for (int i = 0; i < enemyCount; i++)
-                {
-                    var (name, type) = monsterList[rand.Next(monsterList.Count)];
-                    spawned.Add(MonsterFactory.Create(name, dungeonType, type));
-                }
-
-                // 전투 UI 출력
-                while (spawned.Count > 0)
-                {
+                while (spawnedMonster.Count > 0) {
                     Console.Clear();
                     Console.WriteLine("┌────────────[ 전투 시작 ]────────────┐");
-                    for (int i = 0; i < spawned.Count; i++)
-                        Console.WriteLine($"| [{i + 1}] {spawned[i].Name} (타입: {spawned[i].Type}) HP:{spawned[i].Hp} ATK:{spawned[i].Attack} DEF:{spawned[i].Defense} |");
+                    SpawnMonster(spawnedMonster);
                     Console.WriteLine("└────────────────────────────────────┘");
-                    Console.WriteLine($"▶ 당신: HP: {player.Hp} / ATK: {player.Attack} / DEF: {player.Defense} / GOLD: {player.Gold}");
+                    Console.WriteLine($"▶ 당신: HP: {Player.Instance.hp} / ATK: {Player.Instance.attack} / DEF: {Player.Instance.defense} / GOLD: {Player.Instance.gold}");
                     Console.WriteLine("\n[1] 공격    [2] 도망치기");
                     Console.Write("행동 선택: ");
+                    //플레이어의 턴
                     string input = Console.ReadLine();
+                    int num = 0;
 
-                    if (input == "1")
+                    if (int.TryParse(input, out num))
                     {
-                        Console.Write("공격할 몬스터 번호: ");
-                        if (int.TryParse(Console.ReadLine(), out int idx) && idx > 0 && idx <= spawned.Count)
+                        if(num == 1)
                         {
-                            var target = spawned[idx - 1];
-                            AttackEnemy(target, player, dungeonType);
-                            if (target.Hp <= 0)
+                            int targetNumber = 0;
+                            Console.Write("공격할 몬스터 번호선택");
+                            if(int.TryParse(Console.ReadLine(), out targetNumber))
                             {
-                                killCount++;
-                                spawned.RemoveAt(idx - 1);
-                            }
-
-                            foreach (var m in spawned)
-                            {
-                                float dmg = Math.Max(1, m.Attack - player.Defense);
-                                player.Hp -= dmg;
-                                Console.WriteLine($"{m.Name}이(가) 공격! 피해: {dmg} ▶ 남은 HP: {player.Hp}");
-                                if (player.Hp <= 0)
-                                {
-                                    ShowDungeonResult(player, dungeonType, killCount, false);
-                                    Environment.Exit(0);
-                                }
-                                Thread.Sleep(1000);
+                                PlayerTurn(spawnedMonster, targetNumber);
                             }
                         }
+                        else if(num == 2)
+                        {
+                            Console.WriteLine("도망갔습니다.");
+                            break;
+                        }
+                        else
+                        {
+                            Console.Write("잘못된 입력입니다.");
+                        }
                     }
-                    else if (input == "2")
-                    {
-                        Console.WriteLine("도망쳤습니다!");
-                        Thread.Sleep(1000);
-                        return;
-                    }
-                }
-
-                Console.WriteLine("🎉 스테이지 클리어!");
-                if (NextStageChance(dungeonType))
-                {
-                    Console.WriteLine("👉 다음 스테이지로 이동합니다...");
-                    Thread.Sleep(1500);
-                }
-                else
-                {
-                    Console.WriteLine("🏁 던전 클리어!");
-                    ShowDungeonResult(player, dungeonType, killCount, true);
-                    break;
+                    //몬스터의 턴
+                    MonsterTurn(spawnedMonster, Player.Instance);
+                    //결과
+                    turn++;
                 }
             }
         }
+
+        public static void SpawnMonster(List<Monster> mList)
+        {
+            for (int i = 0; i < mList.Count; i++) {
+                Console.WriteLine($"{i + 1} {mList[i].name} 몬스터 출현");
+            }
+        }
+
+        public static void PlayerTurn(List<Monster> mList, int targetNumber)
+        {
+            if (mList.Count <= 0) return;
+            
+            mList[targetNumber-1].hp -= Player.Instance.attack;
+            
+            if (mList[targetNumber-1].hp <= 0)
+            {
+                mList.RemoveAt(targetNumber-1);
+            }
+        }
+
+        public static void MonsterTurn(List<Monster> mList, Player p)
+        {
+            foreach (Monster m in mList) {
+                p.hp -= m.attack;
+                Console.WriteLine($"몬스터 {m.name} 의 공격! 데미지 {m.attack}");
+            }
+        }
+
+        // 몬스터 소환 및 전투 루프
+        //public static void SpawnMonsters(DungeonType dungeonType, Player player)
+        //{
+        //    List<Monster> spawned = new();
+        //    Random rand = new();
+        //    int killCount = 0;
+
+        //    while (true)
+        //    {
+        //        // 전투 시작: 몬스터 랜덤 생성
+        //        spawned.Clear();
+        //        var monsterList = DungeonMonsters[dungeonType];
+        //        int enemyCount = rand.Next(1, 4);
+
+        //        for (int i = 0; i < enemyCount; i++)
+        //        {
+        //            var (name, type) = monsterList[rand.Next(monsterList.Count)];
+        //            spawned.Add(MonsterFactory.Create(name, dungeonType, type));
+        //        }
+
+        //        // 전투 UI 출력
+        //        while (spawned.Count > 0)
+        //        {
+        //            Console.Clear();
+        //            Console.WriteLine("┌────────────[ 전투 시작 ]────────────┐");
+        //            for (int i = 0; i < spawned.Count; i++)
+        //                Console.WriteLine($"| [{i + 1}] {spawned[i].Name} (타입: {spawned[i].Type}) HP:{spawned[i].Hp} ATK:{spawned[i].Attack} DEF:{spawned[i].Defense} |");
+        //            Console.WriteLine("└────────────────────────────────────┘");
+        //            Console.WriteLine($"▶ 당신: HP: {player.hp} / ATK: {player.attack} / DEF: {player.defense} / GOLD: {player.gold}");
+        //            Console.WriteLine("\n[1] 공격    [2] 도망치기");
+        //            Console.Write("행동 선택: ");
+        //            string input = Console.ReadLine();
+
+        //            if (input == "1")
+        //            {
+        //                Console.Write("공격할 몬스터 번호: ");
+        //                if (int.TryParse(Console.ReadLine(), out int idx) && idx > 0 && idx <= spawned.Count)
+        //                {
+        //                    var target = spawned[idx - 1];
+        //                    AttackEnemy(target, player, dungeonType);
+        //                    if (target.Hp <= 0)
+        //                    {
+        //                        killCount++;
+        //                        spawned.RemoveAt(idx - 1);
+        //                    }
+
+        //                    foreach (var m in spawned)
+        //                    {
+        //                        float dmg = Math.Max(1, m.Attack - player.Defense);
+        //                        player.Hp -= dmg;
+        //                        Console.WriteLine($"{m.Name}이(가) 공격! 피해: {dmg} ▶ 남은 HP: {player.Hp}");
+        //                        if (player.Hp <= 0)
+        //                        {
+        //                            ShowDungeonResult(player, dungeonType, killCount, false);
+        //                            Environment.Exit(0);
+        //                        }
+        //                        Thread.Sleep(1000);
+        //                    }
+        //                }
+        //            }
+        //            else if (input == "2")
+        //            {
+        //                Console.WriteLine("도망쳤습니다!");
+        //                Thread.Sleep(1000);
+        //                return;
+        //            }
+        //        }
+        //    }
+        //}
 
         // 전투 처리
-        public static void AttackEnemy(Monster monster, Player player, DungeonType dungeonType)
-        {
-            float dmg = Math.Max(1, player.SumAttack() - monster.Defense);
-            monster.Hp -= dmg;
+        //public static void AttackEnemy(Monster monster, Player player, DungeonType dungeonType)
+        //{
+        //    float dmg = Math.Max(1, player.SumAttack() - monster.Defense);
+        //    monster.hp -= dmg;
 
-            if (monster.Hp <= 0)
-            {
-                Reward(dungeonType, monster, player);
-                player.LevelUp();
-            }
-            else
-            {
-                Console.WriteLine($"{monster.Name}의 남은 HP: {monster.Hp}");
-                Thread.Sleep(1000);
-            }
-        }
+        //    if (monster.Hp <= 0)
+        //    {
+        //        Reward(dungeonType, monster, player);
+        //        player.LevelUp();
+        //    }
+        //    else
+        //    {
+        //        Console.WriteLine($"{monster.name}의 남은 HP: {monster.hp}");
+        //        Thread.Sleep(1000);
+        //    }
+        //}
 
         // 보상 지급
         public static void Reward(DungeonType dungeonType, Monster monster, Player player)
@@ -239,30 +290,30 @@ namespace TextRPG.Scenes
                 _ => 1.0f
             };
 
-            int rewardGold = (int)(monster.Gold * multiplier);
-            int rewardExp = (int)(monster.Exp * multiplier);
+            int rewardGold = (int)(monster.gold * multiplier);
+            int rewardExp = (int)(monster.exp * multiplier);
 
-            player.Gold += rewardGold;
-            player.Exp += rewardExp;
+            player.gold += rewardGold;
+            player.exp += rewardExp;
 
-            Console.WriteLine($"{monster.Name} 처치! 골드 +{rewardGold}, 경험치 +{rewardExp}");
+            Console.WriteLine($"{monster.name} 처치! 골드 +{rewardGold}, 경험치 +{rewardExp}");
             Thread.Sleep(1000);
         }
 
         // 다음 스테이지 확률
-        public static bool NextStageChance(DungeonType dungeonType)
-        {
-            Random rand = new();
-            int chance = dungeonType switch
-            {
-                DungeonType.Forest => 90,
-                DungeonType.Cave => 70,
-                DungeonType.Castle => 50,
-                DungeonType.DragonLair => 30,
-                _ => 50
-            };
-            return rand.Next(100) < chance;
-        }
+        //public static bool NextStageChance(DungeonType dungeonType)
+        //{
+        //    Random rand = new();
+        //    int chance = dungeonType switch
+        //    {
+        //        DungeonType.Forest => 90,
+        //        DungeonType.Cave => 70,
+        //        DungeonType.Castle => 50,
+        //        DungeonType.DragonLair => 30,
+        //        _ => 50
+        //    };
+        //    return rand.Next(100) < chance;
+        //}
 
         // 결과창 출력
         public static void ShowDungeonResult(Player player, DungeonType dungeonType, int killCount, bool survived)
@@ -272,10 +323,10 @@ namespace TextRPG.Scenes
             Console.WriteLine("───────────────");
             Console.WriteLine($"▶ 던전: {GetDungeonName(dungeonType)}");
             Console.WriteLine($"▶ 처치 수: {killCount}");
-            Console.WriteLine($"▶ 골드: {player.Gold}");
-            Console.WriteLine($"▶ 경험치: {player.Exp}");
-            Console.WriteLine($"▶ HP: {player.Hp}");
-            Console.WriteLine($"▶ 레벨: {player.Level}");
+            Console.WriteLine($"▶ 골드: {player.gold}");
+            Console.WriteLine($"▶ 경험치: {player.exp}");
+            Console.WriteLine($"▶ HP: {player.hp}");
+            Console.WriteLine($"▶ 레벨: {player}");
             Console.WriteLine("\n[엔터]를 눌러 돌아갑니다.");
             Console.ReadLine();
         }
@@ -290,61 +341,61 @@ namespace TextRPG.Scenes
         };
 
         // 몬스터 정의
-        public class Monster
-        {
-            public string Name { get; }
-            public float Hp { get; set; }
-            public float Attack { get; }
-            public float Defense { get; }
-            public float Gold { get; }
-            public float Exp { get; }
-            public MonsterType Type { get; }
+        //public class Monster
+        //{
+        //    public string Name { get; }
+        //    public float Hp { get; set; }
+        //    public float Attack { get; }
+        //    public float Defense { get; }
+        //    public float Gold { get; }
+        //    public float Exp { get; }
+        //    public MonsterType Type { get; }
 
-            public Monster(string name, float hp, float atk, float def, float gold, float exp, MonsterType type)
-            {
-                Name = name;
-                Hp = hp;
-                Attack = atk;
-                Defense = def;
-                Gold = gold;
-                Exp = exp;
-                Type = type;
-            }
-        }
+        //    public Monster(string name, float hp, float atk, float def, float gold, float exp, MonsterType type)
+        //    {
+        //        Name = name;
+        //        Hp = hp;
+        //        Attack = atk;
+        //        Defense = def;
+        //        Gold = gold;
+        //        Exp = exp;
+        //        Type = type;
+        //    }
+        //}
 
         // 몬스터 생성 팩토리
-        public static class MonsterFactory
-        {
-            private static readonly Dictionary<DungeonType, (float hp, float atk, float def, float gold, float exp)> BaseStats = new()
-            {
-                { DungeonType.Forest, (10, 2, 1, 10, 10) },
-                { DungeonType.Cave, (20, 4, 2, 20, 30) },
-                { DungeonType.Castle, (30, 6, 3, 30, 70) },
-                { DungeonType.DragonLair, (50, 10, 5, 50, 120) }
-            };
+        //public static class MonsterFactory
+        //{
+        //    private static readonly Dictionary<DungeonType, (float hp, float atk, float def, float gold, float exp)> BaseStats = new()
+        //    {
+        //        { DungeonType.Forest, (10, 2, 1, 10, 10) },
+        //        { DungeonType.Cave, (20, 4, 2, 20, 30) },
+        //        { DungeonType.Castle, (30, 6, 3, 30, 70) },
+        //        { DungeonType.DragonLair, (50, 10, 5, 50, 120) }
+        //    };
 
-            private static readonly Dictionary<MonsterType, (float hp, float atk, float def, float gold, float exp)> Multiplier = new()
-            {
-                { MonsterType.Weak, (1f, 1f, 1f, 1f, 1f) },
-                { MonsterType.Normal, (1.5f, 1.3f, 1.2f, 1.3f, 1.3f) },
-                { MonsterType.Strong, (2.2f, 1.7f, 1.5f, 1.8f, 1.8f) }
-            };
+        //    private static readonly Dictionary<MonsterType, (float hp, float atk, float def, float gold, float exp)> Multiplier = new()
+        //    {
+        //        { MonsterType.Weak, (1f, 1f, 1f, 1f, 1f) },
+        //        { MonsterType.Normal, (1.5f, 1.3f, 1.2f, 1.3f, 1.3f) },
+        //        { MonsterType.Strong, (2.2f, 1.7f, 1.5f, 1.8f, 1.8f) }
+        //    };
 
-            public static Monster Create(string name, DungeonType dt, MonsterType mt)
-            {
-                var baseStat = BaseStats[dt];
-                var multi = Multiplier[mt];
-                return new Monster(
-                    name,
-                    baseStat.hp * multi.hp,
-                    baseStat.atk * multi.atk,
-                    baseStat.def * multi.def,
-                    baseStat.gold * multi.gold,
-                    baseStat.exp * multi.exp,
-                    mt
-                );
-            }
-        }
+        //    public static Monster Create(string name, DungeonType dt, MonsterType mt)
+        //    {
+        //        var baseStat = BaseStats[dt];
+        //        var multi = Multiplier[mt];
+        //        return new Monster(
+        //            name,
+        //            baseStat.hp * multi.hp,
+        //            baseStat.atk * multi.atk,
+        //            baseStat.def * multi.def,
+        //            baseStat.gold * multi.gold,
+        //            baseStat.exp * multi.exp,
+        //            mt
+        //        );
+        //    }
+        //}
         // 🪤 [스테이지 이동 시 함정 발동 함수]
         public static void TryTriggerTrapOnStageTransition(Player player)
         {
@@ -354,11 +405,10 @@ namespace TextRPG.Scenes
             if (trapChance < 30)
             {
                 int damage = rand.Next(5, 16);
-                Console.WriteLine($"
-🪤 함정 발동! 숨겨진 함정에 걸렸습니다! HP { damage} 감소!");
-                player.Hp -= damage;
+                Console.WriteLine($"🪤 함정 발동! 숨겨진 함정에 걸렸습니다! HP { damage} 감소!");
+                player.hp -= damage;
 
-                if (player.Hp <= 0)
+                if (player.hp <= 0)
                 {
                     Console.WriteLine("☠️ 당신은 함정에 의해 사망했습니다...");
                     Thread.Sleep(1000);
@@ -378,12 +428,13 @@ namespace TextRPG.Scenes
             if (chance < 20)
             {
                 int heal = rand.Next(10, 21);
-                Console.WriteLine($" 
-💧 회복의 샘 발견! HP가 { heal} 회복되었습니다!");
-                 player.Hp += heal;
+                Console.WriteLine($" 💧 회복의 샘 발견! HP가 { heal} 회복되었습니다!");
+                 player.hp += heal;
                 Thread.Sleep(1000);
             }
         }
+
+        
 
         // 예시: 스테이지 클리어 후 이벤트 삽입 위치
         // if (NextStageChance(dungeonType))
