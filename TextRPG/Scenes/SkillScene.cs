@@ -72,7 +72,7 @@ namespace TextRPG.Scenes
                 default:
 
                     int skillIdx = result - 1;
-                    Skill targetSkill = skillDb[skillIdx];
+                    Skill targetSkill = player.skills[skillIdx]; //이거 맞는지 검증해야됨! (스킬 선택하면 맞게 착용되는지)
                     player.EquipSkill(targetSkill);
 
                     ShowEquipSkill();
