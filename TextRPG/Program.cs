@@ -8,26 +8,54 @@ using TextRPG.Scenes;
 
 namespace TextRPG
 {
+    public enum SceneType
+    {
+        MainScene,
+        ShopScene,
+        RestScene,
+        StatusScene,
+        SkillScene,
+        InventoryScene,
+        DungeonScene,
+    }
     internal class Program
     {
-        private static Dictionary<string, Scene> scenes;
+        private static Dictionary<SceneType, Scene> scenes;
         private static Scene currentScene;
-
         public static void initScenes()
         {
-            scenes = new Dictionary<string, Scene>();
+            scenes = new Dictionary<SceneType, Scene>();
 
-            scenes.Add("shopScene", new ShopScene());
-            scenes.Add("StatusScene", new StatusScene());
-            scenes.Add("MainScene", new MainMenu());
-            scenes.Add("RestScene", new RestScene());
+            scenes.Add(SceneType.MainScene, new MainMenu());
+            scenes.Add(SceneType.StatusScene, new StatusScene());
+            scenes.Add(SceneType.RestScene, new RestScene());
+            scenes.Add(SceneType.ShopScene, new ShopScene());
+            scenes.Add(SceneType.SkillScene, new SkillScene());
+            scenes.Add(SceneType.InventoryScene, new InventoryScene());
+            scenes.Add(SceneType.DungeonScene, new DungeonScene());
         }
 
         public static void Main(string[] args)
         {
             initScenes();
-            currentScene = scenes["MainScene"];
+            currentScene = scenes[SceneType.MainScene];
 
+            while (currentScene != null)
+            {
+                currentScene.ShowScene();
+            }
+        }
+
+        public static void ChangeScene(SceneType sceneKey)
+        {
+            if (scenes.ContainsKey(sceneKey))
+            {
+                currentScene = scenes[sceneKey];
+            }
+            else
+            {
+                //ㅋㅋ 아무거나 써놔야지
+            }
         }
     }
 }
