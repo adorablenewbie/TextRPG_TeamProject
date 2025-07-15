@@ -90,7 +90,7 @@ namespace TextRPG.Scenes
                     if (result >= min && result <= max)
                         return result;
                 }
-                Console.WriteLine("잘못된 입력입니다.");
+                Console.WriteLine("잘못된 입력입니다. 다시 시도해 주세요.");
             }
         }
     }
