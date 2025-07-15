@@ -15,8 +15,10 @@ namespace TextRPG
 
         public void initScenes()
         {
+            scenes.Add("shopScene", new ShopScene());
             scenes.Add("StatusScene", new StatusScene());
-
+            scenes.Add("MainScene", new MainMenu());
+            scenes.Add("RestScene", new RestScene());
         }
 
         public static void Main(string[] args)
