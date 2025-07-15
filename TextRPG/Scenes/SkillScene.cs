@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TextRPG.SaveData;
 
-namespace TextRPG.Scene
+namespace TextRPG.Scenes
 {
     internal class SkillScene
     {
