@@ -13,36 +13,33 @@ namespace TextRPG.Scenes
         public static Object.Player player = Object.Player.Instance;
         static void ShowSkill()
         {
-            Console.Clear();
-            Console.WriteLine("스킬");
-            Console.WriteLine("보유 중인 스킬을 관리할 수 있습니다.");
-            Console.WriteLine();
-            Console.WriteLine("[스킬 목록]");
-
-            for (int i = 0; i < player.skills.Count; i++) // 임시로 단어를 inventory에서 skill로 변경
+            while (true)
             {
-                Skill targetSkill = player.skills[i];
+                Console.Clear();
+                Console.WriteLine("스킬");
+                Console.WriteLine("보유 중인 스킬을 관리할 수 있습니다.");
+                Console.WriteLine();
+                Console.WriteLine("[스킬 목록]");
 
-                string displayEquipped = equipList.Contains(targetSkill) ? "[E]" : "";
-                Console.WriteLine($"- {displayEquipped} {skillNames[targetSkill]}  |  {(skillType[targetSkill] == 0 ? "공격력" : "방어력")} +{itemValue[targetItem]}  |  {itemDesc[targetItem]}");
-            }
-            Console.WriteLine();
-            Console.WriteLine("1. 장착 관리");
-            Console.WriteLine("0. 나가기");
-            Console.WriteLine();
-            Console.WriteLine("원하시는 행동을 입력해주세요.");
+                ShowSkillList();
 
-            int result = CheckInput(0, 1);
+                Console.WriteLine();
+                Console.WriteLine("1. 장착 관리");
+                Console.WriteLine("0. 나가기");
+                Console.WriteLine();
+                Console.WriteLine("원하시는 행동을 입력해주세요.");
 
-            switch (result)
-            {
-                case 0: // 메인 메뉴로 돌아가기
-                    ShowMainMenu();
-                    break;
+                int result = CheckInput(0, 1);
 
-                case 1: // 스킬 장착 관리
-                    ShowEquipSkill();
-                    break;
+                switch (result)
+                {
+                    case 0: // 메인 메뉴로 돌아가기
+                        break;
+
+                    case 1: // 스킬 장착 관리
+                        ShowEquipSkill();
+                        break;
+                }
             }
         }
 
@@ -54,16 +51,16 @@ namespace TextRPG.Scenes
             Console.WriteLine();
             Console.WriteLine("[스킬 목록]");
 
-            player.ShowSkill(true);
+            ShowSkillList();
 
             Console.WriteLine();
             Console.WriteLine("0. 나가기");
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요.");
 
-            int result = CheckInput(0, skill.Count); // 임시로 단어를 inventory에서 skill로 변경
+            int result = CheckInput(0, player.skills.Count); 
 
-            switch (result) // 임시로 단어를 item에서 skill로 변경
+            switch (result) 
             {
                 case 0:
                     ShowSkill();
@@ -72,7 +69,7 @@ namespace TextRPG.Scenes
                 default:
 
                     int skillIdx = result - 1;
-                    Skill targetSkill = skillDb[skillIdx];
+                    Skill targetSkill = player.skills[skillIdx]; //이거 맞는지 검증해야됨 ~~~~~~~~~~~~~~~~~~~~~~(스킬 선택하면 맞게 착용되는지)
                     player.EquipSkill(targetSkill);
 
                     ShowEquipSkill();
@@ -93,6 +90,16 @@ namespace TextRPG.Scenes
                         return result;
                 }
                 Console.WriteLine("잘못된 입력입니다. 다시 시도해 주세요.");
+            }
+        }
+
+        public static void ShowSkillList()
+        {
+            for (int i = 0; i < player.skills.Count; i++)
+            {
+                Skill targetSkill = player.skills[i];
+                string displayEquipped = player.skills.Contains(targetSkill) ? "[E]" : "";
+                Console.WriteLine($"{i + 1}. {displayEquipped} {targetSkill.ToString()}");
             }
         }
     }
