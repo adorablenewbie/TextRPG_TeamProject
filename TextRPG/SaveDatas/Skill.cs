@@ -11,29 +11,31 @@ namespace TextRPG.SaveDatas
         public int ID { get; set; } // 스킬 ID
         public string Name { get; set; }
         public string Description { get; set; }
-        public int AttackValue { get; set; }
-        public int DefenseValue { get; set; }
-        public int HealValue { get; set; }
-
+        public float RequiredMana { get; set; }
+        public float AttackValue { get; set; } // 공격력 곱연산
+        public float DefenseValue { get; set; } // 방어력 합연산
+        public float HealValue { get; set; }
+        public Effects Effect { get; set; } // 스킬 상태이상
         public int Level { get; set; } // 스킬 레벨
         public int RequiredLevel { get; set; } // 스킬 사용에 필요한 최소 레벨
         public bool IsEquipped { get; set; } // 스킬이 장착되어 있는지 여부
         public Skill()
         {
-            RequiredItems = new List<int>();
+            //일단 보류
         }
-        public Skill(int id, string name, string description, int type, int value, int level, int requiredLevel, int cooldown)
+        public Skill(int id, string name, string description, float requiredMana, float attackValue, float defenseValue, float healValue, Effects effect, int level, int requiredLevel, bool isEquipped)
         {
-            Id = id;
+            ID = id;
             Name = name;
             Description = description;
-            Type = type;
-            Value = value;
+            RequiredMana = requiredMana;
+            AttackValue = attackValue;
+            DefenseValue = defenseValue;
+            HealValue = healValue;
+            Effect = effect;
             Level = level;
             RequiredLevel = requiredLevel;
-            Cooldown = cooldown;
-            IsEquipped = false; // 기본값은 장착되지 않음
-            RequiredItems = new List<int>();
+            IsEquipped = isEquipped;
         }
         public void Equip()
         {
@@ -43,44 +45,65 @@ namespace TextRPG.SaveDatas
         {
             IsEquipped = false;
         }
-        public bool CanUse(int playerLevel, List<int> playerItems)
+        public bool CanUse(int playerLevel, float playerMana)
         {
-            if (playerLevel < RequiredLevel)
+            if (playerLevel < RequiredLevel || playerMana < RequiredMana)
                 return false;
-            foreach (var itemId in RequiredItems)
-            {
-                if (!playerItems.Contains(itemId))
-                    return false;
-            }
-            return true;
+            else
+                return true;
         }
         public override string ToString()
         {
-            return $"{Name} (Type: {(Type == 0 ? "Attack" : "Defense")}, Value: {Value}, Level: {Level}, Required Level: {RequiredLevel}, Cooldown: {Cooldown}s, Equipped: {IsEquipped})";
-        }
-        public static Skill CreateDefaultSkill()
-        {
-            return new Skill
-            {
-                Id = 0,
-                Name = "기본 스킬",
-                Description = "기본 공격 스킬입니다.",
-                Type = 0, // 공격형
-                Value = 10,
-                Level = 1,
-                RequiredLevel = 1,
-                Cooldown = 5,
-                IsEquipped = false,
-                RequiredItems = new List<int>() // 기본 스킬은 아이템 필요 없음
-            };
+            return $"{Name} - 필요마나: {RequiredMana} - {(AttackValue == 0 ? "" : $"공격력: {AttackValue * Old.GameManager.player.Attack}")}" +
+                   $"{(DefenseValue == 0 ? "" : $"방어력: {DefenseValue}")} - {(HealValue == 0 ? "" : $"치유력: {HealValue}")}" +
+                   $"레벨: {Level}, 필요 레벨: {RequiredLevel}, 장착 여부: {IsEquipped} {Description}상태이상 효과: {(Effect == Effects.None ? "없음" : Effect)}";
         }
         public static List<Skill> GetDefaultSkills()
         {
             return new List<Skill>
             {
-                CreateDefaultSkill(),
-                new Skill(1, "방어 스킬", "기본 방어 스킬입니다.", 1, 5, 1, 1, 10),
-                new Skill(2, "강력한 공격", "강력한 공격을 가하는 스킬입니다.", 0, 20, 1, 5, 15)
+                new Skill
+                {
+                ID = 0,
+                Name = "강력한 공격",
+                Description = "기본 공격 스킬입니다.",
+                RequiredMana = 5,
+                AttackValue = ,
+                DefenseValue = 0,
+                HealValue = 0,
+                Effect = Effects.None,
+                Level = 1,
+                RequiredLevel = 1,
+                IsEquipped = true
+                },
+                new Skill
+                {
+                    ID = 1,
+                    Name = "방어 자세",
+                    Description = "방어력을 증가시키는 스킬입니다.",
+                    RequiredMana = 5,
+                    AttackValue = 0,
+                    DefenseValue = 15,
+                    HealValue = 0,
+                    Effect = Effects.None,
+                    Level = 1,
+                    RequiredLevel = 1,
+                    IsEquipped = false
+                },
+                new Skill
+                {
+                    ID = 2,
+                    Name = "치유",
+                    Description = "아군을 치유하는 스킬입니다.",
+                    RequiredMana = 10,
+                    AttackValue = 0,
+                    DefenseValue = 0,
+                    HealValue = 20,
+                    Effect = Effects.None,
+                    Level = 1,
+                    RequiredLevel = 1,
+                    IsEquipped = false
+                }
             };
         }
         public static List<Skill> GetSkillsByType(List<Skill> skills, int type)
