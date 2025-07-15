@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TextRPG.SaveData;
+using TextRPG.SaveDatas;
 
 namespace TextRPG.Scenes
 {
