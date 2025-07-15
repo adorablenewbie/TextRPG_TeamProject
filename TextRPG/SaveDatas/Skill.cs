@@ -23,7 +23,7 @@ namespace TextRPG.SaveDatas
         {
             //일단 보류
         }
-        public Skill(int id, string name, string description, float requiredMana, float attackValue, float defenseValue, float healValue, Effects effect, int level, int requiredLevel, bool isEquipped)
+        public Skill(int id, string name, string description, float requiredMana, float attackValue, float defenseValue, float healValue, Effects effect, int requiredLevel, bool isEquipped)
         {
             ID = id;
             Name = name;
@@ -33,7 +33,6 @@ namespace TextRPG.SaveDatas
             DefenseValue = defenseValue;
             HealValue = healValue;
             Effect = effect;
-            Level = level;
             RequiredLevel = requiredLevel;
             IsEquipped = isEquipped;
         }
@@ -54,69 +53,22 @@ namespace TextRPG.SaveDatas
         }
         public override string ToString()
         {
-            return $"{Name} - 필요마나: {RequiredMana} - {(AttackValue == 0 ? "" : $"공격력: {AttackValue * Old.GameManager.player.Attack}")}" +
-                   $"{(DefenseValue == 0 ? "" : $"방어력: {DefenseValue}")} - {(HealValue == 0 ? "" : $"치유력: {HealValue}")}" +
-                   $"레벨: {Level}, 필요 레벨: {RequiredLevel}, 장착 여부: {IsEquipped} {Description}상태이상 효과: {(Effect == Effects.None ? "없음" : Effect)}";
+            return $"{Name} - 필요마나: {RequiredMana} - {(AttackValue == 0 ? "" : $"공격력: {AttackValue * Old.GameManager.player.Attack}")} - " +
+                   $"{(DefenseValue == 0 ? "" : $"방어력: {DefenseValue}")} - {(HealValue == 0 ? "" : $"치유력: {HealValue}")} - 상태이상 효과: {(Effect == Effects.None ? "없음" : Effect)} - " +
+                   $"필요 레벨: {RequiredLevel} - {Description}";
         }
-        public static List<Skill> GetDefaultSkills()
-        {
-            return new List<Skill>
-            {
-                new Skill
-                {
-                ID = 0,
-                Name = "강력한 공격",
-                Description = "기본 공격 스킬입니다.",
-                RequiredMana = 5,
-                AttackValue = ,
-                DefenseValue = 0,
-                HealValue = 0,
-                Effect = Effects.None,
-                Level = 1,
-                RequiredLevel = 1,
-                IsEquipped = true
-                },
-                new Skill
-                {
-                    ID = 1,
-                    Name = "방어 자세",
-                    Description = "방어력을 증가시키는 스킬입니다.",
-                    RequiredMana = 5,
-                    AttackValue = 0,
-                    DefenseValue = 15,
-                    HealValue = 0,
-                    Effect = Effects.None,
-                    Level = 1,
-                    RequiredLevel = 1,
-                    IsEquipped = false
-                },
-                new Skill
-                {
-                    ID = 2,
-                    Name = "치유",
-                    Description = "아군을 치유하는 스킬입니다.",
-                    RequiredMana = 10,
-                    AttackValue = 0,
-                    DefenseValue = 0,
-                    HealValue = 20,
-                    Effect = Effects.None,
-                    Level = 1,
-                    RequiredLevel = 1,
-                    IsEquipped = false
-                }
-            };
-        }
-        public static List<Skill> GetSkillsByType(List<Skill> skills, int type)
-        {
-            return skills.Where(skill => skill.Type == type).ToList();
-        }
-        public static List<Skill> GetEquippedSkills(List<Skill> skills)
-        {
-            return skills.Where(skill => skill.IsEquipped).ToList();
-        }
-        public static List<Skill> GetUnequippedSkills(List<Skill> skills)
-        {
-            return skills.Where(skill => !skill.IsEquipped).ToList();
-        }
+        public static Skill PowerAttack =>
+            new Skill(
+                id: 1,
+                name: "강력한 공격",
+                description: "적에게 강력한 공격을 가합니다.",
+                requiredMana: 10,
+                attackValue: 2.0f, // 공격력 곱연산
+                defenseValue: 0.0f, // 방어력 합연산
+                healValue: 0.0f,
+                effect: Effects.None,
+                requiredLevel: 1,
+                isEquipped: false
+            );
     }
 }
