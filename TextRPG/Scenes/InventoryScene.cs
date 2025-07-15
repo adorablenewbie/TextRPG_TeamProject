@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TextRPG.SaveData
+namespace TextRPG.Scenes
 {
-    internal class Effect
+    internal class InventoryScene
     {
     }
 }
