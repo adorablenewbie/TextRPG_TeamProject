@@ -10,11 +10,13 @@ namespace TextRPG
 {
     internal class Program
     {
-        private Dictionary<string, Scene> scenes;
-        private Scene currentScene;
+        private static Dictionary<string, Scene> scenes;
+        private static Scene currentScene;
 
-        public void initScenes()
+        public static void initScenes()
         {
+            scenes = new Dictionary<string, Scene>();
+
             scenes.Add("shopScene", new ShopScene());
             scenes.Add("StatusScene", new StatusScene());
             scenes.Add("MainScene", new MainMenu());
@@ -23,7 +25,9 @@ namespace TextRPG
 
         public static void Main(string[] args)
         {
-            
+            initScenes();
+            currentScene = scenes["MainScene"];
+
         }
     }
 }
