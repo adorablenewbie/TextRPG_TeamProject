@@ -7,7 +7,7 @@ using TextRPG.SaveDatas;
 
 namespace TextRPG.Object
 {
-    internal class Player : Status
+    public class Player : Status
     {
         private static Player instance;
         public static Player Instance
