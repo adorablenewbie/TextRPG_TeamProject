@@ -8,6 +8,7 @@ using TextRPG.Scenes;
 using TextRPG.SaveDatas;
 using TextRPG.Items;
 
+
 namespace TextRPG
 {
     public enum SceneType
@@ -34,17 +35,10 @@ namespace TextRPG
             scenes.Add(SceneType.MainScene, new MainMenu());
             scenes.Add(SceneType.StatusScene, new StatusScene());
             scenes.Add(SceneType.RestScene, new RestScene());
-            scenes.Add(SceneType.ShopScene, new ShopScene());
+            //scenes.Add(SceneType.ShopScene, new ShopScene());
             //scenes.Add(SceneType.SkillScene, new SkillScene());
             //scenes.Add(SceneType.InventoryScene, new InventoryScene());
-            //scenes.Add(SceneType.DungeonScene, new DungeonScene());
-
-            skillList = new List<Skill>()
-            {
-                new Skill(),
-                new Skill(),
-                new Skill(),
-            };
+            scenes.Add(SceneType.DungeonScene, new DungeonScene());
         }
 
         public static void Main(string[] args)
