@@ -345,14 +345,57 @@ namespace TextRPG.Scenes
                 );
             }
         }
-    }
-
-    // 시작점
-    class Program
-    {
-        static void Main()
+        // 🪤 [스테이지 이동 시 함정 발동 함수]
+        public static void TryTriggerTrapOnStageTransition(Player player)
         {
-            Dungeon.ShowDungeonMenu();
+            Random rand = new();
+            int trapChance = rand.Next(0, 100);
+
+            if (trapChance < 30)
+            {
+                int damage = rand.Next(5, 16);
+                Console.WriteLine($"
+🪤 함정 발동! 숨겨진 함정에 걸렸습니다! HP { damage} 감소!");
+                player.Hp -= damage;
+
+                if (player.Hp <= 0)
+                {
+                    Console.WriteLine("☠️ 당신은 함정에 의해 사망했습니다...");
+                    Thread.Sleep(1000);
+                    Environment.Exit(0);
+                }
+
+                Thread.Sleep(1000);
+            }
         }
+
+        // 💧 [스테이지 이동 시 회복의 샘 발견 함수]
+        public static void TryTriggerHealingFountain(Player player)
+        {
+            Random rand = new();
+            int chance = rand.Next(0, 100);
+
+            if (chance < 20)
+            {
+                int heal = rand.Next(10, 21);
+                Console.WriteLine($" 
+💧 회복의 샘 발견! HP가 { heal} 회복되었습니다!");
+                 player.Hp += heal;
+                Thread.Sleep(1000);
+            }
+        }
+
+        // 예시: 스테이지 클리어 후 이벤트 삽입 위치
+        // if (NextStageChance(dungeonType))
+        // {
+        //     TryTriggerTrapOnStageTransition(player);
+        //     TryTriggerHealingFountain(player);
+        //     Console.WriteLine("👉 다음 스테이지로 이동합니다...");
+        //     Thread.Sleep(1500);
+        // }
     }
-}
+    
+
+ }
+
+
