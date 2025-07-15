@@ -21,7 +21,7 @@ namespace TextRPG.Object
                 return instance;
             }
         }
-        public Player() 
+        public Player()
         {
             this.hp = 100f;
             this.attack = 10;
@@ -30,8 +30,8 @@ namespace TextRPG.Object
             this.exp = 0;
             this.skills = new List<Skill>();
         }
-        
-        public void AddSkill(Skill skill)
+
+        public void EquipSkill(Skill skill)
         {
             if (skill != null && !skills.Contains(skill))
             {
