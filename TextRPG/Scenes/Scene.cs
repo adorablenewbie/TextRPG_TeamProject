@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TextRPG.Scene
+namespace TextRPG.Scenes
 {
-    abstract class Scene
+    public abstract class Scene
     {
         public Action action;
         public abstract void ShowScene();

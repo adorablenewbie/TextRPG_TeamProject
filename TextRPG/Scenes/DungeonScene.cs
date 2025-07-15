@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TextRPG.Scene
+namespace TextRPG.Scenes
 {
-    internal class StatusScene
+    internal class DungeonScene
     {
     }
 }

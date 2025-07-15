@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TextRPG.Player
+namespace TextRPG.Object
 {
-    internal class Status
+    internal class Monster
     {
     }
 }
