@@ -29,7 +29,8 @@ namespace TextRPG.Scenes
             Console.WriteLine("0. 나가기");
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요.");
-            string input = Console.ReadLine();
+
+            int result = CheckInput(0, 1);
 
             switch (result)
             {
@@ -57,7 +58,8 @@ namespace TextRPG.Scenes
             Console.WriteLine("0. 나가기");
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요.");
-            string input = Console.ReadLine();
+
+            int result = CheckInput(0, skill.Count); // 임시로 단어를 inventory에서 skill로 변경
 
             switch (result) // 임시로 단어를 item에서 skill로 변경
             {
@@ -73,6 +75,22 @@ namespace TextRPG.Scenes
 
                     ShowEquipSkill();
                     break;
+            }
+        }
+
+        static int CheckInput(int min, int max)
+        {
+            int result;
+            while (true)
+            {
+                string input = Console.ReadLine();
+                bool isNumber = int.TryParse(input, out result);
+                if (isNumber)
+                {
+                    if (result >= min && result <= max)
+                        return result;
+                }
+                Console.WriteLine("잘못된 입력입니다.");
             }
         }
     }
