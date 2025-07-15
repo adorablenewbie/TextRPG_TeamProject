@@ -9,15 +9,25 @@ namespace TextRPG.Object
 {
     internal class Player : Status
     {
-        public Player(string name, string playerClass, float hp, float attack, float defense, float gold, float exp)
+        private static Player instance;
+        public static Player Instance
         {
-            this.name = name;
-            this.playerClass = playerClass;
-            this.hp = hp;
-            this.attack = attack;
-            this.defense = defense;
-            this.gold = gold;
-            this.exp = exp;
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new Player();
+                }
+                return instance;
+            }
+        }
+        public Player() 
+        {
+            this.hp = 100f;
+            this.attack = 10;
+            this.defense = 5;
+            this.gold = 1500;
+            this.exp = 0;
         }
     }
 }
