@@ -8,12 +8,6 @@ namespace TextRPG.Scenes
 {
     public abstract class Scene
     {
-        public Action action;
         public abstract void ShowScene();
-
-        public void Show()
-        {
-            action?.Invoke();
-        }
     }
 }

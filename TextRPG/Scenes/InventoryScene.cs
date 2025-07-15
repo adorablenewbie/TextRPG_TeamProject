@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace TextRPG.Scenes
 {
-    internal class InventoryScene
+    internal class InventoryScene : Scene
     {
+        public override void ShowScene()
+        {
+            
+        }
     }
 }

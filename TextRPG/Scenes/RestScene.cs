@@ -1,29 +1,24 @@
 ﻿using System;
+using TextRPG.Object;
 
 namespace TextRPG.Scenes
 {
-    public class RestScene
+    public class RestScene : Scene
     {
-        //private Player player;
 
-        //public RestScene(Player player)
-        //{
-        //    this.player = player;
-        //}
-
-        public void Show()
+        public override void ShowScene()
         {
             while (true)
             {
                 Console.Clear();
                 Console.WriteLine("[휴게소]");
-                Console.WriteLine($"휴게소에서 100골드로 잠시 쉬어가시겠습니까?.   (보유골드: {player.Gold})\n");
+                Console.WriteLine($"휴게소에서 100골드로 잠시 쉬어가시겠습니까?.   (보유골드: {Player.Instance.gold})\n");
                 Console.WriteLine("1. 예\r\n0. 아니요\n");
                 Console.Write("원하시는 행동을 입력해주세요: ");
                 string input = Console.ReadLine();
                 if (input == "1")
                 {
-                    if (100 <= player.Gold)
+                    if (100 <= Player.Instance.gold)
                     {
                         PlayerRest();
                         break;
@@ -37,6 +32,7 @@ namespace TextRPG.Scenes
                 }
                 else if (input == "0")
                 {
+                    Program.ChangeScene(SceneType.MainScene);
                     break;
                 }
                 else
@@ -55,10 +51,10 @@ namespace TextRPG.Scenes
                 Console.WriteLine("[휴식]");
                 Console.WriteLine("휴식을 취합니다...");
                 System.Threading.Thread.Sleep(2000); // 2초 대기
-                player.RestoreHealth();
+                //player.RestoreHealth();
                 Console.WriteLine("체력이 회복되었습니다.");
-                player.Gold -= 100;
-                Console.WriteLine($"남은 골드: {player.Gold}\n");
+                Player.Instance.gold -= 100;
+                Console.WriteLine($"남은 골드: {Player.Instance.gold}\n");
                 Console.WriteLine("0. 나가기\n");
                 Console.Write("원하시는 행동을 입력해주세요: ");
                 string input = Console.ReadLine();

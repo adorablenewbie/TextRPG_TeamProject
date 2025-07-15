@@ -29,10 +29,12 @@ namespace TextRPG.Scenes
                 string input = Console.ReadLine();
                 if (input == "0")
                 {
+                    Program.ChangeScene(SceneType.MainScene);
                     break;
                 }
                 else
                 {
+                    Program.ChangeScene(SceneType.MainScene);
                     Console.WriteLine("잘못된 입력입니다. 다시 시도해주세요.");
                 }
             }
