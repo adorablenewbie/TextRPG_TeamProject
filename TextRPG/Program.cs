@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TextRPG.Old;
+using TextRPG.Object;
 using TextRPG.Scenes;
 
 namespace TextRPG
@@ -22,12 +22,11 @@ namespace TextRPG
     {
         private static Dictionary<SceneType, Scene> scenes;
         private static Scene currentScene;
-        public static Player player;
+        Player player = Player.Instance;
 
         public static void initScenes()
         {
             scenes = new Dictionary<SceneType, Scene>();
-            player = new("이름", "전사", 1, 0, 10, 10, 10, 100);
 
             scenes.Add(SceneType.MainScene, new MainMenu());
             scenes.Add(SceneType.StatusScene, new StatusScene());
