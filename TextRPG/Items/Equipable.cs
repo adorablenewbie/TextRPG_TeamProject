@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TextRPG.Scene
+namespace TextRPG.Items
 {
-    internal class SkillScene
+    internal class Equipable
     {
     }
 }

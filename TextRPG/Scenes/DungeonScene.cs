@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 
-namespace TextRPG
+namespace TextRPG.Scenes
 {
     // 던전 종류를 정의하는 열거형
     public enum DungeonType

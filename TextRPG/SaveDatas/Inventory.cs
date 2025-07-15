@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TextRPG.Items;
 
-namespace TextRPG.SaveData
+namespace TextRPG.SaveDatas
 {
-    internal class Dungeon
+    internal class Inventory
     {
+        public List<Item> inventory;
     }
 }
