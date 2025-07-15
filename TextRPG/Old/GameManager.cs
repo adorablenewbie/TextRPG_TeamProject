@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Channels;
-namespace TextRPG;
+namespace TextRPG.Old;
 
 public class GameManager
 {
@@ -56,8 +56,8 @@ public class GameManager
                 Dungeon.ShowDungeonMenu();
                 break;
             case "6":
-                
-                while (true) 
+
+                while (true)
                 {
                     Console.WriteLine("\n게임을 종료하시겠습니까? (y/n)\n");
                     string exitGameCheck = Console.ReadLine();
@@ -110,7 +110,7 @@ public class GameManager
             continue;
         }
     }
-    
+
 
 
     private void ExitGame()
@@ -164,9 +164,9 @@ public class GameManager
             string selectClass = Console.ReadLine();
             if (selectClass == "1")
             {
-               Console.WriteLine($"[{name}] 전사 캐릭터를 생성합니다.\n");
-               var newPlayer = new Player(name, "전사", 1, 0, 150, 10, 6, 1000);
-               return newPlayer;
+                Console.WriteLine($"[{name}] 전사 캐릭터를 생성합니다.\n");
+                var newPlayer = new Player(name, "전사", 1, 0, 150, 10, 6, 1000);
+                return newPlayer;
             }
             else if (selectClass == "2")
             {
@@ -179,7 +179,7 @@ public class GameManager
                 Console.WriteLine($"[{name}] 도적 캐릭터를 생성합니다.\n");
                 var newPlayer = new Player(name, "도적", 1, 0, 80, 15, 4, 1000);
                 return newPlayer;
-             }
+            }
             else
             {
                 Console.WriteLine("잘못된 직업입니다. 전사, 마법사, 궁수 중 하나를 입력해주세요.");
@@ -241,7 +241,7 @@ public class GameManager
             Console.Clear();
             Console.WriteLine("[휴식]");
             Console.WriteLine("휴식을 취합니다...");
-            System.Threading.Thread.Sleep(2000); // 2초 대기
+            Thread.Sleep(2000); // 2초 대기
             player.RestoreHealth();
             Console.WriteLine("체력이 회복되었습니다.");
             player.Gold -= 100;
@@ -253,7 +253,7 @@ public class GameManager
             {
                 break;
             }
-                
+
             else
                 Console.WriteLine("잘못된 입력입니다. 다시 시도해주세요.");
         }
@@ -329,7 +329,7 @@ public class GameManager
         }
     }
 
-    private void ShowSell ()
+    private void ShowSell()
     {
         // 상점에서 판매하는 아이템 목록
         List<Item> shopItems = new List<Item>
@@ -385,7 +385,7 @@ public class GameManager
                 player.RemoveItem(selectedItem);
                 itemsToShow.RemoveAt(selected - 1);
                 Console.WriteLine($"\n{selectedItem.Name}을(를) 판매했습니다! 보유 골드: {player.Gold}");
-               
+
             }
             else
             {

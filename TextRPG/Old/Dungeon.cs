@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 
-namespace TextRPG
+namespace TextRPG.Old
 {
     public enum DungeonType
     {
@@ -60,7 +60,7 @@ namespace TextRPG
                         return;
                     default:
                         Console.WriteLine("잘못된 입력입니다. 다시 시도해주세요.");
-                        System.Threading.Thread.Sleep(1000);
+                        Thread.Sleep(1000);
                         break;
                 }
             }
@@ -80,13 +80,13 @@ namespace TextRPG
                 else if (input.ToLower() == "n")
                 {
                     Console.WriteLine("던전 탐험을 취소합니다.");
-                    System.Threading.Thread.Sleep(1000);
+                    Thread.Sleep(1000);
                     break;
                 }
                 else
                 {
                     Console.WriteLine("잘못된 입력입니다. 'y' 또는 'n'을 입력해주세요.");
-                    System.Threading.Thread.Sleep(1000);
+                    Thread.Sleep(1000);
                 }
             }
         }
@@ -102,7 +102,7 @@ namespace TextRPG
                 var (name, type) = monsterList[rand.Next(monsterList.Count)];
                 Monster monster = MonsterFactory.Create(name, dungeonType, type);
                 spawnedMonsters.Add(monster);
-                
+
             }
 
             while (true)
@@ -140,15 +140,15 @@ namespace TextRPG
                                 if (player.Hp <= 0)
                                 {
                                     Console.WriteLine("당신은 쓰러졌습니다! 게임 오버!");
-                                    System.Threading.Thread.Sleep(2000);
+                                    Thread.Sleep(2000);
                                     Environment.Exit(0);
                                 }
-                                System.Threading.Thread.Sleep(2000);
+                                Thread.Sleep(2000);
                             }
                             if (spawnedMonsters.Count == 0)
                             {
                                 Console.WriteLine("모든 몬스터를 처치했습니다!");
-                                System.Threading.Thread.Sleep(2000);
+                                Thread.Sleep(2000);
                                 return;
                             }
                             break;
@@ -160,11 +160,11 @@ namespace TextRPG
                         goto case "1"; // 다시 전투 선택으로 돌아가기
                     case "2":
                         Console.WriteLine("\n도망쳤습니다!");
-                        System.Threading.Thread.Sleep(2000);
+                        Thread.Sleep(2000);
                         return;
                     default:
                         Console.WriteLine("\n잘못된 입력입니다. 다시 시도해주세요.");
-                        System.Threading.Thread.Sleep(2000);
+                        Thread.Sleep(2000);
                         break;
                 }
             }
@@ -172,20 +172,20 @@ namespace TextRPG
 
         public static void AttackEnemy(Monster monster, Player player)
         {
-            monster.Hp -= player.SumAttack()-monster.Defense;
+            monster.Hp -= player.SumAttack() - monster.Defense;
             if (monster.Hp <= 0)
             {
                 player.Gold += monster.Gold;
                 player.Exp += monster.Exp;
                 Console.WriteLine($"\n{monster.Name}을 처치했습니다!\n {monster.Gold} 골드를 획득했습니다.  보유 골드: {player.Gold}");
                 Console.WriteLine($"{monster.Exp} 경험치를 획득했습니다.  보유 경험치: {player.Exp}");
-                System.Threading.Thread.Sleep(2000);
+                Thread.Sleep(2000);
                 player.LevelUp();
             }
             else
             {
                 Console.WriteLine($"\n{monster.Name}의 남은 HP: {monster.Hp}");
-                System.Threading.Thread.Sleep(2000);
+                Thread.Sleep(2000);
             }
         }
 
