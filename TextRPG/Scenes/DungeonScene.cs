@@ -8,33 +8,6 @@ using TextRPG.SaveDatas;
 
 namespace TextRPG.Scenes
 {
-    // 플레이어 클래스
-    //public class Player
-    //{
-    //    public float Hp = 50;
-    //    public float Attack = 5;
-    //    public float Defense = 2;
-    //    public int Gold = 0;
-    //    public int Exp = 0;
-    //    public int Level = 1;
-
-    //    public float SumAttack() => Attack;
-
-    //    public void LevelUp()
-    //    {
-    //        if (Exp >= Level * 100)
-    //        {
-    //            Exp -= Level * 100;
-    //            Level++;
-    //            Hp += 10;
-    //            Attack += 2;
-    //            Defense += 1;
-    //            Console.WriteLine($"🎉 레벨업! 현재 레벨: {Level}");
-    //            Thread.Sleep(1000);
-    //        }
-    //    }
-    //}
-
     public class DungeonScene : Scene
     {
         // 던전별 등장 몬스터 목록
@@ -168,10 +141,11 @@ namespace TextRPG.Scenes
 
         public static void CreateMonster(List<Monster> mList, Random randomNum)
         {
-            int count = randomNum.Next(0, 4);
+            int count = randomNum.Next(1, 5);
 
-            for (int i = 0; i < count; i++) {
-                mList.Add(Monster.monstersData[randomNum.Next(0, Monster.monstersData.Count)]);
+            for (int i = 1; i < count; i++) {
+                Monster cloneMonster = Monster.monstersData[randomNum.Next(0, Monster.monstersData.Count)];
+                mList.Add(cloneMonster.Clone());
             }
         }
 

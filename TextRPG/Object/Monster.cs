@@ -14,6 +14,11 @@ namespace TextRPG.Object
             new Monster("쥐", 10, 4),
         };
 
+        public Monster Clone()
+        {
+            return new Monster(this.name, this.hp, this.attack, this.defense, this.gold, this.exp);
+        }
+
         public Monster(string name, float hp, float attack, float defense = 0, float gold = 0, float exp = 0)
         {
             this.name = name;

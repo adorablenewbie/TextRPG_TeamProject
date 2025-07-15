@@ -22,6 +22,7 @@ namespace TextRPG.SaveDatas
         Normal,
         Strong
     }
+
     internal class Dungeon
     {
     }
