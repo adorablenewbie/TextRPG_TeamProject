@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TextRPG.Object;
 
 namespace TextRPG.SaveDatas
 {
     public class Skill
     {
+        public Player player = Player.Instance; // 플레이어 인스턴스
+
         public int ID { get; set; } // 스킬 ID
         public string Name { get; set; }
         public string Description { get; set; }
@@ -53,7 +56,7 @@ namespace TextRPG.SaveDatas
         }
         public override string ToString()
         {
-            return $"{Name} - 필요마나: {RequiredMana} - {(AttackValue == 0 ? "" : $"공격력: {AttackValue * Old.GameManager.player.Attack}")} - " +
+            return $"{Name} - 필요마나: {RequiredMana} - {(AttackValue == 0 ? "" : $"공격력: {AttackValue * player.attack}")} - " +
                    $"{(DefenseValue == 0 ? "" : $"방어력: {DefenseValue}")} - {(HealValue == 0 ? "" : $"치유력: {HealValue}")} - 상태이상 효과: {(Effect == Effects.None ? "없음" : Effect)} - " +
                    $"필요 레벨: {RequiredLevel} - {Description}";
         }
