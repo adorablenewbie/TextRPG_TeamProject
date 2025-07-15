@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TextRPG.SaveData
+namespace TextRPG.SaveDatas
 {
     public class Shop
     {

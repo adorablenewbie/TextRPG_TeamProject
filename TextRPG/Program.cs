@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TextRPG.Old;
-using TextRPG.Scene;
+using TextRPG.Scenes;
 
 namespace TextRPG
 {
     internal class Program
     {
-        private Dictionary<string, TextRPG.Scene.Scene> scenes;
-        private TextRPG.Scene.Scene currentScene;
+        private Dictionary<string, Scene> scenes;
+        private Scene currentScene;
 
         public void initScenes()
         {
