@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using TextRPG.Object;
 using TextRPG.Scenes;
+using TextRPG.SaveDatas;
+using TextRPG.Items;
 
 namespace TextRPG
 {
@@ -22,9 +24,10 @@ namespace TextRPG
     {
         private static Dictionary<SceneType, Scene> scenes;
         private static Scene currentScene;
+        public static List<Skill> skillList;
         Player player = Player.Instance;
 
-        public static void initScenes()
+        public static void init()
         {
             scenes = new Dictionary<SceneType, Scene>();
 
@@ -35,11 +38,18 @@ namespace TextRPG
             //scenes.Add(SceneType.SkillScene, new SkillScene());
             //scenes.Add(SceneType.InventoryScene, new InventoryScene());
             //scenes.Add(SceneType.DungeonScene, new DungeonScene());
+
+            skillList = new List<Skill>()
+            {
+                new Skill(),
+                new Skill(),
+                new Skill(),
+            };
         }
 
         public static void Main(string[] args)
         {
-            initScenes();
+            init();
             currentScene = scenes[SceneType.MainScene];
 
             while (currentScene != null)
