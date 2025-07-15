@@ -2,16 +2,10 @@
 
 namespace TextRPG.Scenes
 {
-    public class RestScene
+    public class RestScene : Scene
     {
-        //private Player player;
 
-        //public RestScene(Player player)
-        //{
-        //    this.player = player;
-        //}
-
-        public void Show()
+        public override void ShowScene()
         {
             while (true)
             {

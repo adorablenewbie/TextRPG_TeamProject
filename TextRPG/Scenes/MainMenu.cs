@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace TextRPG.Scenes
 {
-    public class MainMenu
+    public class MainMenu : Scene
     {
-        private void ShowMainMenu()
+        public override void ShowScene()
         {
             Console.Clear();
             Console.WriteLine("스파르타 마을에 오신 여러분 환영합니다.");
