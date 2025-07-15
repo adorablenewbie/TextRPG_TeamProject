@@ -18,6 +18,7 @@ namespace TextRPG.Object
         public float defense { get; set; }
         public float gold { get; set; }
         public float exp { get; set; }
+        public List<Skill> skills { get; set; } = new List<Skill>();
 
         public void AddEffect(Effects effect)
         {

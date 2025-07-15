@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TextRPG.SaveDatas;
+using TextRPG.Object;
 
 namespace TextRPG.Scenes
 {
     internal class SkillScene
     {
+        public static Object.Player player = Object.Player.Instance;
         static void ShowSkill()
         {
             Console.Clear();
@@ -17,9 +19,9 @@ namespace TextRPG.Scenes
             Console.WriteLine();
             Console.WriteLine("[스킬 목록]");
 
-            for (int i = 0; i < skill.Count; i++) // 임시로 단어를 inventory에서 skill로 변경
+            for (int i = 0; i < player.skills.Count; i++) // 임시로 단어를 inventory에서 skill로 변경
             {
-                int targetSkill = skill[i];
+                Skill targetSkill = player.skills[i];
 
                 string displayEquipped = equipList.Contains(targetSkill) ? "[E]" : "";
                 Console.WriteLine($"- {displayEquipped} {skillNames[targetSkill]}  |  {(skillType[targetSkill] == 0 ? "공격력" : "방어력")} +{itemValue[targetItem]}  |  {itemDesc[targetItem]}");
