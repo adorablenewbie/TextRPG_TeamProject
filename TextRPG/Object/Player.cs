@@ -29,5 +29,25 @@ namespace TextRPG.Object
             this.gold = 1500;
             this.exp = 0;
         }
+
+        public List<Skill> Skills { get; set; } = new List<Skill>();
+        public void AddSkill(Skill skill)
+        {
+            if (skill != null && !Skills.Contains(skill))
+            {
+                Skills.Add(skill);
+            }
+            if (Skills.Count > 2)
+            {
+                Skills.RemoveAt(0); // 오래된 스킬 제거
+            }
+        }
+        public void RemoveSkill(Skill skill)
+        {
+            if (skill != null && Skills.Contains(skill))
+            {
+                Skills.Remove(skill);
+            }
+        }
     }
 }
