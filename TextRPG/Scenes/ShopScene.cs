@@ -22,12 +22,12 @@ namespace TextRPG.Scenes
                     break;
                 else if (input == "1")
                 {
-                    SaveData.Shop.ShowBuy();
+                    ShowBuy();
                     break;
                 }
                 else if (input == "2")
                 {
-                    SaveData.Shop.ShowSell();
+                    ShowSell();
                     break;
                 }
                 else
@@ -36,6 +36,52 @@ namespace TextRPG.Scenes
             }
         }
 
+        public void ShowBuy()
+        {
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("[상점]");
+
+                Console.WriteLine("[아이템 구매]");
+                SaveDatas.Shop.CheckBuyUI();
+                Console.WriteLine("0. 나가기\n");
+                Console.Write("원하시는 행동을 입력해주세요(아이템 숫자 입력시 구매): ");
+                string input = Console.ReadLine();
+                if (input == "0")
+                    break;
+                else 
+                { 
+                    int result = SaveDatas.Shop.ParseSelection(input, true); 
+                    SaveDatas.Shop.CheckBuyResult(result);
+                    System.Threading.Thread.Sleep(2000);
+                    continue;
+                }
+            }
+        }
+        public void ShowSell()
+        {
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("[상점]");
+
+                Console.WriteLine("[아이템 판매]");
+                SaveDatas.Shop.CheckSellUI();
+                Console.WriteLine("0. 나가기\n");
+                Console.Write("원하시는 행동을 입력해주세요(아이템 숫자 입력시 구매): ");
+                string input = Console.ReadLine();
+                if (input == "0")
+                    break;
+                else
+                {
+                    int result = SaveDatas.Shop.ParseSelection(input, false);
+                    SaveDatas.Shop.CheckBuyResult(result);
+                    System.Threading.Thread.Sleep(2000);
+                    continue;
+                }
+            }
+        }
     }
 }
 

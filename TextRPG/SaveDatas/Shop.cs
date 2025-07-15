@@ -8,138 +8,139 @@ namespace TextRPG.SaveDatas
 {
     public class Shop
     {
-        public static void ShowBuy()
-        {
-            // 상점에서 판매하는 아이템 목록
-            List<Old.Item> shopItems = new List<Old.Item>
-        {
-            Old.Item.NoviceArmor,
-            Old.Item.IronArmor,
-            Old.Item.SpartanArmor,
-            Old.Item.LegendArmor,
-            Old.Item.OldSword,
-            Old.Item.BronzeAxe,
-            Old.Item.SpartanSpear,
-            Old.Item.LegendSpear
-        };
+        // 상점에서 판매하는 아이템 목록
 
-            // 플레이어 인벤토리에 없는 아이템만 필터링
-            var itemsToShow = shopItems.FindAll(shopItem => !Old.GameManager.player.Inventory.Exists(invItem => invItem.Name == shopItem.Name));
+        private static List<Old.Item> shopItems = new List<Old.Item>
+    {
+        Old.Item.NoviceArmor,
+        Old.Item.IronArmor,
+        Old.Item.SpartanArmor,
+        Old.Item.LegendArmor,
+        Old.Item.OldSword,
+        Old.Item.BronzeAxe,
+        Old.Item.SpartanSpear,
+        Old.Item.LegendSpear
+    };
 
-            while (true)
+        public static void CheckBuyUI()
+        {
+            var player = Old.GameManager.player;
+            var itemsToShow = GetBuyableItems(player);
+
+            if (itemsToShow.Count == 0)
             {
-                Console.Clear();
-                Console.WriteLine("[상점]");
-                if (itemsToShow.Count == 0)
-                {
-                    Console.WriteLine("구매할 수 있는 아이템이 없습니다.\n");
-                    Console.WriteLine("0. 나가기\n");
-                    Console.Write("원하시는 행동을 입력해주세요: ");
-                    string input = Console.ReadLine();
-                    if (input == "0")
-                        break;
-                    else
-                        Console.WriteLine("잘못된 입력입니다. 다시 시도해주세요.");
-                    continue;
-                }
-
-                Console.WriteLine("구매 가능한 아이템 목록:");
-                for (int i = 0; i < itemsToShow.Count; i++)
-                {
-                    Console.WriteLine($"{i + 1}. {itemsToShow[i]}");
-                }
-                Console.WriteLine($"\n보유 골드: {Old.GameManager.player.Gold}");
-                Console.WriteLine("\n0. 나가기\n");
-                Console.Write("원하시는 행동을 입력해주세요(아이템 숫자 입력시 구매): ");
-                string inputNum = Console.ReadLine();
-
-                if (inputNum == "0")
-                    break;
-
-                if (int.TryParse(inputNum, out int selected) && selected >= 1 && selected <= itemsToShow.Count)
-                {
-                    Old.Item selectedItem = itemsToShow[selected - 1];
-                    if (Old.GameManager.player.Gold >= selectedItem.Price)
-                    {
-                        Old.GameManager.player.Gold -= selectedItem.Price;
-                        Old.GameManager.player.AddItem(selectedItem);
-                        itemsToShow.RemoveAt(selected - 1);
-                        Console.WriteLine($"\n{selectedItem.Name}을(를) 구매했습니다! 남은 골드: {player.Gold}");
-                    }
-                    else
-                    {
-                        Console.WriteLine("\n골드가 부족합니다. 구매할 수 없습니다.");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("잘못된 입력입니다. 다시 시도해주세요.");
-                }
+                Console.WriteLine("구매할 수 있는 아이템이 없습니다.\n");
+                Console.WriteLine($"\n보유 골드: {Old.GameManager.player.Gold}\n");
+            }
+            else
+            {
+                DisplayBuyItems(itemsToShow, Old.GameManager.player.Gold);
             }
         }
 
-        public static void ShowSell()
+        public static void CheckSellUI()
         {
-            // 상점에서 판매하는 아이템 목록
-            List<Old.Item> shopItems = new List<Old.Item>
-        {
-            Old.Item.NoviceArmor,
-            Old.Item.IronArmor,
-            Old.Item.SpartanArmor,
-            Old.Item.LegendArmor,
-            Old.Item.OldSword,
-            Old.Item.BronzeAxe,
-            Old.Item.SpartanSpear,
-            Old.Item.LegendSpear
-        };
+            var player = Old.GameManager.player;
+            var itemsToShow = GetSellableItems(player);
 
-            // 플레이어 인벤토리에 있는 아이템만 필터링
-            var itemsToShow = shopItems.FindAll(shopItem => Old.GameManager.player.Inventory.Exists(invItem => invItem.Name == shopItem.Name));
-
-            while (true)
+            if (itemsToShow.Count == 0)
             {
-                Console.Clear();
-                Console.WriteLine("[상점]");
-                if (itemsToShow.Count == 0)
+                Console.WriteLine("판매할 수 있는 아이템이 없습니다.\n");
+                Console.WriteLine($"\n보유 골드: {Old.GameManager.player.Gold}\n");
+            }
+            else
+            {
+                DisplaySellItems(itemsToShow, Old.GameManager.player.Gold);
+            }
+        }
+
+        private static List<Old.Item> GetBuyableItems(Old.Player player)
+        {
+            return shopItems.FindAll(shopItem =>
+                !player.Inventory.Exists(invItem => invItem.Name == shopItem.Name));
+        }
+        private static List<Old.Item> GetSellableItems(Old.Player player)
+        {
+            return shopItems.FindAll(shopItem =>
+                player.Inventory.Exists(invItem => invItem.Name == shopItem.Name));
+        }
+
+        private static void DisplayBuyItems(List<Old.Item> items, float playerGold)
+        {
+            Console.WriteLine("구매 가능한 아이템 목록:");
+            for (int i = 0; i < items.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {items[i]}");
+            }
+            Console.WriteLine($"\n보유 골드: {playerGold}");
+        }
+        private static void DisplaySellItems(List<Old.Item> items, float playerGold)
+        {
+            Console.WriteLine("판매 가능한 아이템 목록:");
+            for (int i = 0; i < items.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {items[i]}");
+            }
+            Console.WriteLine($"\n보유 골드: {playerGold}");
+        }
+
+        public static int ParseSelection(string input, bool buy)
+        {
+            var player = Old.GameManager.player;
+            List<Old.Item> itemsToShow;
+
+            if (buy)
+            {itemsToShow = GetBuyableItems(player); }
+            else 
+            {itemsToShow = GetSellableItems(player); }
+
+            int maxIndex = itemsToShow.Count;
+            if (int.TryParse(input, out int index))
+            {
+                if (index >= 1 && index <= maxIndex)
+                    return index - 1; // 실제 인덱스 반환
+            }
+            return -1; // 실패 시 -1 반환
+        }
+
+        public static void CheckBuyResult(int result)
+        {
+            var player = Old.GameManager.player;
+            var itemsToShow = GetBuyableItems(player);
+            if (result >= 0 && result < itemsToShow.Count)
+            {
+                Old.Item selectedItem = itemsToShow[result];
+                if (player.Gold >= selectedItem.Price)
                 {
-                    Console.WriteLine("판매할 수 있는 아이템이 없습니다.\n");
-                    Console.WriteLine($"\n보유 골드: {Old.GameManager.player.Gold}\n");
-                    Console.WriteLine("0. 나가기\n");
-                    Console.Write("원하시는 행동을 입력해주세요: ");
-                    string input = Console.ReadLine();
-                    if (input == "0")
-                        break;
-                    else
-                        Console.WriteLine("잘못된 입력입니다. 다시 시도해주세요.");
-                    continue;
-                }
-
-                Console.WriteLine("판매 가능한 아이템 목록:");
-                for (int i = 0; i < itemsToShow.Count; i++)
-                {
-                    Console.WriteLine($"{i + 1}. {itemsToShow[i]}");
-                }
-                Console.WriteLine($"\n보유 골드: {Old.GameManager.player.Gold}");
-                Console.WriteLine("\n0. 나가기\n");
-                Console.Write("원하시는 행동을 입력해주세요(아이템 숫자 입력시 구매): ");
-                string inputNum = Console.ReadLine();
-
-                if (inputNum == "0")
-                    break;
-
-                if (int.TryParse(inputNum, out int selected) && selected >= 1 && selected <= itemsToShow.Count)
-                {
-                    Old.Item selectedItem = itemsToShow[selected - 1];
-                    Old.GameManager.player.Gold += selectedItem.Price * 0.85f;
-                    Old.GameManager.player.RemoveItem(selectedItem);
-                    itemsToShow.RemoveAt(selected - 1);
-                    Console.WriteLine($"\n{selectedItem.Name}을(를) 판매했습니다! 보유 골드: {Old.GameManager.player.Gold}");
-
+                    player.Gold -= selectedItem.Price;
+                    player.AddItem(selectedItem);
+                    Console.WriteLine($"\n{selectedItem.Name}을(를) 구매했습니다! 남은 골드: {player.Gold}");
                 }
                 else
                 {
-                    Console.WriteLine("잘못된 입력입니다. 다시 시도해주세요.");
+                    Console.WriteLine("\n골드가 부족합니다. 구매할 수 없습니다.");
                 }
+            }
+            else
+            {
+                Console.WriteLine("잘못된 입력입니다. 다시 시도해주세요.");
+            }
+        }
+
+        public static void CheckSellResult(int result)
+        {
+            var player = Old.GameManager.player;
+            var itemsToShow = GetSellableItems(player);
+            if (result >= 0 && result < itemsToShow.Count)
+            {
+                Old.Item selectedItem = itemsToShow[result];
+                player.Gold += selectedItem.Price;
+                player.RemoveItem(selectedItem);
+                Console.WriteLine($"\n{selectedItem.Name}을(를) 판매했습니다! 현재 골드: {player.Gold}");
+            }
+            else
+            {
+                Console.WriteLine("잘못된 입력입니다. 다시 시도해주세요.");
             }
         }
     }
