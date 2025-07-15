@@ -31,7 +31,7 @@ namespace TextRPG.Object
             this.skills = new List<Skill>();
         }
         
-        public void AddSkill(Skill skill)
+        public void EquipSkill(Skill skill)
         {
             if (skill != null && !skills.Contains(skill))
             {
