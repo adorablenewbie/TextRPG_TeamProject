@@ -58,9 +58,9 @@ namespace TextRPG.Scenes
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요.");
 
-            int result = CheckInput(0, player.skills.Count); 
+            int result = CheckInput(0, player.skills.Count);
 
-            switch (result) 
+            switch (result)
             {
                 case 0:
                     ShowSkill();
@@ -69,7 +69,7 @@ namespace TextRPG.Scenes
                 default:
 
                     int skillIdx = result - 1;
-                    Skill targetSkill = player.skills[skillIdx]; //이거 맞는지 검증해야됨 ~~~~~~~~~~~~~~~~~~~~~~(스킬 선택하면 맞게 착용되는지)
+                    Skill targetSkill = player.skills[skillIdx]; //이거 맞는지 검증해야됨! (스킬 선택하면 맞게 착용되는지)
                     player.EquipSkill(targetSkill);
 
                     ShowEquipSkill();
@@ -89,7 +89,7 @@ namespace TextRPG.Scenes
                     if (result >= min && result <= max)
                         return result;
                 }
-                Console.WriteLine("잘못된 입력입니다.");
+                Console.WriteLine("잘못된 입력입니다. 다시 시도해 주세요.");
             }
         }
 

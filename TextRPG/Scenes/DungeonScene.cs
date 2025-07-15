@@ -8,33 +8,6 @@ using TextRPG.SaveDatas;
 
 namespace TextRPG.Scenes
 {
-    // 플레이어 클래스
-    //public class Player
-    //{
-    //    public float Hp = 50;
-    //    public float Attack = 5;
-    //    public float Defense = 2;
-    //    public int Gold = 0;
-    //    public int Exp = 0;
-    //    public int Level = 1;
-
-    //    public float SumAttack() => Attack;
-
-    //    public void LevelUp()
-    //    {
-    //        if (Exp >= Level * 100)
-    //        {
-    //            Exp -= Level * 100;
-    //            Level++;
-    //            Hp += 10;
-    //            Attack += 2;
-    //            Defense += 1;
-    //            Console.WriteLine($"🎉 레벨업! 현재 레벨: {Level}");
-    //            Thread.Sleep(1000);
-    //        }
-    //    }
-    //}
-
     public class DungeonScene : Scene
     {
         // 던전별 등장 몬스터 목록
@@ -91,6 +64,7 @@ namespace TextRPG.Scenes
 
                 if (input == "y")
                 {
+                    //굳이 들어가자 마자 싸울 이유가 없음
                     Fight();
                     //SpawnMonsters(dungeonType, Player.Instance);
                     break;
@@ -115,13 +89,11 @@ namespace TextRPG.Scenes
             List<Monster> spawnedMonster = new();
             int turn = 1;
             Random rand = new Random();
+            //몬스터 생성
+            CreateMonster(spawnedMonster, rand);
 
             while (true)
             {
-                spawnedMonster.Clear();
-                //몬스터 생성
-                spawnedMonster.Add(Monster.monstersData[rand.Next(0, Monster.monstersData.Count)]);
-
                 while (spawnedMonster.Count > 0) {
                     Console.Clear();
                     Console.WriteLine("┌────────────[ 전투 시작 ]────────────┐");
@@ -143,6 +115,7 @@ namespace TextRPG.Scenes
                             if(int.TryParse(Console.ReadLine(), out targetNumber))
                             {
                                 PlayerTurn(spawnedMonster, targetNumber);
+                                Thread.Sleep(1000);
                             }
                         }
                         else if(num == 2)
@@ -160,33 +133,53 @@ namespace TextRPG.Scenes
                     //결과
                     turn++;
                 }
+                //다음 층 또는 다음 이벤트 이동, 임시적 break 삽입
+                Console.WriteLine("모든 적을 처치하였습니다.");
+                break;
+            }
+        }
+
+        public static void CreateMonster(List<Monster> mList, Random randomNum)
+        {
+            int count = randomNum.Next(1, 5);
+
+            for (int i = 1; i < count; i++) {
+                Monster cloneMonster = Monster.monstersData[randomNum.Next(0, Monster.monstersData.Count)];
+                mList.Add(cloneMonster.Clone());
             }
         }
 
         public static void SpawnMonster(List<Monster> mList)
         {
             for (int i = 0; i < mList.Count; i++) {
-                Console.WriteLine($"{i + 1} {mList[i].name} 몬스터 출현");
+                Console.WriteLine($"|{i + 1} {mList[i].name} 몬스터 출현");
             }
         }
 
         public static void PlayerTurn(List<Monster> mList, int targetNumber)
         {
             if (mList.Count <= 0) return;
-            
-            mList[targetNumber-1].hp -= Player.Instance.attack;
-            
-            if (mList[targetNumber-1].hp <= 0)
+
+            int idx = targetNumber - 1;
+            mList[idx].hp -= Player.Instance.attack;
+
+            //이곳에 몬스터 체력 몇 달았는지 적기
+            Console.WriteLine($"{mList[idx].name}의 남은 HP: {mList[idx].hp}");
+            Thread.Sleep(500);
+            if (mList[idx].hp <= 0)
             {
-                mList.RemoveAt(targetNumber-1);
+                mList.RemoveAt(idx);
             }
         }
 
         public static void MonsterTurn(List<Monster> mList, Player p)
         {
+            if(mList.Count <= 0) return;
+
             foreach (Monster m in mList) {
                 p.hp -= m.attack;
                 Console.WriteLine($"몬스터 {m.name} 의 공격! 데미지 {m.attack}");
+                Thread.Sleep(1000);
             }
         }
 
