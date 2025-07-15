@@ -29,6 +29,7 @@ namespace TextRPG.Scenes
                 string input = Console.ReadLine();
                 if (input == "0")
                 {
+                    Program.ChangeScene(SceneType.MainScene);
                     break;
                 }
                 else
