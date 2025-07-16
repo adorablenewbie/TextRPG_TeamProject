@@ -9,7 +9,7 @@ using System.Reflection.Metadata.Ecma335;
 
 namespace TextRPG.Scenes
 {
-    internal class SkillScene : Scene
+    public class SkillScene : Scene
     {
         public static Object.Player player = Object.Player.Instance;
         public override void ShowScene()
@@ -24,8 +24,8 @@ namespace TextRPG.Scenes
 
                 Console.WriteLine();
                 Console.WriteLine("1. 장착 관리");
-            Console.WriteLine("2. 기본 스킬 획득");
-            Console.WriteLine("0. 나가기");
+                Console.WriteLine("2. 기본 스킬 획득");
+                Console.WriteLine("0. 나가기");
                 Console.WriteLine();
                 Console.WriteLine("원하시는 행동을 입력해주세요.");
 
@@ -46,7 +46,7 @@ namespace TextRPG.Scenes
                         player.Skills.Add(Skill.SmallHeal);
                         break;
 
-            }
+                }
         }
 
         static void ShowEquipSkill()
