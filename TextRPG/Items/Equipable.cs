@@ -9,7 +9,7 @@ namespace TextRPG.Items
 {
     internal class Equipable : Item
     {
-        public bool isEquipped;
+        public override bool IsEquipped { get; set; }
 
         public static List<Item> equipedItemData = new List<Item>()
         {
@@ -26,16 +26,47 @@ namespace TextRPG.Items
             this.Type = type;
         }
 
-        public override void UseItem(Item item)
+        public override void UseItem()
         {
-            if (item.Type == ItemType.Weapon)
+            if (!Player.Instance.Inventory.Contains(this)) return;
+
+            if (this.Type == ItemType.Weapon)
             {
-                this.isEquipped = !this.isEquipped;
-                if (this.isEquipped) {
-                    Player.Instance.Attack += item.Attack;
+                if (Player.Instance.EquippedWeapon != null)
+                {
+                    this.IsEquipped = false;
                 }
-                //Player.Instance.UpdateStatus();
+
+                if (Player.Instance.EquippedWeapon == this)
+                {
+                    Player.Instance.EquippedWeapon = null;
+                    this.IsEquipped = false;
+                }
+                else
+                {
+                    Player.Instance.EquippedWeapon = this;
+                    this.IsEquipped = true;
+                }
             }
+            else if (this.Type == ItemType.Armor)
+            {
+                if (Player.Instance.EquippedWeapon != null)
+                {
+                    this.IsEquipped = false;
+                }
+
+                if (Player.Instance.EquippedWeapon == this)
+                {
+                    Player.Instance.EquippedWeapon = null;
+                    this.IsEquipped = false;
+                }
+                else
+                {
+                    Player.Instance.EquippedWeapon = this;
+                    this.IsEquipped = true;
+                }
+            }
+            //UpdateStatus();
         }
     }
 }

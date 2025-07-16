@@ -15,8 +15,10 @@ namespace TextRPG.Object
         public string Name { get; set; }
         public int Level { get; set; }
         public float Mana { get; set; }
+        public float MaxMana { get; set; }
         public string PlayerClass { get; set; }
         public float Hp { get; set; }
+        public float MaxHP { get; set; }
         public float Attack { get; set; }
         public float Defense { get; set; }
         public float Gold { get; set; }

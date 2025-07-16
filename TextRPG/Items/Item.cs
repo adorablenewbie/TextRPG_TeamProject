@@ -22,6 +22,7 @@ namespace TextRPG.Items
         public float Price { get; set; }
         public ItemType Type { get; set; }
 
-        public abstract void UseItem(Item item);
+        public virtual bool IsEquipped {get; set;} = false;
+        public abstract void UseItem();
     }
 }
