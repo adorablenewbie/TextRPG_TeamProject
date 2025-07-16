@@ -97,7 +97,7 @@ namespace TextRPG.Scenes
                     Console.WriteLine("┌────────────[ 전투 시작 ]────────────┐");
                     SpawnMonster(spawnedMonster);
                     Console.WriteLine("└────────────────────────────────────┘");
-                    Console.WriteLine($"▶ 당신: HP: {Player.Instance.hp} / ATK: {Player.Instance.attack} / DEF: {Player.Instance.defense} / GOLD: {Player.Instance.gold}");
+                    Console.WriteLine($"▶ 당신: HP: {Player.Instance.Hp} / ATK: {Player.Instance.Attack} / DEF: {Player.Instance.Defense} / GOLD: {Player.Instance.Gold}");
                     Console.WriteLine("\n[1] 공격  [2]스킬  [3] 도망치기");
                     Console.Write("행동 선택: ");
                     //플레이어의 턴
@@ -121,7 +121,7 @@ namespace TextRPG.Scenes
                             int targetNumber = 0;
                             Skill selectedSkill = UseSkill();
                             Console.WriteLine("스킬을 사용할 대상 선택");
-                            Console.WriteLine($"[5] {Player.Instance.name} (자신에게 사용)");
+                            Console.WriteLine($"[5] {Player.Instance.Name} (자신에게 사용)");
                             if (int.TryParse(Console.ReadLine(), out targetNumber))
                             {
                                 PlayerSkillTurn(spawnedMonster, targetNumber, selectedSkill);
@@ -173,12 +173,12 @@ namespace TextRPG.Scenes
             int idx = targetNumber - 1;
 
 
-                mList[idx].hp -= Player.Instance.attack;
+                mList[idx].Hp -= Player.Instance.Attack;
 
                 //이곳에 몬스터 체력 몇 달았는지 적기
-                Console.WriteLine($"{mList[idx].name}의 남은 HP: {mList[idx].hp}");
+                Console.WriteLine($"{mList[idx].Name}의 남은 HP: {mList[idx].Hp}");
                 Thread.Sleep(500);
-                if (mList[idx].hp <= 0)
+                if (mList[idx].Hp <= 0)
                 {
                     mList.RemoveAt(idx);
                 }
@@ -193,14 +193,14 @@ namespace TextRPG.Scenes
             if (targetNumber == 5)
             {
                 selectedSkill.UseSkill(selectedSkill, Player.Instance);
-                Console.WriteLine($"{Player.Instance.name}의 남은 HP: {Player.Instance.hp}");
+                Console.WriteLine($"{Player.Instance.Name}의 남은 HP: {Player.Instance.Hp}");
             }
             else
             {
                     selectedSkill.UseSkill(selectedSkill, mList[idx]);
                 //이곳에 몬스터 체력 몇 달았는지 적기
-                Console.WriteLine($"{mList[idx].name}의 남은 HP: {mList[idx].hp}");
-                if (mList[idx].hp <= 0)
+                Console.WriteLine($"{mList[idx].Name}의 남은 HP: {mList[idx].Hp}");
+                if (mList[idx].Hp <= 0)
                 {
                     mList.RemoveAt(idx);
                 }
@@ -222,15 +222,15 @@ namespace TextRPG.Scenes
         public static Skill UseSkill()
         {
             Console.WriteLine("어떤 스킬을 사용하겠습니까?\n");
-            for (int i = 0; i < Player.Instance.equippedSkills.Count; i++)
+            for (int i = 0; i < Player.Instance.EquippedSkills.Count; i++)
             {
-                string skillState = Player.Instance.equippedSkills[i].ToString();
+                string skillState = Player.Instance.EquippedSkills[i].ToString();
                 Console.WriteLine($"[{i + 1}] {skillState}");
             }
             Console.Write("스킬 번호를 입력하세요: ");
             int input;
             int.TryParse(Console.ReadLine(), out input);
-            Skill selectedSkill = Player.Instance.equippedSkills[input-1];
+            Skill selectedSkill = Player.Instance.EquippedSkills[input-1];
             return selectedSkill;
         }
 
