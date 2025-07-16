@@ -70,7 +70,7 @@ namespace TextRPG.Scenes
 
                     int skillIdx = result - 1;
                     Skill targetSkill = player.skills[skillIdx]; //이거 맞는지 검증해야됨! (스킬 선택하면 맞게 착용되는지)
-                    player.EquipSkill(targetSkill);
+                    player.EquipSkill(skillIdx);
 
                     ShowEquipSkill();
                     break;
@@ -95,6 +95,12 @@ namespace TextRPG.Scenes
 
         public static void ShowSkillList()
         {
+            for (int i = 0; i < player.equippedSkills.Count; i++)
+            {
+                Skill targetSkill = player.skills[i];
+                string displayEquipped = player.skills.Contains(targetSkill) ? "[E]" : "";
+                Console.WriteLine($"{i + 1}. {displayEquipped} {targetSkill.ToString()}");
+            }
             for (int i = 0; i < player.skills.Count; i++)
             {
                 Skill targetSkill = player.skills[i];

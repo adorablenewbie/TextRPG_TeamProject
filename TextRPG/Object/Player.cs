@@ -24,30 +24,30 @@ namespace TextRPG.Object
         public Player()
         {
             this.hp = 100f;
+            this.mana = 50f;
+            this.level = 1;
             this.attack = 10;
             this.defense = 5;
             this.gold = 1500;
             this.exp = 0;
             this.skills = new List<Skill>();
+            this.equippedSkills = new List<Skill>();
         }
 
-        public void EquipSkill(Skill skill)
-        {
-            if (skill != null && !skills.Contains(skill))
-            {
-                skills.Add(skill);
-            }
-            if (skills.Count > 2)
-            {
-                skills.RemoveAt(0); // 오래된 스킬 제거
-            }
+        public void EquipSkill(Skill selectedSkill)
+        
         }
-        public void RemoveSkill(Skill skill)
+        public void UnequipSkill(int skillIndex)
         {
-            if (skill != null && skills.Contains(skill))
+            if (skillIndex < 0 || skillIndex >= equippedSkills.Count)
             {
-                skills.Remove(skill);
+                Console.WriteLine("잘못된 스킬 인덱스입니다.");
+                return;
             }
+            Skill skillToUnequip = equippedSkills[skillIndex];
+            equippedSkills.Remove(skillToUnequip);
+            Console.WriteLine($"{skillToUnequip.Name} 스킬이 해제되었습니다.");
+            System.Threading.Thread.Sleep(1000); // 1초 대기
         }
     }
 }
