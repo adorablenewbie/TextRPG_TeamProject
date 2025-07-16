@@ -61,18 +61,18 @@ namespace TextRPG.SaveDatas
                 target.Defense += skill.DefenseValue; // 방어력 합연산
                 target.Hp += skill.HealValue; // 치유
                 // 상태이상 효과 적용 로직 추가 가능
-                Console.WriteLine($"{player.Name}이(가) {skill.Name}을(를) 사용했습니다.");
+                Console.WriteLine($"{player.Name}이(가) {skill.Name}을(를) 시전!");
             }
             else
             {
                 Console.WriteLine($"{player.Name}은(는) {skill.Name}을(를) 사용할 수 없습니다.");
             }
         }
-        public static Skill PowerAttack =>
+        public static Skill Slam =>
            new Skill(
                id: 0,
-               name: "강력한 공격",
-               description: "적에게 강력한 공격을 가합니다.",
+               name: "강타",
+               description: "적에게 강력한 일격을 날립니다. (공격력 * 2)",
                requiredMana: 10,
                attackValue: 2.0f, // 공격력 곱연산
                defenseValue: 0.0f, // 방어력 합연산
@@ -82,11 +82,11 @@ namespace TextRPG.SaveDatas
                isEquipped: false
            );
 
-        public static Skill ReadyDefense =>
+        public static Skill Barrier =>
             new Skill(
                 id: 1,
-                name: "방어준비",
-                description: "방어 자세를 갖춥니다.",
+                name: "방어막",
+                description: "자신에게 방어막을 감싸 피해를 흡수합니다. (방어력 + 2)",
                 requiredMana: 10,
                 attackValue: 0,
                 defenseValue: 2.0f, // 방어력 합연산
@@ -95,11 +95,11 @@ namespace TextRPG.SaveDatas
                 requiredLevel: 1,
                 isEquipped: false
             );
-        public static Skill SmallHeal =>
+        public static Skill Heal =>
             new Skill(
                 id: 2,
-                name: "하급 힐",
-                description: "작은 치유를 합니다.",
+                name: "회복",
+                description: "자신의 체력을 회복합니다. (체력 + 20)",
                 requiredMana: 10,
                 attackValue: 0,
                 defenseValue: 0,
@@ -108,11 +108,11 @@ namespace TextRPG.SaveDatas
                 requiredLevel: 1,
                 isEquipped: false
             );
-        public static Skill Fireball =>
+        public static Skill Bomb =>
             new Skill(
                 id: 3,
-                name: "파이어볼",
-                description: "적에게 불덩이를 던집니다.",
+                name: "폭탄 투척",
+                description: "적에게 폭탄을 던집니다. 폭탄에 맞은 적은 화상 상태가 됩니다. (공격력 * 3)\n※화상: 적에게 고정 피해를 입힙니다.)",
                 requiredMana: 15,
                 attackValue: 3.0f, // 공격력 곱연산
                 defenseValue: 0.0f, // 방어력 합연산
@@ -121,11 +121,11 @@ namespace TextRPG.SaveDatas
                 requiredLevel: 2,
                 isEquipped: false
             );
-        public static Skill IceShield =>
+        public static Skill Guts =>
             new Skill(
                 id: 4,
-                name: "얼음 방패",
-                description: "얼음으로 방패를 만들어 방어력을 증가시킵니다.",
+                name: "근성",
+                description: "적에게 피해를 입어도 끄떡없는 자세를 유지합니다. (방어력 + 3)",
                 requiredMana: 15,
                 attackValue: 0.0f, // 공격력 곱연산
                 defenseValue: 3.0f, // 방어력 합연산
