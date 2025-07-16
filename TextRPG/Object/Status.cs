@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TextRPG.Items;
 using TextRPG.SaveDatas;
 
 namespace TextRPG.Object
@@ -11,17 +12,18 @@ namespace TextRPG.Object
     {
         private Effects currentEffect = Effects.None;
 
-        public string name { get; set; }
-        public int level { get; set; }
-        public float mana { get; set; }
-        public string playerClass { get; set; }
-        public float hp { get; set; }
-        public float attack { get; set; }
-        public float defense { get; set; }
-        public float gold { get; set; }
-        public float exp { get; set; }
-        public List<Skill> skills { get; set; } = new List<Skill>();
-        public List<Skill> equippedSkills { get; set; } = new List<Skill>();
+        public string Name { get; set; }
+        public int Level { get; set; }
+        public float Mana { get; set; }
+        public string PlayerClass { get; set; }
+        public float Hp { get; set; }
+        public float Attack { get; set; }
+        public float Defense { get; set; }
+        public float Gold { get; set; }
+        public float Exp { get; set; }
+        public List<Skill> Skills { get; set; } = new List<Skill>();
+        public List<Skill> EquippedSkills { get; set; } = new List<Skill>();
+        public List<Item> Inventory { get; set; }
 
         public void AddEffect(Effects effect)
         {
@@ -46,12 +48,12 @@ namespace TextRPG.Object
 
         public void ApplyEffect()
         {
-            if (hp <= 0) return;
+            if (Hp <= 0) return;
 
             if (HasEffect(Effects.Poison))
             {
                 Console.WriteLine("독 상태이상");
-                hp -= 2;
+                Hp -= 2;
                 return;
             }
             if (HasEffect(Effects.Sleep))

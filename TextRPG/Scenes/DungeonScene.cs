@@ -99,7 +99,7 @@ namespace TextRPG.Scenes
                     Console.WriteLine("┌────────────[ 전투 시작 ]────────────┐");
                     SpawnMonster(spawnedMonster);
                     Console.WriteLine("└────────────────────────────────────┘");
-                    Console.WriteLine($"▶ 당신: HP: {Player.Instance.hp} / ATK: {Player.Instance.attack} / DEF: {Player.Instance.defense} / GOLD: {Player.Instance.gold}");
+                    Console.WriteLine($"▶ 당신: HP: {Player.Instance.Hp} / ATK: {Player.Instance.Attack} / DEF: {Player.Instance.Defense} / GOLD: {Player.Instance.Gold}");
                     Console.WriteLine("\n[1] 공격    [2] 도망치기");
                     Console.Write("행동 선택: ");
                     //플레이어의 턴
@@ -152,7 +152,7 @@ namespace TextRPG.Scenes
         public static void SpawnMonster(List<Monster> mList)
         {
             for (int i = 0; i < mList.Count; i++) {
-                Console.WriteLine($"|{i + 1} {mList[i].name} 몬스터 출현");
+                Console.WriteLine($"|{i + 1} {mList[i].Name} 몬스터 출현");
             }
         }
 
@@ -161,12 +161,12 @@ namespace TextRPG.Scenes
             if (mList.Count <= 0) return;
 
             int idx = targetNumber - 1;
-            mList[idx].hp -= Player.Instance.attack;
+            mList[idx].Hp -= Player.Instance.Attack;
 
             //이곳에 몬스터 체력 몇 달았는지 적기
-            Console.WriteLine($"{mList[idx].name}의 남은 HP: {mList[idx].hp}");
+            Console.WriteLine($"{mList[idx].Name}의 남은 HP: {mList[idx].Hp}");
             Thread.Sleep(500);
-            if (mList[idx].hp <= 0)
+            if (mList[idx].Hp <= 0)
             {
                 mList.RemoveAt(idx);
             }
@@ -177,8 +177,8 @@ namespace TextRPG.Scenes
             if(mList.Count <= 0) return;
 
             foreach (Monster m in mList) {
-                p.hp -= m.attack;
-                Console.WriteLine($"몬스터 {m.name} 의 공격! 데미지 {m.attack}");
+                p.Hp -= m.Attack;
+                Console.WriteLine($"몬스터 {m.Name} 의 공격! 데미지 {m.Attack}");
                 Thread.Sleep(1000);
             }
         }
@@ -283,13 +283,13 @@ namespace TextRPG.Scenes
                 _ => 1.0f
             };
 
-            int rewardGold = (int)(monster.gold * multiplier);
-            int rewardExp = (int)(monster.exp * multiplier);
+            int rewardGold = (int)(monster.Gold * multiplier);
+            int rewardExp = (int)(monster.Exp * multiplier);
 
-            player.gold += rewardGold;
-            player.exp += rewardExp;
+            player.Gold += rewardGold;
+            player.Exp += rewardExp;
 
-            Console.WriteLine($"{monster.name} 처치! 골드 +{rewardGold}, 경험치 +{rewardExp}");
+            Console.WriteLine($"{monster.Name} 처치! 골드 +{rewardGold}, 경험치 +{rewardExp}");
             Thread.Sleep(1000);
         }
 
@@ -316,9 +316,9 @@ namespace TextRPG.Scenes
             Console.WriteLine("───────────────");
             Console.WriteLine($"▶ 던전: {GetDungeonName(dungeonType)}");
             Console.WriteLine($"▶ 처치 수: {killCount}");
-            Console.WriteLine($"▶ 골드: {player.gold}");
-            Console.WriteLine($"▶ 경험치: {player.exp}");
-            Console.WriteLine($"▶ HP: {player.hp}");
+            Console.WriteLine($"▶ 골드: {player.Gold}");
+            Console.WriteLine($"▶ 경험치: {player.Exp}");
+            Console.WriteLine($"▶ HP: {player.Hp}");
             Console.WriteLine($"▶ 레벨: {player}");
             Console.WriteLine("\n[엔터]를 눌러 돌아갑니다.");
             Console.ReadLine();
@@ -399,9 +399,9 @@ namespace TextRPG.Scenes
             {
                 int damage = rand.Next(5, 16);
                 Console.WriteLine($"🪤 함정 발동! 숨겨진 함정에 걸렸습니다! HP { damage} 감소!");
-                player.hp -= damage;
+                player.Hp -= damage;
 
-                if (player.hp <= 0)
+                if (player.Hp <= 0)
                 {
                     Console.WriteLine("☠️ 당신은 함정에 의해 사망했습니다...");
                     Thread.Sleep(1000);
@@ -422,7 +422,7 @@ namespace TextRPG.Scenes
             {
                 int heal = rand.Next(10, 21);
                 Console.WriteLine($" 💧 회복의 샘 발견! HP가 { heal} 회복되었습니다!");
-                 player.hp += heal;
+                 player.Hp += heal;
                 Thread.Sleep(1000);
             }
         }

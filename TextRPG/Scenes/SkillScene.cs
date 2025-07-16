@@ -41,9 +41,9 @@ namespace TextRPG.Scenes
                         break;
                     case 2:
                         Console.WriteLine("기본 스킬 획득.");
-                        player.skills.Add(Skill.PowerAttack);
-                        player.skills.Add(Skill.ReadyDefense);
-                        player.skills.Add(Skill.SmallHeal);
+                        player.Skills.Add(Skill.PowerAttack);
+                        player.Skills.Add(Skill.ReadyDefense);
+                        player.Skills.Add(Skill.SmallHeal);
                         break;
 
             }
@@ -64,7 +64,7 @@ namespace TextRPG.Scenes
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요.");
 
-            int result = CheckInput(0, player.skills.Count);
+            int result = CheckInput(0, player.Skills.Count);
 
             switch (result)
             {
@@ -74,7 +74,7 @@ namespace TextRPG.Scenes
                 default:
 
                     int skillIdx = result - 1;
-                    Skill targetSkill = player.skills[skillIdx]; //이거 맞는지 검증해야됨! (스킬 선택하면 맞게 착용되는지)
+                    Skill targetSkill = player.Skills[skillIdx]; //이거 맞는지 검증해야됨! (스킬 선택하면 맞게 착용되는지)
                     player.EquipSkill(targetSkill);
 
                     ShowEquipSkill();
@@ -100,9 +100,9 @@ namespace TextRPG.Scenes
 
         public static void ShowSkillList()
         {
-            for (int i = 0; i < player.skills.Count; i++)
+            for (int i = 0; i < player.Skills.Count; i++)
             {
-                Skill targetSkill = player.skills[i];
+                Skill targetSkill = player.Skills[i];
                 string displayEquipped = targetSkill.IsEquipped ? "[E]" : "";
                 Console.WriteLine($"{i + 1}. {displayEquipped} {targetSkill.ToString()}");
             }
