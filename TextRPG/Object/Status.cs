@@ -12,6 +12,8 @@ namespace TextRPG.Object
         private Effects currentEffect = Effects.None;
 
         public string name { get; set; }
+        public int level { get; set; }
+        public float mana { get; set; }
         public string playerClass { get; set; }
         public float hp { get; set; }
         public float attack { get; set; }
@@ -19,6 +21,7 @@ namespace TextRPG.Object
         public float gold { get; set; }
         public float exp { get; set; }
         public List<Skill> skills { get; set; } = new List<Skill>();
+        public List<Skill> equippedSkills { get; set; } = new List<Skill>();
 
         public void AddEffect(Effects effect)
         {
