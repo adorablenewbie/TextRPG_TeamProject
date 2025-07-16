@@ -31,6 +31,7 @@ namespace TextRPG
         public static void init()
         {
             scenes = new Dictionary<SceneType, Scene>();
+            Shop.InitItems();
 
             scenes.Add(SceneType.MainScene, new MainMenu());
             scenes.Add(SceneType.StatusScene, new StatusScene());
