@@ -37,6 +37,7 @@ namespace TextRPG.Object
         public void EquipSkill(Skill selectedSkill)
         {
             equippedSkills.Add(selectedSkill);
+            selectedSkill.IsEquipped = true; 
             Console.WriteLine($"{selectedSkill.Name} 스킬이 장착되었습니다.");
             System.Threading.Thread.Sleep(1000); // 1초 대기
 
@@ -52,6 +53,7 @@ namespace TextRPG.Object
             {
                 equippedSkills.Remove(selectedSkill);
                 Console.WriteLine($"{selectedSkill.Name} 스킬이 해제되었습니다.");
+                selectedSkill.IsEquipped = false; // 스킬 장착 상태 해제
             }
             else
             {

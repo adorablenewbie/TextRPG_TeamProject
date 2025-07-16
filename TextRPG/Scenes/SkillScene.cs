@@ -24,11 +24,12 @@ namespace TextRPG.Scenes
 
                 Console.WriteLine();
                 Console.WriteLine("1. 장착 관리");
-                Console.WriteLine("0. 나가기");
+            Console.WriteLine("2. 기본 스킬 획득");
+            Console.WriteLine("0. 나가기");
                 Console.WriteLine();
                 Console.WriteLine("원하시는 행동을 입력해주세요.");
 
-                int result = CheckInput(0, 1);
+                int result = CheckInput(0, 2);
 
                 switch (result)
                 {
@@ -38,7 +39,13 @@ namespace TextRPG.Scenes
                     case 1: // 스킬 장착 관리
                         ShowEquipSkill();
                         break;
-                
+                    case 2:
+                        Console.WriteLine("기본 스킬 획득.");
+                        player.skills.Add(Skill.PowerAttack);
+                        player.skills.Add(Skill.ReadyDefense);
+                        player.skills.Add(Skill.SmallHeal);
+                        break;
+
             }
         }
 

@@ -37,16 +37,6 @@ namespace TextRPG.SaveDatas
             RequiredLevel = requiredLevel;
             IsEquipped = isEquipped;
         }
-        /*
-        public void Equip()
-        {
-            IsEquipped = true;
-        }
-        public void Unequip()
-        {
-            IsEquipped = false;
-        }
-        */
         public bool CanUse(int playerLevel, float playerMana)
         {
             if (playerLevel < RequiredLevel || playerMana < RequiredMana)
