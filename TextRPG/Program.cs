@@ -36,7 +36,7 @@ namespace TextRPG
             scenes.Add(SceneType.StatusScene, new StatusScene());
             scenes.Add(SceneType.RestScene, new RestScene());
             //scenes.Add(SceneType.ShopScene, new ShopScene());
-            //scenes.Add(SceneType.SkillScene, new SkillScene());
+            scenes.Add(SceneType.SkillScene, new SkillScene());
             //scenes.Add(SceneType.InventoryScene, new InventoryScene());
             scenes.Add(SceneType.DungeonScene, new DungeonScene());
         }
