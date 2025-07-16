@@ -30,8 +30,8 @@ namespace TextRPG.Object
             this.Hp = 100f;
             this.Mana = 50f;
             this.Level = 1;
-            this.Attack = 10;
-            this.Defense = 5;
+            this.BaseAttack = 10;
+            this.BaseDefense = 5;
             this.Gold = 1500;
             this.Exp = 0;
             this.Skills = new List<Skill>();
@@ -65,6 +65,20 @@ namespace TextRPG.Object
                 Console.WriteLine("해제할 수 없는 스킬입니다.");
             }
             System.Threading.Thread.Sleep(1000); // 1초 대기
+        }
+
+        public void UpdateStatus()
+        {
+            AddAttack = 0;
+            AddDefence = 0;
+            foreach (var item in Inventory)
+            {
+                if (item.IsEquipped)
+                {
+                    AddAttack += item.Attack;
+                    AddDefence += item.Defense;
+                }
+            }
         }
     }
 }

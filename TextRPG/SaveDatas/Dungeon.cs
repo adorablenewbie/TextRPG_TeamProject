@@ -23,10 +23,8 @@ namespace TextRPG.SaveDatas
         Normal,
         Strong
     }
-
     public class Dungeon
     {
-
         public static string GetDungeonName(DungeonType type) => type switch
         {
             DungeonType.Forest => "🌲 숲 던전",
@@ -57,8 +55,8 @@ namespace TextRPG.SaveDatas
 
             foreach (Monster m in mList)
             {
-                p.Hp -= m.Attack;
-                Console.WriteLine($"몬스터 {m.Name} 의 공격! 데미지 {m.Attack}");
+                p.Hp -= m.BaseAttack;
+                Console.WriteLine($"몬스터 {m.Name} 의 공격! 데미지 {m.BaseAttack}");
                 Thread.Sleep(1000);
             }
         }
@@ -69,7 +67,7 @@ namespace TextRPG.SaveDatas
             int idx = targetNumber - 1;
 
 
-            mList[idx].Hp -= Player.Instance.Attack;
+            mList[idx].Hp -= Player.Instance.BaseAttack;
 
             //이곳에 몬스터 체력 몇 달았는지 적기
             Console.WriteLine($"{mList[idx].Name}의 남은 HP: {mList[idx].Hp}");
@@ -99,6 +97,7 @@ namespace TextRPG.SaveDatas
                 if (mList[idx].Hp <= 0)
                 {
                     mList.RemoveAt(idx);
+                    
                 }
             }
             Thread.Sleep(500);
@@ -110,7 +109,7 @@ namespace TextRPG.SaveDatas
             Random randomNum = new Random();
             int count = randomNum.Next(1, 5);
 
-            for (int i = 1; i < count; i++)
+            for (int i = 1; i < count+1; i++)
             {
                 Monster cloneMonster = Monster.monstersData[randomNum.Next(0, Monster.monstersData.Count)];
                 mList.Add(cloneMonster.Clone());
@@ -169,12 +168,6 @@ namespace TextRPG.SaveDatas
             //결과
             //turn++;
         }
-        public static void RandomStage()
-        {
-            Random rand = new Random();
-            int result = rand.Next(0, 10);
-
-
-        }
+        
     }
 }
