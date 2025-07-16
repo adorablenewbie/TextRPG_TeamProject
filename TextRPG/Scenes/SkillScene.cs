@@ -5,16 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using TextRPG.SaveDatas;
 using TextRPG.Object;
+using System.Reflection.Metadata.Ecma335;
 
 namespace TextRPG.Scenes
 {
-    internal class SkillScene
+    internal class SkillScene : Scene
     {
         public static Object.Player player = Object.Player.Instance;
-        static void ShowSkill()
+        public override void ShowScene()
         {
-            while (true)
-            {
                 Console.Clear();
                 Console.WriteLine("스킬");
                 Console.WriteLine("보유 중인 스킬을 관리할 수 있습니다.");
@@ -34,12 +33,12 @@ namespace TextRPG.Scenes
                 switch (result)
                 {
                     case 0: // 메인 메뉴로 돌아가기
+                        Program.ChangeScene(SceneType.MainScene);
                         break;
-
                     case 1: // 스킬 장착 관리
                         ShowEquipSkill();
                         break;
-                }
+                
             }
         }
 
@@ -63,14 +62,13 @@ namespace TextRPG.Scenes
             switch (result)
             {
                 case 0:
-                    ShowSkill();
                     break;
 
                 default:
 
                     int skillIdx = result - 1;
                     Skill targetSkill = player.skills[skillIdx]; //이거 맞는지 검증해야됨! (스킬 선택하면 맞게 착용되는지)
-                    player.EquipSkill(skillIdx);
+                    player.EquipSkill(targetSkill);
 
                     ShowEquipSkill();
                     break;
@@ -95,16 +93,10 @@ namespace TextRPG.Scenes
 
         public static void ShowSkillList()
         {
-            for (int i = 0; i < player.equippedSkills.Count; i++)
-            {
-                Skill targetSkill = player.skills[i];
-                string displayEquipped = player.skills.Contains(targetSkill) ? "[E]" : "";
-                Console.WriteLine($"{i + 1}. {displayEquipped} {targetSkill.ToString()}");
-            }
             for (int i = 0; i < player.skills.Count; i++)
             {
                 Skill targetSkill = player.skills[i];
-                string displayEquipped = player.skills.Contains(targetSkill) ? "[E]" : "";
+                string displayEquipped = targetSkill.IsEquipped ? "[E]" : "";
                 Console.WriteLine($"{i + 1}. {displayEquipped} {targetSkill.ToString()}");
             }
         }
