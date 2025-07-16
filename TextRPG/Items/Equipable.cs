@@ -32,7 +32,7 @@ namespace TextRPG.Items
             {
                 this.isEquipped = !this.isEquipped;
                 if (this.isEquipped) {
-                    Player.Instance.attack += item.Attack;
+                    Player.Instance.Attack += item.Attack;
                 }
                 //Player.Instance.UpdateStatus();
             }
