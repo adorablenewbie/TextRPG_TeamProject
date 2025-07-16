@@ -41,9 +41,9 @@ namespace TextRPG.Scenes
                         break;
                     case 2:
                         Console.WriteLine("기본 스킬 획득.");
-                        player.Skills.Add(Skill.PowerAttack);
-                        player.Skills.Add(Skill.ReadyDefense);
-                        player.Skills.Add(Skill.SmallHeal);
+                        player.Skills.Add(Skill.Slam);
+                        player.Skills.Add(Skill.Barrier);
+                        player.Skills.Add(Skill.Heal);
                         break;
 
                 }
