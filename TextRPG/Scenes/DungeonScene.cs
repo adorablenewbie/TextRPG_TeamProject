@@ -91,7 +91,7 @@ namespace TextRPG.Scenes
                     Console.WriteLine("┌────────────[ 전투 시작 ]────────────┐");
                     Dungeon.SpawnMonster(spawnedMonster);
                     Console.WriteLine("└────────────────────────────────────┘");
-                    Console.WriteLine($"▶ 당신: HP: {Player.Instance.Hp} / ATK: {Player.Instance.Attack} / DEF: {Player.Instance.Defense} / GOLD: {Player.Instance.Gold}");
+                    Console.WriteLine($"▶ 당신: HP: {Player.Instance.Hp} / ATK: {Player.Instance.BaseAttack} / DEF: {Player.Instance.BaseDefense} / GOLD: {Player.Instance.Gold}");
                     Console.WriteLine("\n[1] 공격  [2]스킬  [3] 도망치기");
                     Console.Write("행동 선택: ");
                     //플레이어의 턴

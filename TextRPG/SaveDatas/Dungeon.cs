@@ -57,8 +57,8 @@ namespace TextRPG.SaveDatas
 
             foreach (Monster m in mList)
             {
-                p.Hp -= m.Attack;
-                Console.WriteLine($"몬스터 {m.Name} 의 공격! 데미지 {m.Attack}");
+                p.Hp -= m.BaseAttack;
+                Console.WriteLine($"몬스터 {m.Name} 의 공격! 데미지 {m.BaseAttack}");
                 Thread.Sleep(1000);
             }
         }
@@ -69,7 +69,7 @@ namespace TextRPG.SaveDatas
             int idx = targetNumber - 1;
 
 
-            mList[idx].Hp -= Player.Instance.Attack;
+            mList[idx].Hp -= Player.Instance.BaseAttack;
 
             //이곳에 몬스터 체력 몇 달았는지 적기
             Console.WriteLine($"{mList[idx].Name}의 남은 HP: {mList[idx].Hp}");
