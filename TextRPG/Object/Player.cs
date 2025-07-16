@@ -69,12 +69,21 @@ namespace TextRPG.Object
 
         public void AddItem(Item item)
         {
-
+            if(item.Type == ItemType.Potion)
+            {
+                Usable useItem = (Usable)item;
+                this.Inventory.Add(useItem.GetItem((Usable)item));
+            }
+            else
+            {
+                this.Inventory.Add(item);
+                Shop.shopItems.Remove(item);
+            }
         }
 
         public void RemoveItem(Item item)
         {
-
+            this.Inventory.Remove(item);
         }
     }
 }

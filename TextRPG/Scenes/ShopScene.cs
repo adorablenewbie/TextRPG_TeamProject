@@ -36,7 +36,6 @@ namespace TextRPG.Scenes
             {
                 Console.Clear();
                 Console.WriteLine("[상점]");
-
                 Console.WriteLine("[아이템 구매]");
                 SaveDatas.Shop.CheckBuyUI();
                 Console.WriteLine("0. 나가기\n");
