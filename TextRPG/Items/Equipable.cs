@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TextRPG.Object;
+using TextRPG.SaveDatas;
 
 namespace TextRPG.Items
 {
@@ -67,6 +68,18 @@ namespace TextRPG.Items
                 }
             }
             //UpdateStatus();
+        }
+
+        public override void AddItem()
+        {
+            Player.Instance.Inventory.Add(this);
+            Shop.shopItems.Remove(this);
+        }
+
+        public override void RemoveItem() 
+        {
+            Shop.shopItems.Add(this);
+            base.RemoveItem();
         }
     }
 }

@@ -69,7 +69,7 @@ namespace TextRPG.Scenes
                 else
                 {
                     int result = SaveDatas.Shop.ParseSelection(input, false);
-                    SaveDatas.Shop.CheckBuyResult(result);
+                    SaveDatas.Shop.CheckSellResult(result);
                     System.Threading.Thread.Sleep(2000);
                     continue;
                 }

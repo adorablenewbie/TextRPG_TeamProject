@@ -66,24 +66,5 @@ namespace TextRPG.Object
             }
             System.Threading.Thread.Sleep(1000); // 1초 대기
         }
-
-        public void AddItem(Item item)
-        {
-            if(item.Type == ItemType.Potion)
-            {
-                Usable useItem = (Usable)item;
-                this.Inventory.Add(useItem.GetItem((Usable)item));
-            }
-            else
-            {
-                this.Inventory.Add(item);
-                Shop.shopItems.Remove(item);
-            }
-        }
-
-        public void RemoveItem(Item item)
-        {
-            this.Inventory.Remove(item);
-        }
     }
 }
