@@ -23,10 +23,8 @@ namespace TextRPG.SaveDatas
         Normal,
         Strong
     }
-
     public class Dungeon
     {
-
         public static string GetDungeonName(DungeonType type) => type switch
         {
             DungeonType.Forest => "🌲 숲 던전",
@@ -99,6 +97,7 @@ namespace TextRPG.SaveDatas
                 if (mList[idx].Hp <= 0)
                 {
                     mList.RemoveAt(idx);
+                    
                 }
             }
             Thread.Sleep(500);
@@ -110,7 +109,7 @@ namespace TextRPG.SaveDatas
             Random randomNum = new Random();
             int count = randomNum.Next(1, 5);
 
-            for (int i = 1; i < count; i++)
+            for (int i = 1; i < count+1; i++)
             {
                 Monster cloneMonster = Monster.monstersData[randomNum.Next(0, Monster.monstersData.Count)];
                 mList.Add(cloneMonster.Clone());
