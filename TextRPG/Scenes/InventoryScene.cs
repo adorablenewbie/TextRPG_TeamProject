@@ -9,7 +9,7 @@ using TextRPG.SaveDatas;
 
 namespace TextRPG.Scenes
 {
-    internal class InventoryScene
+    public class InventoryScene
     {
         static void ShowInventory()
         {
@@ -19,7 +19,7 @@ namespace TextRPG.Scenes
             Console.WriteLine();
             Console.WriteLine("[아이템 목록]");
 
-            for (int i = 0; i < inventory.Count; i++)
+            for (int i = 0; i < inventory.Count; i++) // 변수 대입 예정
             {
                 int targetItem = inventory[i];
 
@@ -37,7 +37,7 @@ namespace TextRPG.Scenes
             switch (result)
             {
                 case 0:
-                    ShowMain();
+                    Program.ChangeScene(SceneType.MainScene);
                     break;
 
                 case 1:
@@ -54,7 +54,7 @@ namespace TextRPG.Scenes
             Console.WriteLine();
             Console.WriteLine("[아이템 목록]");
 
-            for (int i = 0; i < inventory.Count; i++)
+            for (int i = 0; i < inventory.Count; i++) // 변수 대입 예정
             {
                 int targetItem = inventory[i];
 
@@ -66,9 +66,9 @@ namespace TextRPG.Scenes
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요.");
 
-            int result = CheckInput(0, inventory.Count);
+            int result = CheckInput(0, inventory.Count); // 변수 대입 예정
 
-            switch (result) // 
+            switch (result) // 변수 대입 예정 (공격력, 방어력 등)
             {
                 case 0:
                     ShowInventory();
