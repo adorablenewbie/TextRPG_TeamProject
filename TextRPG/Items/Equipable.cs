@@ -67,7 +67,7 @@ namespace TextRPG.Items
                     this.IsEquipped = true;
                 }
             }
-            //UpdateStatus();
+            Player.Instance.UpdateStatus();
         }
 
         public override void AddItem()

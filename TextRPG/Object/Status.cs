@@ -19,8 +19,27 @@ namespace TextRPG.Object
         public string PlayerClass { get; set; }
         public float Hp { get; set; }
         public float MaxHP { get; set; }
-        public float Attack { get; set; }
-        public float Defense { get; set; }
+        public float BaseAttack { get; set; }
+        public float BaseDefense { get; set; }
+
+        public float TotalAttack
+        {
+            get
+            {
+                return BaseAttack + AddAttack;
+            }
+        }
+        public float TotalDefence
+        {
+            get
+            {
+                return BaseDefense + AddDefence;
+            }
+        }
+
+        public float AddAttack {get; set;}
+        public float AddDefence {get; set;}
+
         public float Gold { get; set; }
         public float Exp { get; set; }
         public List<Skill> Skills { get; set; } = new List<Skill>();

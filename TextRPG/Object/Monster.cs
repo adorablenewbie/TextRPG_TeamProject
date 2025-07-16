@@ -17,15 +17,15 @@ namespace TextRPG.Object
 
         public Monster Clone()
         {
-            return new Monster(this.Name, this.Hp, this.Attack, this.Defense, this.Gold, this.Exp);
+            return new Monster(this.Name, this.Hp, this.BaseAttack, this.BaseDefense, this.Gold, this.Exp);
         }
 
         public Monster(string name, float hp, float attack, float defense = 0, float gold = 0, float exp = 0)
         {
             this.Name = name;
             this.Hp = hp;
-            this.Attack = attack;
-            this.Defense = defense;
+            this.BaseAttack = attack;
+            this.BaseDefense = defense;
             this.Gold = gold;
             this.Exp = exp;
             this.Inventory = new List<Item>();
