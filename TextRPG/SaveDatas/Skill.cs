@@ -22,8 +22,9 @@ namespace TextRPG.SaveDatas
         public Effects Effect { get; set; } // 스킬 상태이상
         public int Level { get; set; } // 스킬 레벨
         public int RequiredLevel { get; set; } // 스킬 사용에 필요한 최소 레벨
+        public bool IsEquipped { get; set; } // 스킬이 장착되어 있는지 여부
         //public bool IsEquipped { get; set; } // 스킬이 장착되어 있는지 여부
-        public Skill(int id, string name, string description, float requiredMana, float attackValue, float defenseValue, float healValue, Effects effect, int requiredLevel/*, bool isEquipped*/)
+        public Skill(int id, string name, string description, float requiredMana, float attackValue, float defenseValue, float healValue, Effects effect, int requiredLevel, bool isEquipped)
         {
             ID = id;
             Name = name;
@@ -34,7 +35,7 @@ namespace TextRPG.SaveDatas
             HealValue = healValue;
             Effect = effect;
             RequiredLevel = requiredLevel;
-            //IsEquipped = isEquipped;
+            IsEquipped = isEquipped;
         }
         /*
         public void Equip()
@@ -59,19 +60,6 @@ namespace TextRPG.SaveDatas
                    $"{(DefenseValue == 0 ? "" : $"방어력: {DefenseValue}")} - {(HealValue == 0 ? "" : $"치유력: {HealValue}")} - 상태이상 효과: {(Effect == Effects.None ? "없음" : Effect)} - " +
                    $"필요 레벨: {RequiredLevel} - {Description}";
         }
-        public static Skill PowerAttack =>
-            new Skill(
-                id: 0,
-                name: "강력한 공격",
-                description: "적에게 강력한 공격을 가합니다.",
-                requiredMana: 10,
-                attackValue: 2.0f, // 공격력 곱연산
-                defenseValue: 0.0f, // 방어력 합연산
-                healValue: 0.0f,
-                effect: Effects.None,
-                requiredLevel: 1
-                //isEquipped: false
-            );
         public void UseSkill(Skill skill, Status target)
         {
             if (skill.CanUse(player.level, player.mana))
@@ -90,6 +78,20 @@ namespace TextRPG.SaveDatas
                 Console.WriteLine($"{player.name}은(는) {skill.Name}을(를) 사용할 수 없습니다.");
             }
         }
+        public static Skill PowerAttack =>
+           new Skill(
+               id: 0,
+               name: "강력한 공격",
+               description: "적에게 강력한 공격을 가합니다.",
+               requiredMana: 10,
+               attackValue: 2.0f, // 공격력 곱연산
+               defenseValue: 0.0f, // 방어력 합연산
+               healValue: 0.0f,
+               effect: Effects.None,
+               requiredLevel: 1,
+               isEquipped: false
+           );
+
         public static Skill ReadyDefense =>
             new Skill(
                 id: 1,
@@ -100,8 +102,8 @@ namespace TextRPG.SaveDatas
                 defenseValue: 2.0f, // 방어력 합연산
                 healValue: 0.0f,
                 effect: Effects.None,
-                requiredLevel: 1
-                //isEquipped: false
+                requiredLevel: 1,
+                isEquipped: false
             );
         public static Skill SmallHeal =>
             new Skill(
@@ -113,8 +115,8 @@ namespace TextRPG.SaveDatas
                 defenseValue: 0,
                 healValue: 20f,
                 effect: Effects.None,
-                requiredLevel: 1
-                //isEquipped: false
+                requiredLevel: 1,
+                isEquipped: false
             );
         public static Skill Fireball =>
             new Skill(
@@ -126,8 +128,8 @@ namespace TextRPG.SaveDatas
                 defenseValue: 0.0f, // 방어력 합연산
                 healValue: 0.0f,
                 effect: Effects.Burn,
-                requiredLevel: 2
-                //isEquipped: false
+                requiredLevel: 2,
+                isEquipped: false
             );
         public static Skill IceShield =>
             new Skill(
@@ -139,8 +141,8 @@ namespace TextRPG.SaveDatas
                 defenseValue: 3.0f, // 방어력 합연산
                 healValue: 0.0f,
                 effect: Effects.None,
-                requiredLevel: 2
-                //isEquipped: false
+                requiredLevel: 2,
+                isEquipped: false
             );
         public static Skill LightningStrike =>
             new Skill(
@@ -152,8 +154,8 @@ namespace TextRPG.SaveDatas
                 defenseValue: 0.0f, // 방어력 합연산
                 healValue: 0.0f,
                 effect: Effects.Stun,
-                requiredLevel: 3
-                //isEquipped: false
+                requiredLevel: 3,
+                isEquipped: false
             );
         public static Skill Earthquake =>
             new Skill(
@@ -165,8 +167,8 @@ namespace TextRPG.SaveDatas
                 defenseValue: 0.0f, // 방어력 합연산
                 healValue: 0.0f,
                 effect: Effects.None,
-                requiredLevel: 4
-                //isEquipped: false
+                requiredLevel: 4,
+                isEquipped: false
             );
         public static Skill MiddleHeal =>
             new Skill(
@@ -178,8 +180,8 @@ namespace TextRPG.SaveDatas
                 defenseValue: 0.0f, // 방어력 합연산
                 healValue: 50f,
                 effect: Effects.None,
-                requiredLevel: 5
-                //isEquipped: false
+                requiredLevel: 5,
+                isEquipped: false
             );
         public static Skill UltimateStrike =>
             new Skill(
@@ -191,8 +193,8 @@ namespace TextRPG.SaveDatas
                 defenseValue: 0.0f, // 방어력 합연산
                 healValue: 0.0f,
                 effect: Effects.None,
-                requiredLevel: 6
-                //isEquipped: false
+                requiredLevel: 6,
+                isEquipped: false
             );
     }
 }
