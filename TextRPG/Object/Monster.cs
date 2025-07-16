@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TextRPG.Items;
 using TextRPG.SaveDatas;
 
 namespace TextRPG.Object
@@ -16,17 +17,18 @@ namespace TextRPG.Object
 
         public Monster Clone()
         {
-            return new Monster(this.name, this.hp, this.attack, this.defense, this.gold, this.exp);
+            return new Monster(this.Name, this.Hp, this.Attack, this.Defense, this.Gold, this.Exp);
         }
 
         public Monster(string name, float hp, float attack, float defense = 0, float gold = 0, float exp = 0)
         {
-            this.name = name;
-            this.hp = hp;
-            this.attack = attack;
-            this.defense = defense;
-            this.gold = gold;
-            this.exp = exp;
+            this.Name = name;
+            this.Hp = hp;
+            this.Attack = attack;
+            this.Defense = defense;
+            this.Gold = gold;
+            this.Exp = exp;
+            this.Inventory = new List<Item>();
         }
     }
 

@@ -37,16 +37,6 @@ namespace TextRPG.SaveDatas
             RequiredLevel = requiredLevel;
             IsEquipped = isEquipped;
         }
-        /*
-        public void Equip()
-        {
-            IsEquipped = true;
-        }
-        public void Unequip()
-        {
-            IsEquipped = false;
-        }
-        */
         public bool CanUse(int playerLevel, float playerMana)
         {
             if (playerLevel < RequiredLevel || playerMana < RequiredMana)
@@ -56,26 +46,26 @@ namespace TextRPG.SaveDatas
         }
         public override string ToString()
         {
-            return $"{Name} - 필요마나: {RequiredMana} - {(AttackValue == 0 ? "" : $"공격력: {AttackValue * player.attack}")} - " +
+            return $"{Name} - 필요마나: {RequiredMana} - {(AttackValue == 0 ? "" : $"공격력: {AttackValue * player.Attack}")} - " +
                    $"{(DefenseValue == 0 ? "" : $"방어력: {DefenseValue}")} - {(HealValue == 0 ? "" : $"치유력: {HealValue}")} - 상태이상 효과: {(Effect == Effects.None ? "없음" : Effect)} - " +
                    $"필요 레벨: {RequiredLevel} - {Description}";
         }
         public void UseSkill(Skill skill, Status target)
         {
-            if (skill.CanUse(player.level, player.mana))
+            if (skill.CanUse(player.Level, player.Mana))
             {
                 
-                player.mana -= skill.RequiredMana;
-                float skillAttack = skill.AttackValue * player.attack; // 공격력 곱연산
-                target.hp -= skillAttack; // 대상에게 피해
-                target.defense += skill.DefenseValue; // 방어력 합연산
-                target.hp += skill.HealValue; // 치유
+                player.Mana -= skill.RequiredMana;
+                float skillAttack = skill.AttackValue * player.Attack; // 공격력 곱연산
+                target.Hp -= skillAttack; // 대상에게 피해
+                target.Defense += skill.DefenseValue; // 방어력 합연산
+                target.Hp += skill.HealValue; // 치유
                 // 상태이상 효과 적용 로직 추가 가능
-                Console.WriteLine($"{player.name}이(가) {skill.Name}을(를) 사용했습니다.");
+                Console.WriteLine($"{player.Name}이(가) {skill.Name}을(를) 사용했습니다.");
             }
             else
             {
-                Console.WriteLine($"{player.name}은(는) {skill.Name}을(를) 사용할 수 없습니다.");
+                Console.WriteLine($"{player.Name}은(는) {skill.Name}을(를) 사용할 수 없습니다.");
             }
         }
         public static Skill PowerAttack =>

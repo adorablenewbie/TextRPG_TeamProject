@@ -22,33 +22,31 @@ namespace TextRPG.Scenes
         // 던전 메뉴
         public override void ShowScene()
         {
-            while (true)
-            {
-                Console.Clear();
-                Console.WriteLine("┌─────────────────────────────┐");
-                Console.WriteLine("│         [ 던전 선택 ]       │");
-                Console.WriteLine("├─────────────────────────────┤");
-                Console.WriteLine("│ 1. 🌲 숲 던전 (난이도: 쉬움)     │");
-                Console.WriteLine("│ 2. 🕳 동굴 던전 (난이도: 보통)    │");
-                Console.WriteLine("│ 3. 🏰 성 던전   (난이도: 어려움)   │");
-                Console.WriteLine("│ 4. 🐉 드래곤 둥지 (난이도: 매우 어려움)│");
-                Console.WriteLine("│ 0. ❌ 나가기                   │");
-                Console.WriteLine("└─────────────────────────────┘");
-                Console.Write("원하시는 던전을 선택해주세요: ");
-                string input = Console.ReadLine();
+            Console.Clear();
+            Console.WriteLine("┌─────────────────────────────┐");
+            Console.WriteLine("│         [ 던전 선택 ]       │");
+            Console.WriteLine("├─────────────────────────────┤");
+            Console.WriteLine("│ 1. 🌲 숲 던전 (난이도: 쉬움)     │");
+            Console.WriteLine("│ 2. 🕳 동굴 던전 (난이도: 보통)    │");
+            Console.WriteLine("│ 3. 🏰 성 던전   (난이도: 어려움)   │");
+            Console.WriteLine("│ 4. 🐉 드래곤 둥지 (난이도: 매우 어려움)│");
+            Console.WriteLine("│ 0. ❌ 나가기                   │");
+            Console.WriteLine("└─────────────────────────────┘");
+            Console.Write("원하시는 던전을 선택해주세요: ");
+            string input = Console.ReadLine();
 
-                switch (input)
-                {
-                    case "1": EnterDungeon(DungeonType.Forest); break;
-                    case "2": EnterDungeon(DungeonType.Cave); break;
-                    case "3": EnterDungeon(DungeonType.Castle); break;
-                    case "4": EnterDungeon(DungeonType.DragonLair); break;
-                    case "0": return;
-                    default:
-                        Console.WriteLine("잘못된 입력입니다.");
-                        Thread.Sleep(1000);
-                        break;
-                }
+            switch (input)
+            {
+                case "1": EnterDungeon(DungeonType.Forest); break;
+                case "2": EnterDungeon(DungeonType.Cave); break;
+                case "3": EnterDungeon(DungeonType.Castle); break;
+                case "4": EnterDungeon(DungeonType.DragonLair); break;
+                case "0": Program.ChangeScene(SceneType.MainScene); break;
+                default:
+                    Console.WriteLine("잘못된 입력입니다.");
+                    Thread.Sleep(1000);
+                    break;
+                
             }
         }
 
@@ -99,8 +97,8 @@ namespace TextRPG.Scenes
                     Console.WriteLine("┌────────────[ 전투 시작 ]────────────┐");
                     SpawnMonster(spawnedMonster);
                     Console.WriteLine("└────────────────────────────────────┘");
-                    Console.WriteLine($"▶ 당신: HP: {Player.Instance.hp} / ATK: {Player.Instance.attack} / DEF: {Player.Instance.defense} / GOLD: {Player.Instance.gold}");
-                    Console.WriteLine("\n[1] 공격    [2] 도망치기");
+                    Console.WriteLine($"▶ 당신: HP: {Player.Instance.Hp} / ATK: {Player.Instance.Attack} / DEF: {Player.Instance.Defense} / GOLD: {Player.Instance.Gold}");
+                    Console.WriteLine("\n[1] 공격  [2]스킬  [3] 도망치기");
                     Console.Write("행동 선택: ");
                     //플레이어의 턴
                     string input = Console.ReadLine();
@@ -119,6 +117,19 @@ namespace TextRPG.Scenes
                             }
                         }
                         else if(num == 2)
+                        {
+                            int targetNumber = 0;
+                            Skill selectedSkill = UseSkill();
+                            Console.WriteLine("스킬을 사용할 대상 선택");
+                            Console.WriteLine($"[5] {Player.Instance.Name} (자신에게 사용)");
+                            if (int.TryParse(Console.ReadLine(), out targetNumber))
+                            {
+                                PlayerSkillTurn(spawnedMonster, targetNumber, selectedSkill);
+                                Thread.Sleep(1000);
+                            }
+                            Thread.Sleep(1000);
+                        }
+                        else if (num == 3)
                         {
                             Console.WriteLine("도망갔습니다.");
                             break;
@@ -152,24 +163,50 @@ namespace TextRPG.Scenes
         public static void SpawnMonster(List<Monster> mList)
         {
             for (int i = 0; i < mList.Count; i++) {
-                Console.WriteLine($"|{i + 1} {mList[i].name} 몬스터 출현");
+                Console.WriteLine($"|{i + 1} {mList[i].Name} 몬스터 출현");
             }
         }
 
         public static void PlayerTurn(List<Monster> mList, int targetNumber)
         {
             if (mList.Count <= 0) return;
-
             int idx = targetNumber - 1;
-            mList[idx].hp -= Player.Instance.attack;
 
-            //이곳에 몬스터 체력 몇 달았는지 적기
-            Console.WriteLine($"{mList[idx].name}의 남은 HP: {mList[idx].hp}");
-            Thread.Sleep(500);
-            if (mList[idx].hp <= 0)
+
+                mList[idx].Hp -= Player.Instance.Attack;
+
+                //이곳에 몬스터 체력 몇 달았는지 적기
+                Console.WriteLine($"{mList[idx].Name}의 남은 HP: {mList[idx].Hp}");
+                Thread.Sleep(500);
+                if (mList[idx].Hp <= 0)
+                {
+                    mList.RemoveAt(idx);
+                }
+            
+        }
+
+        public static void PlayerSkillTurn(List<Monster> mList, int targetNumber, Skill selectedSkill)
+        {
+            if (mList.Count <= 0) return;
+            int idx = targetNumber - 1;
+
+            if (targetNumber == 5)
             {
-                mList.RemoveAt(idx);
+                selectedSkill.UseSkill(selectedSkill, Player.Instance);
+                Console.WriteLine($"{Player.Instance.Name}의 남은 HP: {Player.Instance.Hp}");
             }
+            else
+            {
+                    selectedSkill.UseSkill(selectedSkill, mList[idx]);
+                //이곳에 몬스터 체력 몇 달았는지 적기
+                Console.WriteLine($"{mList[idx].Name}의 남은 HP: {mList[idx].Hp}");
+                if (mList[idx].Hp <= 0)
+                {
+                    mList.RemoveAt(idx);
+                }
+            }
+            Thread.Sleep(500);
+            
         }
 
         public static void MonsterTurn(List<Monster> mList, Player p)
@@ -177,10 +214,24 @@ namespace TextRPG.Scenes
             if(mList.Count <= 0) return;
 
             foreach (Monster m in mList) {
-                p.hp -= m.attack;
-                Console.WriteLine($"몬스터 {m.name} 의 공격! 데미지 {m.attack}");
+                p.Hp -= m.Attack;
+                Console.WriteLine($"몬스터 {m.Name} 의 공격! 데미지 {m.Attack}");
                 Thread.Sleep(1000);
             }
+        }
+        public static Skill UseSkill()
+        {
+            Console.WriteLine("어떤 스킬을 사용하겠습니까?\n");
+            for (int i = 0; i < Player.Instance.EquippedSkills.Count; i++)
+            {
+                string skillState = Player.Instance.EquippedSkills[i].ToString();
+                Console.WriteLine($"[{i + 1}] {skillState}");
+            }
+            Console.Write("스킬 번호를 입력하세요: ");
+            int input;
+            int.TryParse(Console.ReadLine(), out input);
+            Skill selectedSkill = Player.Instance.EquippedSkills[input-1];
+            return selectedSkill;
         }
 
         // 몬스터 소환 및 전투 루프
@@ -283,13 +334,13 @@ namespace TextRPG.Scenes
                 _ => 1.0f
             };
 
-            int rewardGold = (int)(monster.gold * multiplier);
-            int rewardExp = (int)(monster.exp * multiplier);
+            int rewardGold = (int)(monster.Gold * multiplier);
+            int rewardExp = (int)(monster.Exp * multiplier);
 
-            player.gold += rewardGold;
-            player.exp += rewardExp;
+            player.Gold += rewardGold;
+            player.Exp += rewardExp;
 
-            Console.WriteLine($"{monster.name} 처치! 골드 +{rewardGold}, 경험치 +{rewardExp}");
+            Console.WriteLine($"{monster.Name} 처치! 골드 +{rewardGold}, 경험치 +{rewardExp}");
             Thread.Sleep(1000);
         }
 
@@ -316,9 +367,9 @@ namespace TextRPG.Scenes
             Console.WriteLine("───────────────");
             Console.WriteLine($"▶ 던전: {GetDungeonName(dungeonType)}");
             Console.WriteLine($"▶ 처치 수: {killCount}");
-            Console.WriteLine($"▶ 골드: {player.gold}");
-            Console.WriteLine($"▶ 경험치: {player.exp}");
-            Console.WriteLine($"▶ HP: {player.hp}");
+            Console.WriteLine($"▶ 골드: {player.Gold}");
+            Console.WriteLine($"▶ 경험치: {player.Exp}");
+            Console.WriteLine($"▶ HP: {player.Hp}");
             Console.WriteLine($"▶ 레벨: {player}");
             Console.WriteLine("\n[엔터]를 눌러 돌아갑니다.");
             Console.ReadLine();
@@ -399,9 +450,9 @@ namespace TextRPG.Scenes
             {
                 int damage = rand.Next(5, 16);
                 Console.WriteLine($"🪤 함정 발동! 숨겨진 함정에 걸렸습니다! HP { damage} 감소!");
-                player.hp -= damage;
+                player.Hp -= damage;
 
-                if (player.hp <= 0)
+                if (player.Hp <= 0)
                 {
                     Console.WriteLine("☠️ 당신은 함정에 의해 사망했습니다...");
                     Thread.Sleep(1000);
@@ -422,7 +473,7 @@ namespace TextRPG.Scenes
             {
                 int heal = rand.Next(10, 21);
                 Console.WriteLine($" 💧 회복의 샘 발견! HP가 { heal} 회복되었습니다!");
-                 player.hp += heal;
+                 player.Hp += heal;
                 Thread.Sleep(1000);
             }
         }

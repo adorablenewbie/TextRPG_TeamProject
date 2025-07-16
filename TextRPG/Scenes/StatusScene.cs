@@ -21,11 +21,11 @@ namespace TextRPG.Scenes
                 Console.Clear();
                 Console.WriteLine($"[상태 보기]\n");
                 // Console.WriteLine($"Lv. Level");
-                Console.WriteLine($"{player.name}");  //( 직업 )");
-                Console.WriteLine($"공격력: {player.attack}");
-                Console.WriteLine($"방어력: {player.defense}");
-                Console.WriteLine($"체력: {player.hp}");
-                Console.WriteLine($"골드: {player.gold}\n");
+                Console.WriteLine($"{player.Name}");  //( 직업 )");
+                Console.WriteLine($"공격력: {player.Attack}");
+                Console.WriteLine($"방어력: {player.Defense}");
+                Console.WriteLine($"체력: {player.Hp}");
+                Console.WriteLine($"골드: {player.Gold}\n");
 
                 Console.WriteLine("0. 나가기\n");
                 Console.Write("원하시는 행동을 입력해주세요: ");
