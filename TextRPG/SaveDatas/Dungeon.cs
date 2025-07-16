@@ -169,12 +169,6 @@ namespace TextRPG.SaveDatas
             //결과
             //turn++;
         }
-        public static void RandomStage()
-        {
-            Random rand = new Random();
-            int result = rand.Next(0, 10);
-
-
-        }
+        
     }
 }
