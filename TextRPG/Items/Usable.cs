@@ -30,10 +30,10 @@ namespace TextRPG.Items
             return new Usable(item.Name, item.Description, item.Price, item.Value, item.Type);
         }
 
-        public override void UseItem(Item item)
+        public override void UseItem()
         {
-            Console.WriteLine($"{item.Name} 을 사용하였습니다.");
-            if (item.Name == "")
+            Console.WriteLine($"{this.Name} 을 사용하였습니다.");
+            if (this.Name == "")
             {
                 //일단 이렇게 둘듯?
             }

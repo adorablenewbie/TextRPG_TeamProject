@@ -22,6 +22,9 @@ namespace TextRPG.Object
                 return instance;
             }
         }
+
+        public Item EquippedWeapon { get; set; }
+        public Item EquippedArmor { get; set; }
         public Player()
         {
             this.Hp = 100f;

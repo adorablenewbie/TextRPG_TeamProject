@@ -11,7 +11,7 @@ namespace TextRPG.SaveDatas
     public class Shop
     {
         // 상점에서 판매하는 아이템 목록
-        public static List<Item> shopItems;
+        public static List<Item> shopItems = new();
         public static void InitItems()
         {
             for (int i = 0; i < Usable.usableItemData.Count; i++) { 
@@ -57,7 +57,7 @@ namespace TextRPG.SaveDatas
             Console.WriteLine("구매 가능한 아이템 목록:");
             for (int i = 0; i < items.Count; i++)
             {
-                Console.WriteLine($"{i + 1}. {items[i]}");
+                Console.WriteLine($"{i + 1}. {items[i].Name}");
             }
             Console.WriteLine($"\n보유 골드: {playerGold}");
         }
@@ -67,7 +67,7 @@ namespace TextRPG.SaveDatas
             Console.WriteLine("판매 가능한 아이템 목록:");
             for (int i = 0; i < items.Count; i++)
             {
-                Console.WriteLine($"{i + 1}. {items[i]}");
+                Console.WriteLine($"{i + 1}. {items[i].Name}");
             }
             Console.WriteLine($"\n보유 골드: {playerGold}");
         }

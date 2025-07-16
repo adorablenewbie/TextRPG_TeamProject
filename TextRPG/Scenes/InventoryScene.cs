@@ -6,12 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using TextRPG.Object;
 using TextRPG.SaveDatas;
+using TextRPG.Items;
 
 namespace TextRPG.Scenes
 {
-    public class InventoryScene
+    public class InventoryScene : Scene
     {
-        static void ShowInventory()
+        public override void ShowScene()
         {
             Console.Clear();
             Console.WriteLine("인벤토리");
@@ -19,12 +20,11 @@ namespace TextRPG.Scenes
             Console.WriteLine();
             Console.WriteLine("[아이템 목록]");
 
-            for (int i = 0; i < inventory.Count; i++) // 변수 대입 예정
+            for (int i = 0; i < Player.Instance.Inventory.Count; i++) // 변수 대입 예정
             {
-                int targetItem = inventory[i];
-
-                string displayEquipped = equipList.Contains(targetItem) ? "[E]" : "";
-                Console.WriteLine($"- {displayEquipped} {itemNames[targetItem]}  |  {(itemType[targetItem] == 0 ? "공격력" : "방어력")} +{itemValue[targetItem]}  |  {itemDesc[targetItem]}");
+                Item targetItem = Player.Instance.Inventory[i];
+                string displayEquipped = targetItem.IsEquipped ? "[E]" : "";
+                Console.WriteLine($"- {displayEquipped} {targetItem.Name}  |  {(targetItem.Type == 0 ? "공격력" : "방어력")} + {(targetItem.Type == 0 ? targetItem.Attack : targetItem.Defense)}  |  {targetItem.Description}");
             }
             Console.WriteLine();
             Console.WriteLine("1. 장착 관리");
@@ -54,50 +54,28 @@ namespace TextRPG.Scenes
             Console.WriteLine();
             Console.WriteLine("[아이템 목록]");
 
-            for (int i = 0; i < inventory.Count; i++) // 변수 대입 예정
+            for (int i = 0; i < Player.Instance.Inventory.Count; i++) // 변수 대입 예정
             {
-                int targetItem = inventory[i];
-
-                string displayEquipped = equipList.Contains(targetItem) ? "[E]" : "";
-                Console.WriteLine($"- {i + 1} {displayEquipped} {itemNames[targetItem]}  |  {(itemType[targetItem] == 0 ? "공격력" : "방어력")} +{itemValue[targetItem]}  |  {itemDesc[targetItem]}");
+                
+                Item targetItem = Player.Instance.Inventory[i];
+                string displayEquipped = targetItem.IsEquipped ? "[E]" : "";
+                Console.WriteLine($"- {displayEquipped} {targetItem.Name}  |  {(targetItem.Type == 0 ? "공격력" : "방어력")} + {(targetItem.Type == 0 ? targetItem.Attack : targetItem.Defense)}  |  {targetItem.Description}");
             }
             Console.WriteLine();
             Console.WriteLine("0. 나가기");
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요.");
 
-            int result = CheckInput(0, inventory.Count); // 변수 대입 예정
+            int result = CheckInput(0, Player.Instance.Inventory.Count); // 변수 대입 예정
 
-            switch (result) // 변수 대입 예정 (공격력, 방어력 등)
+            if (result == 0) Program.ChangeScene(SceneType.InventoryScene);
+            else
             {
-                case 0:
-                    ShowInventory();
-                    break;
+                int targetItem = result - 1;
+                Player.Instance.Inventory[targetItem].UseItem();
+                //플레이어 스테이터스 업데이트 함수 필요
 
-                default:
-
-                    int targetItem = result - 1;
-                    bool isEquipped = equipList.Contains(targetItem);
-
-                    if (isEquipped)
-                    {
-                        equipList.Remove(targetItem);
-                        if (itemType[targetItem] == 0)
-                            extraAtk -= itemValue[targetItem];
-                        else
-                            extraDef -= itemValue[targetItem];
-                    }
-                    else
-                    {
-                        equipList.Add(targetItem);
-                        if (itemType[targetItem] == 0)
-                            extraAtk += itemValue[targetItem];
-                        else
-                            extraDef += itemValue[targetItem];
-                    }
-
-                    ShowEquipItem();
-                    break;
+                ShowEquipItem();
             }
         }
 
@@ -117,5 +95,6 @@ namespace TextRPG.Scenes
                 Console.WriteLine("잘못된 입력입니다. 다시 시도해 주세요.");
             }
         }
+
     }
 }
