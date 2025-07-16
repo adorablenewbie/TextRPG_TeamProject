@@ -69,6 +69,8 @@ namespace TextRPG.Object
 
         public void UpdateStatus()
         {
+            AddAttack = 0;
+            AddDefence = 0;
             foreach (var item in Inventory)
             {
                 if (item.IsEquipped)
