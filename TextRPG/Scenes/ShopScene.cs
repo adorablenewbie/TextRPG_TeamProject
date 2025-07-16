@@ -36,7 +36,6 @@ namespace TextRPG.Scenes
             {
                 Console.Clear();
                 Console.WriteLine("[상점]");
-
                 Console.WriteLine("[아이템 구매]");
                 SaveDatas.Shop.CheckBuyUI();
                 Console.WriteLine("0. 나가기\n");
@@ -70,7 +69,7 @@ namespace TextRPG.Scenes
                 else
                 {
                     int result = SaveDatas.Shop.ParseSelection(input, false);
-                    SaveDatas.Shop.CheckBuyResult(result);
+                    SaveDatas.Shop.CheckSellResult(result);
                     System.Threading.Thread.Sleep(2000);
                     continue;
                 }

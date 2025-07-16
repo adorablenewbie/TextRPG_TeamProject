@@ -99,7 +99,7 @@ namespace TextRPG.SaveDatas
                 if (Player.Instance.Gold >= selectedItem.Price)
                 {
                     Player.Instance.Gold -= selectedItem.Price;
-                    Player.Instance.AddItem(selectedItem);
+                    selectedItem.AddItem();
                     Console.WriteLine($"\n{selectedItem.Name}을(를) 구매했습니다! 남은 골드: {Player.Instance.Gold}");
                 }
                 else
@@ -120,7 +120,7 @@ namespace TextRPG.SaveDatas
             {
                 Item selectedItem = itemsToShow[result];
                 Player.Instance.Gold += selectedItem.Price;
-                Player.Instance.RemoveItem(selectedItem);
+                selectedItem.RemoveItem();
                 Console.WriteLine($"\n{selectedItem.Name}을(를) 판매했습니다! 현재 골드: {Player.Instance.Gold}");
             }
             else

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TextRPG.Object;
+using TextRPG.SaveDatas;
 
 namespace TextRPG.Items
 {
@@ -33,10 +35,17 @@ namespace TextRPG.Items
         public override void UseItem()
         {
             Console.WriteLine($"{this.Name} 을 사용하였습니다.");
+            Player.Instance.Inventory.Remove(this);
             if (this.Name == "")
             {
                 //일단 이렇게 둘듯?
             }
         }
+
+        public override void AddItem()
+        {
+            Player.Instance.Inventory.Add(GetItem(this));
+        }
+
     }
 }

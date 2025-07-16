@@ -66,15 +66,5 @@ namespace TextRPG.Object
             }
             System.Threading.Thread.Sleep(1000); // 1초 대기
         }
-
-        public void AddItem(Item item)
-        {
-
-        }
-
-        public void RemoveItem(Item item)
-        {
-
-        }
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TextRPG.Object;
+using TextRPG.SaveDatas;
 
 namespace TextRPG.Items
 {
@@ -24,5 +26,10 @@ namespace TextRPG.Items
 
         public virtual bool IsEquipped {get; set;} = false;
         public abstract void UseItem();
+        public abstract void AddItem();
+        public virtual void RemoveItem() 
+        {
+            Player.Instance.Inventory.Remove(this);
+        }
     }
 }

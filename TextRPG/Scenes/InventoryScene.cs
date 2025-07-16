@@ -23,6 +23,7 @@ namespace TextRPG.Scenes
             for (int i = 0; i < Player.Instance.Inventory.Count; i++) // 변수 대입 예정
             {
                 Item targetItem = Player.Instance.Inventory[i];
+                Console.Write((i+1).ToString());
                 string displayEquipped = targetItem.IsEquipped ? "[E]" : "";
                 Console.WriteLine($"- {displayEquipped} {targetItem.Name}  |  {(targetItem.Type == 0 ? "공격력" : "방어력")} + {(targetItem.Type == 0 ? targetItem.Attack : targetItem.Defense)}  |  {targetItem.Description}");
             }
@@ -58,6 +59,7 @@ namespace TextRPG.Scenes
             {
                 
                 Item targetItem = Player.Instance.Inventory[i];
+                Console.Write((i+1).ToString());
                 string displayEquipped = targetItem.IsEquipped ? "[E]" : "";
                 Console.WriteLine($"- {displayEquipped} {targetItem.Name}  |  {(targetItem.Type == 0 ? "공격력" : "방어력")} + {(targetItem.Type == 0 ? targetItem.Attack : targetItem.Defense)}  |  {targetItem.Description}");
             }
