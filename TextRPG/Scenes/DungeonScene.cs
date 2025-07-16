@@ -136,22 +136,6 @@ namespace TextRPG.Scenes
             Thread.Sleep(1000);
         }
 
-        // 결과창 출력
-        public static void ShowDungeonResult(Player player, DungeonType dungeonType, int killCount, bool survived)
-        {
-            Console.Clear();
-            Console.WriteLine(survived ? "🎉 던전 클리어! 🎉" : "☠️ 당신은 쓰러졌습니다! ☠️");
-            Console.WriteLine("───────────────");
-            Console.WriteLine($"▶ 던전: {Dungeon.GetDungeonName(dungeonType)}");
-            Console.WriteLine($"▶ 처치 수: {killCount}");
-            Console.WriteLine($"▶ 골드: {player.Gold}");
-            Console.WriteLine($"▶ 경험치: {player.Exp}");
-            Console.WriteLine($"▶ HP: {player.Hp}");
-            Console.WriteLine($"▶ 레벨: {player}");
-            Console.WriteLine("\n[엔터]를 눌러 돌아갑니다.");
-            Console.ReadLine();
-        }
-
         // [스테이지 이동 시 함정 발동 함수]
         public static void TrapStage(Player player, DungeonType dungeonType)
         {
@@ -166,53 +150,52 @@ namespace TextRPG.Scenes
                 Console.WriteLine("[1] 왼쪽 길로 간다.\n[2] 오른쪽 길로 간다.");
                 Console.Write("행동 선택: ");
                 int input = int.Parse(Console.ReadLine());
-                if (input == 1 || input == 2)
+                if (input == 1| input == 2)
                 {
-                    Console.WriteLine("잘못된 입력입니다. 다시 시도해주세요.");
-                    Thread.Sleep(1000);
-                    continue;
-                }
+                    if (trapRoad == input - 1)
+                    {
+                        int damage = 0;
+                        if (dungeonType == DungeonType.Forest)
+                        {
+                            damage = rand.Next(5, 16);
+                            Console.WriteLine("🌲 숲 던전의 함정에 걸렸습니다!");
+                        }
+                        else if (dungeonType == DungeonType.Cave)
+                        {
+                            damage = rand.Next(10, 26);
+                            Console.WriteLine("🕳 동굴 던전의 함정에 걸렸습니다!");
+                        }
+                        else if (dungeonType == DungeonType.Castle)
+                        {
+                            damage = rand.Next(20, 36);
+                            Console.WriteLine("🏰 성 던전의 함정에 걸렸습니다!");
+                        }
+                        else if (dungeonType == DungeonType.DragonLair)
+                        {
+                            damage = rand.Next(30, 46);
+                            Console.WriteLine("🐉 드래곤 둥지의 함정에 걸렸습니다!");
 
-                if (trapRoad == input - 1)
-                {
-                    int damage = 0;
-                    if (dungeonType == DungeonType.Forest)
-                    {
-                        damage = rand.Next(5, 16);
-                        Console.WriteLine("🌲 숲 던전의 함정에 걸렸습니다!");
+                        }
+                        Console.WriteLine($"HP {damage} 감소!");
+                        player.Hp -= damage;
+                        Console.WriteLine($"남은 HP: {player.Hp}");
+                        if (player.Hp <= 0)
+                        {
+                            Console.WriteLine("☠️ 당신은 함정에 의해 사망했습니다...");
+                            Thread.Sleep(1000);
+                            Environment.Exit(0);
+                        }
                     }
-                    else if (dungeonType == DungeonType.Cave)
-                    {
-                        damage = rand.Next(10, 26);
-                        Console.WriteLine("🕳 동굴 던전의 함정에 걸렸습니다!");
-                    }
-                    else if (dungeonType == DungeonType.Castle)
-                    {
-                        damage = rand.Next(20, 36);
-                        Console.WriteLine("🏰 성 던전의 함정에 걸렸습니다!");
-                    }
-                    else if (dungeonType == DungeonType.DragonLair)
-                    {
-                        damage = rand.Next(30, 46);
-                        Console.WriteLine("🐉 드래곤 둥지의 함정에 걸렸습니다!");
-
-                    }
-                    Console.WriteLine($"HP {damage} 감소!");
-                    player.Hp -= damage;
-                    Console.WriteLine($"남은 HP: {player.Hp}");
-                    if (player.Hp <= 0)
-                    {
-                        Console.WriteLine("☠️ 당신은 함정에 의해 사망했습니다...");
-                        Thread.Sleep(1000);
-                        Environment.Exit(0);
-                    }
-                    Thread.Sleep(2000);
-
-                    Console.Clear();
                     Console.WriteLine("엔터로 다음 스테이지로 진행");
                     Console.ReadLine();
                     RandomStage(dungeonType);
                     break;
+                }
+                else
+                {
+                    Console.WriteLine("잘못된 입력입니다. 다시 시도해주세요.");
+                    Thread.Sleep(1000);
+                    continue;
                 }
             }
         }
@@ -387,7 +370,7 @@ namespace TextRPG.Scenes
                 {
                     Console.WriteLine("당신은 지친 몸을 이끌며 던전을 탈출합니다. 던전에는 고요한 적막만이 남았습니다.");
                     Thread.Sleep(2000);
-                    ShowDungeonResult(Player.Instance, DungeonType.Forest, 0, true); // 던전 결과 출력
+                    ShowDungeonResult(dungeonType, 0,0,0); // 던전 결과 출력
                     Program.ChangeScene(SceneType.MainScene); // 메인 씬으로 돌아가기
                     break;
                 }
@@ -404,6 +387,19 @@ namespace TextRPG.Scenes
                     Thread.Sleep(1000);
                 }
             }
+        }
+        // 결과창 출력
+        public static void ShowDungeonResult(DungeonType dungeonType, int killCount, int getGold, int getExp)
+        {
+            Console.Clear();
+            Console.WriteLine("🎉 던전 클리어! 🎉");
+            Console.WriteLine("───────────────");
+            Console.WriteLine($"▶ 던전: {Dungeon.GetDungeonName(dungeonType)}");
+            Console.WriteLine($"▶ 처치 수: {killCount}");
+            Console.WriteLine($"▶ 골드: +{getGold}");
+            Console.WriteLine($"▶ 경험치: +{getExp}");
+            Console.WriteLine("\n[엔터]를 눌러 돌아갑니다.");
+            Console.ReadLine();
         }
         public static void RandomStage(DungeonType dungeonType)
         {
