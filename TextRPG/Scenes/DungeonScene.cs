@@ -78,7 +78,6 @@ namespace TextRPG.Scenes
         {   
             //몬스터 생성
             List<Monster> spawnedMonster = Dungeon.CreateMonster(dungeonType);
-            //int turn = 1;
             string input;
             while (true)
             {
@@ -88,12 +87,14 @@ namespace TextRPG.Scenes
                     Console.WriteLine("┌────────────[ 전투 시작 ]────────────┐");
                     Dungeon.SpawnMonster(spawnedMonster);
                     Console.WriteLine("└────────────────────────────────────┘");
-                    Console.WriteLine($"▶ 당신: HP: {Player.Instance.Hp} / ATK: {Player.Instance.BaseAttack} / DEF: {Player.Instance.BaseDefense} / GOLD: {Player.Instance.Gold}");
+                    Console.WriteLine($"▶ 당신: HP: {Player.Instance.Hp} / MANA: {Player.Instance.Mana} / ATK: {Player.Instance.BaseAttack} / DEF: {Player.Instance.BaseDefense} / GOLD: {Player.Instance.Gold}");
                     Console.WriteLine("\n[1] 공격  [2]스킬  [3] 도망치기");
                     Console.Write("행동 선택: ");
                     //플레이어의 턴
                     
                     Dungeon.ChooseAction(spawnedMonster, dungeonType);
+                   
+
                 }
                 Console.WriteLine("모든 적을 처치하였습니다.");
                 System.Threading.Thread.Sleep(1000);
