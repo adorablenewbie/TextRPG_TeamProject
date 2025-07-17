@@ -38,6 +38,7 @@ namespace TextRPG.Object
             this.BaseDefense = defense;
             this.Gold = gold;
             this.Exp = exp;
+            this.DungeonType = dungeonType;
             this.Inventory = new List<Item>();
         }
     }
