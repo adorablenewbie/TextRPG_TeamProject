@@ -127,19 +127,38 @@ namespace TextRPG.SaveDatas
             Thread.Sleep(500);
 
         }
-        public static List<Monster> CreateMonster()
+        public static List<Monster> CreateMonster(DungeonType dungeonType)
         {
             List<Monster> mList = new();
             Random randomNum = new Random();
-            int count = randomNum.Next(1, 5);
+            int count;
 
-            for (int i = 1; i < count+1; i++)
+            if (dungeonType == DungeonType.DragonLair)
             {
-                Monster cloneMonster = Monster.monstersData[randomNum.Next(0, Monster.monstersData.Count)];
-                mList.Add(cloneMonster.Clone());
+                List<Monster> dragon = Monster.monstersData.Where(m => m.DungeonType == DungeonType.DragonLair).ToList();
+                return dragon;
             }
-            return mList;
+            else
+            {
+                var matchingMonsters = Monster.monstersData
+                    .Where(m => m.DungeonType == dungeonType)
+                    .ToList();
+
+                count = randomNum.Next(1, 5);
+
+                for (int i = 0; i < count; i++)
+                {
+                    if (matchingMonsters.Count == 0)
+                        break;
+
+                    int index = randomNum.Next(matchingMonsters.Count);
+                    Monster selectedMonster = matchingMonsters[index];
+                    mList.Add(selectedMonster.Clone());
+                }
+                return mList;
+            }
         }
+        
 
         public static void SpawnMonster(List<Monster> mList)
         {

@@ -77,7 +77,7 @@ namespace TextRPG.Scenes
         public static void Fight(DungeonType dungeonType)  // 던전 타입을 인자로 받음~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         {   
             //몬스터 생성
-            List<Monster> spawnedMonster = Dungeon.CreateMonster();
+            List<Monster> spawnedMonster = Dungeon.CreateMonster(dungeonType);
             //int turn = 1;
             string input;
             while (true)
@@ -177,6 +177,11 @@ namespace TextRPG.Scenes
                             Thread.Sleep(1000);
                             Environment.Exit(0);
                         }
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("당신은 함정이 없는 길을 선택했습니다.");
                     }
                     Console.WriteLine("엔터로 다음 스테이지로 진행");
                     Console.ReadLine();
