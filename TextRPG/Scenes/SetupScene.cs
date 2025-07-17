@@ -1,1 +1,52 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TextRPG.Scenes
+{
+    public class SetupScene
+    {
+        public void ShowScene()
+        {
+            Console.Clear();
+            Console.WriteLine("게임을 시작합니다.");
+            Console.WriteLine("캐릭터 이름을 입력해주세요.");
+            string playerName = Console.ReadLine();
+
+            string jobName = "";
+            while (true)
+            {
+                Console.WriteLine("캐릭터 직업을 선택해주세요.");
+                Console.WriteLine("1. 전사");
+                Console.WriteLine("2. 마법사");
+                Console.WriteLine("3. 궁수");
+                Console.WriteLine("4. 도적");
+                string jobChoice = Console.ReadLine();
+
+                switch (jobChoice)
+                {
+                    case "1":
+                        jobName = "전사";
+                        break;
+                    case "2":
+                        jobName = "마법사";
+                        break;
+                    case "3":
+                        jobName = "궁수";
+                        break;
+                    case "4":
+                        jobName = "도적";
+                        break;
+                    default:
+                        Console.WriteLine("올바른 번호를 입력해주세요.");
+                        continue;
+                }
+                break;
+            }
+
+
+        }
+    }
+}
