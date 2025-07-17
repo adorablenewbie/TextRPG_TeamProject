@@ -17,6 +17,7 @@ namespace TextRPG.Items
             new Equipable("갑옷", "대체 이 갑옷은 뭐냐!", 0, 10, 1000, ItemType.Armor),
         };
 
+        public Equipable() { }
         public Equipable(string name, string descript, float atk, float def, float price, ItemType type)
         {
             this.Name = name;
@@ -51,19 +52,19 @@ namespace TextRPG.Items
             }
             else if (this.Type == ItemType.Armor)
             {
-                if (Player.Instance.EquippedWeapon != null)
+                if (Player.Instance.EquippedArmor != null)
                 {
                     this.IsEquipped = false;
                 }
 
-                if (Player.Instance.EquippedWeapon == this)
+                if (Player.Instance.EquippedArmor == this)
                 {
-                    Player.Instance.EquippedWeapon = null;
+                    Player.Instance.EquippedArmor = null;
                     this.IsEquipped = false;
                 }
                 else
                 {
-                    Player.Instance.EquippedWeapon = this;
+                    Player.Instance.EquippedArmor = this;
                     this.IsEquipped = true;
                 }
             }

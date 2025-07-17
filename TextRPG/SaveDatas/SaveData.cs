@@ -45,6 +45,7 @@ namespace TextRPG.SaveDatas
                             if (loaded != null)
                             {
                                 Console.WriteLine($"[{loaded.Name}] 캐릭터를 불러왔습니다.");
+                                System.Threading.Thread.Sleep(1000);
                                 loaded.Initialize();
                                 return loaded;
                             }
@@ -53,6 +54,7 @@ namespace TextRPG.SaveDatas
                         {
                             Console.Clear();
                             Console.WriteLine("저장된 캐릭터를 불러오는 데 실패했습니다. 새로 만듭니다.");
+                            return null;
                         }
                     }
                     else if (input == "n")
