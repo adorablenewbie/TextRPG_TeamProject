@@ -119,6 +119,7 @@ namespace TextRPG.SaveDatas
                 Console.WriteLine($"{mList[idx].Name}의 남은 HP: {mList[idx].Hp}");
                 if (mList[idx].Hp <= 0)
                 {
+                    DungeonScene.Reward(mList[idx], Player.Instance);
                     mList.RemoveAt(idx);
                     
                 }
@@ -223,6 +224,12 @@ namespace TextRPG.SaveDatas
             }
             //몬스터의 턴
             Dungeon.MonsterTurn(spawnedMonster, Player.Instance);
+            if (Player.Instance.Hp <= 0)
+            {
+                Console.WriteLine("당신은 쓰러졌습니다. 게임 오버!");
+                Thread.Sleep(2000);
+                Environment.Exit(0); // 게임 종료
+            }
             //결과
             //turn++;
         }
