@@ -244,7 +244,7 @@ namespace TextRPG.SaveDatas
             }
         }
 
-        public static void RunbyMonster(DungeonType dungeonType)
+        public static bool RunbyMonster(DungeonType dungeonType)
         {
             Random random = new Random();
             int escapeChance = random.Next(1, 101);
@@ -252,22 +252,23 @@ namespace TextRPG.SaveDatas
             {
                 Console.WriteLine("도망에 성공했습니다!");
                 Thread.Sleep(1000);
-                Console.WriteLine("엔터를 눌러서 다음 스테이지 진행");
-                Console.ReadLine();
-                DungeonScene.RandomStage(dungeonType);
+                return true;
+                //Console.WriteLine("엔터를 눌러서 다음 스테이지 진행");
+                //Console.ReadLine();
+                //DungeonScene.RandomStage(dungeonType);
             }
             else
             {
                 Console.WriteLine("도망에 실패했습니다!");
                 Thread.Sleep(1000);
+                return false;
             }
         }
 
-        public static void ChooseAction(List<Monster> spawnedMonster, DungeonType dungeonType)
+        public static bool ChooseAction(List<Monster> spawnedMonster, DungeonType dungeonType)
         {
             int num = 0;
-            bool Used = false;
-            bool monsterCheck = false;
+
             //플레이어의 턴
             string input = Console.ReadLine();
             if (int.TryParse(input, out num))
@@ -278,15 +279,17 @@ namespace TextRPG.SaveDatas
                 }
                 else if (num == 2)
                 {
-                    Used = AttackMonsterSkill(spawnedMonster);
-                    if (!Used)
+                    if (!AttackMonsterSkill(spawnedMonster))
                     {
-                        return;
+                        return false;
                     }
                 }
                 else if (num == 3)
                 {
-                    RunbyMonster(dungeonType);
+                    if (RunbyMonster(dungeonType))
+                    {
+                        return true;
+                    }
                 }
                 else
                 {
@@ -294,12 +297,8 @@ namespace TextRPG.SaveDatas
                     Thread.Sleep(1000);
                 }
             }
-            //몬스터 생존 체크
-            monsterCheck = MonsterClearCheck(spawnedMonster);
-            if (monsterCheck)
-            {
-                spawnedMonster.Clear();
-            }
+
+            Player.Instance.LevelUpCheck();
 
             //몬스터의 턴
             Dungeon.MonsterTurn(spawnedMonster, Player.Instance);
@@ -311,6 +310,7 @@ namespace TextRPG.SaveDatas
             }
             //결과
             Player.Instance.ApplyEffect();
+            return false;
             //turn++;
         }
         
