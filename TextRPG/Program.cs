@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -66,9 +66,11 @@ namespace TextRPG
             }
         }
 
-        public void ConsoleColorHelper(string text, ConsoleColor color, bool line)
+        public static void ConsoleColorHelper(string text, ConsoleColor foreground, ConsoleColor background, bool line)
         {
-            Console.ForegroundColor = color;
+            Console.ForegroundColor = foreground;
+            Console.BackgroundColor = background;
+
             if (line)
             {
                 Console.Write(text);
@@ -77,7 +79,9 @@ namespace TextRPG
             {
                 Console.WriteLine(text);
             }
+
             Console.ResetColor();
         }
     }
 }
+
