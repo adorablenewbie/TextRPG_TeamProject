@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using TextRPG.Object;
 using TextRPG.Scenes;
@@ -50,15 +51,21 @@ namespace TextRPG.SaveDatas
                     Console.WriteLine($"[{i + 1}] {skillState}");
                 }
             }
-                
-            Console.Write("스킬 번호를 입력하세요: ");
+            
+            Console.WriteLine("[0] 이전으로");
+            Console.Write("행동 번호를 입력하세요: ");
             
             int input;
             int.TryParse(Console.ReadLine(), out input);
-            if (input < 1 || input > Player.Instance.EquippedSkills.Count)
+            if (input < 0 || input > Player.Instance.EquippedSkills.Count)
             {
                 Console.WriteLine("잘못된 입력입니다. 다시 시도하세요.");
                 return UseSkill(); // 재귀 호출로 다시 입력 받기
+            }
+            else if (input == 0)
+            {
+                Console.WriteLine("이전으로 돌아갑니다.");
+                return null; // 이전으로 돌아가기
             }
             Skill selectedSkill = Player.Instance.EquippedSkills[input - 1];
             return selectedSkill;
@@ -76,7 +83,7 @@ namespace TextRPG.SaveDatas
             }
         }
 
-        public static void PlayerTurn(List<Monster> mList, int targetNumber)
+        public static void PlayerTurn(DungeonType dungeonType, List<Monster> mList, int targetNumber)
         {
             if (mList.Count <= 0) return;
             int idx = targetNumber - 1;
@@ -89,6 +96,7 @@ namespace TextRPG.SaveDatas
             Thread.Sleep(500);
             if (mList[idx].Hp <= 0)
             {
+                DungeonScene.Reward(mList[idx], Player.Instance);
                 mList.RemoveAt(idx);
             }
 
@@ -111,6 +119,7 @@ namespace TextRPG.SaveDatas
                 Console.WriteLine($"{mList[idx].Name}의 남은 HP: {mList[idx].Hp}");
                 if (mList[idx].Hp <= 0)
                 {
+                    DungeonScene.Reward(mList[idx], Player.Instance);
                     mList.RemoveAt(idx);
                     
                 }
@@ -140,10 +149,11 @@ namespace TextRPG.SaveDatas
             }
         }
 
-        public static void ChooseAction(string input, List<Monster> spawnedMonster, DungeonType dungeonType)
+        public static void ChooseAction(List<Monster> spawnedMonster, DungeonType dungeonType)
         {
-            int num = 0;
             ChooseReAction:
+            int num = 0;
+            string input = Console.ReadLine();
             if (int.TryParse(input, out num))
             {
                 if (num == 1)
@@ -154,7 +164,7 @@ namespace TextRPG.SaveDatas
                     int.TryParse(Console.ReadLine(), out targetNumber);
                     if (targetNumber >= 1 && targetNumber <= spawnedMonster.Count)
                     {
-                        Dungeon.PlayerTurn(spawnedMonster, targetNumber);
+                        Dungeon.PlayerTurn(dungeonType, spawnedMonster, targetNumber);
                         Thread.Sleep(1000);
                     }
                     else
@@ -168,6 +178,11 @@ namespace TextRPG.SaveDatas
                 {
                     int targetNumber = 0;
                     Skill selectedSkill = Dungeon.UseSkill();
+                    if (selectedSkill == null)
+                    {
+                        Console.WriteLine("이전으로 돌아갑니다.");
+                        return; // 이전으로 돌아가기
+                    }
                     Console.WriteLine("스킬을 사용할 대상 선택");
                     Console.WriteLine($"[1~{spawnedMonster.Count}]번까지의 몬스터를 선택하세요.");
                     Console.WriteLine($"[5] {Player.Instance.Name} (자신에게 사용)");
@@ -185,11 +200,21 @@ namespace TextRPG.SaveDatas
                 }
                 else if (num == 3)
                 {
-                    Console.WriteLine("도망갔습니다.");
-                    Thread.Sleep(1000);
-                    Console.WriteLine("엔터를 눌러서 다음 스테이지 진행");
-                    Console.ReadLine();
-                    DungeonScene.RandomStage(dungeonType);
+                    Random random = new Random();
+                    int escapeChance = random.Next(1, 101);
+                    if (escapeChance <= 70) // 70% 확률로 도망 성공
+                    {
+                        Console.WriteLine("도망에 성공했습니다!");
+                        Thread.Sleep(1000);
+                        Console.WriteLine("엔터를 눌러서 다음 스테이지 진행");
+                        Console.ReadLine();
+                        DungeonScene.RandomStage(dungeonType);
+                    }
+                    else
+                    {
+                        Console.WriteLine("도망에 실패했습니다!");
+                        Thread.Sleep(1000);
+                    }
                 }
                 else
                 {
@@ -199,6 +224,12 @@ namespace TextRPG.SaveDatas
             }
             //몬스터의 턴
             Dungeon.MonsterTurn(spawnedMonster, Player.Instance);
+            if (Player.Instance.Hp <= 0)
+            {
+                Console.WriteLine("당신은 쓰러졌습니다. 게임 오버!");
+                Thread.Sleep(2000);
+                Environment.Exit(0); // 게임 종료
+            }
             //결과
             //turn++;
         }
