@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TextRPG.Object;
 
 namespace TextRPG.Scenes
 {
-    public class SetupScene
+    public class SetupScene : Scene 
     {
-        public void ShowScene()
+        public override void ShowScene()
         {
             Console.Clear();
             Console.WriteLine("게임을 시작합니다.");
