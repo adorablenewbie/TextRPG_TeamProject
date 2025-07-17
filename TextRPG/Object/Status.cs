@@ -12,7 +12,7 @@ namespace TextRPG.Object
     public abstract class Status
     {
         private Dictionary<Effects, Effect> currentEffect = new();
-
+        public string JobName { get; set; }
         public string Name { get; set; }
         public int Level { get; set; }
         public float Mana { get; set; }
