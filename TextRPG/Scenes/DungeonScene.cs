@@ -362,7 +362,7 @@ namespace TextRPG.Scenes
                 {
                     Console.WriteLine("당신은 지친 몸을 이끌며 던전을 탈출합니다. 던전에는 고요한 적막만이 남았습니다.");
                     Thread.Sleep(2000);
-                    ShowDungeonResult(dungeonType, 0,0,0); // 던전 결과 출력
+                    ShowDungeonResult(dungeonType, killCount,getGold,getExp); // 던전 결과 출력
                     Program.ChangeScene(SceneType.MainScene); // 메인 씬으로 돌아가기
                     break;
                 }
@@ -392,6 +392,7 @@ namespace TextRPG.Scenes
             Console.WriteLine($"▶ 경험치: +{getExp}");
             Console.WriteLine("\n[엔터]를 눌러 돌아갑니다.");
             Console.ReadLine();
+            
         }
         public static void RandomStage(DungeonType dungeonType)
         {
