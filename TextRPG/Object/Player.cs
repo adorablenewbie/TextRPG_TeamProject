@@ -31,7 +31,8 @@ namespace TextRPG.Object
         {
             this.MaxHP = 100f;
             this.Hp = MaxHP;
-            this.Mana = 50f;
+            this.MaxMana = 50f;
+            this.Mana = MaxMana;
             this.Level = 1;
             this.BaseAttack = 10;
             this.BaseDefense = 5;
