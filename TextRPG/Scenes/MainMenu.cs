@@ -47,8 +47,8 @@ namespace TextRPG.Scenes
                     Program.ChangeScene(SceneType.RestScene);
                     break;
                 case "7":
-
-
+                    Program.SavePlayer();
+                    break;
                 case "8":
                     while (true)
                     {

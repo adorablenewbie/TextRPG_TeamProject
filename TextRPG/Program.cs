@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
-using TextRPG.Object;
-using TextRPG.Scenes;
-using TextRPG.SaveDatas;
 using TextRPG.Items;
+using TextRPG.Object;
+using TextRPG.SaveDatas;
+using TextRPG.Scenes;
 
 
 namespace TextRPG
@@ -23,6 +24,7 @@ namespace TextRPG
     }
     internal class Program
     {
+        private const string SaveFileName = "player.json";
         private static Dictionary<SceneType, Scene> scenes;
         private static Scene currentScene;
         public static List<Skill> skillList;
@@ -77,6 +79,21 @@ namespace TextRPG
                 Console.WriteLine(text);
             }
             Console.ResetColor();
+        }
+        public void SavePlayer()
+        {
+            try
+            {
+                string json = JsonSerializer.Serialize(player);
+                File.WriteAllText(SaveFileName, json);
+                Console.WriteLine("캐릭터가 저장되었습니다.");
+                System.Threading.Thread.Sleep(1000);
+            }
+            catch
+            {
+                Console.WriteLine("캐릭터 저장에 실패했습니다.");
+                System.Threading.Thread.Sleep(1000);
+            }
         }
     }
 }
