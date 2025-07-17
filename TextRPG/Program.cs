@@ -46,7 +46,7 @@ namespace TextRPG
         public static void Main(string[] args)
         {
             init();
-            currentScene = scenes[SceneType.MainScene];
+            currentScene = scenes[SceneType.SetupScene]; // 첫 씬을 SetupScene으로 지정
 
             while (currentScene != null)
             {
