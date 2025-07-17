@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TextRPG.Object;
 
 namespace TextRPG.Scenes
 {
@@ -47,8 +48,8 @@ namespace TextRPG.Scenes
                     Program.ChangeScene(SceneType.RestScene);
                     break;
                 case "7":
-
-
+                    Program.SavePlayer();
+                    break;
                 case "8":
                     while (true)
                     {

@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
-using TextRPG.Object;
-using TextRPG.Scenes;
-using TextRPG.SaveDatas;
 using TextRPG.Items;
+using TextRPG.Object;
+using TextRPG.SaveDatas;
+using TextRPG.Scenes;
 
 
 namespace TextRPG
@@ -46,7 +47,7 @@ namespace TextRPG
         public static void Main(string[] args)
         {
             init();
-            currentScene = scenes[SceneType.MainScene];
+            currentScene = scenes[SceneType.SetupScene]; // 첫 씬을 SetupScene으로 지정
 
             while (currentScene != null)
             {
@@ -82,6 +83,7 @@ namespace TextRPG
 
             Console.ResetColor();
         }
-    }
-}
 
+
+     }
+}

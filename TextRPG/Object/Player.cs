@@ -106,5 +106,18 @@ namespace TextRPG.Object
             Console.WriteLine($"== 레벨 업! 현재 레벨: {Level} ==");
             Console.WriteLine($"→ HP: {MaxHP}, 공격력: {TotalAttack}, 방어력: {TotalDefence}");
         }
+        public void Initialize()
+        {
+            if (Inventory == null)
+                Inventory = new List<Item>();
+            if (EquippedSkills == null)
+                EquippedSkills = new List<Skill>();
+            if (Skills == null)
+                Skills = new List<Skill>();
+            if (EquippedWeapon == null)
+                EquippedWeapon = Inventory.Find(item => item.Name == EquippedWeapon.Name);
+            if (EquippedArmor == null)
+                    EquippedArmor = Inventory.Find(item => item.Name == EquippedArmor.Name);
+        }
     }
 }

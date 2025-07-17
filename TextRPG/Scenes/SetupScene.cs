@@ -12,7 +12,7 @@ namespace TextRPG.Scenes
         public override void ShowScene()
         {
             Console.Clear();
-            Console.WriteLine("게임을 시작합니다.");
+            Console.WriteLine("새 캐릭터를 생성합니다.");
             Console.WriteLine("캐릭터 이름을 입력해주세요.");
             string playerName = Console.ReadLine();
 
@@ -47,6 +47,12 @@ namespace TextRPG.Scenes
                 break;
             }
 
+            // 캐릭터 정보 Player.Instance에 저장
+            Player.Instance.Name = playerName;
+            Player.Instance.JobName = jobName;
+
+            // 메인신으로 이동
+            Program.ChangeScene(SceneType.MainScene);
 
         }
     }
