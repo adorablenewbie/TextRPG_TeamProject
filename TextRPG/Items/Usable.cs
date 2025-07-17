@@ -9,15 +9,6 @@ using TextRPG.SaveDatas;
 
 namespace TextRPG.Items
 {
-    public enum ItemType
-    {
-        Potion,
-        Antidote,
-        ManaPotion,
-        Throwing,
-        // 필요한 타입 추가
-    }
-
     internal class Usable : Item
     {
         public float Value;
