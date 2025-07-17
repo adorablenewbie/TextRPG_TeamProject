@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TextRPG.Object;
+using TextRPG.Scenes;
 
 namespace TextRPG.SaveDatas
 {
@@ -37,14 +38,28 @@ namespace TextRPG.SaveDatas
         public static Skill UseSkill()
         {
             Console.WriteLine("어떤 스킬을 사용하겠습니까?\n");
-            for (int i = 0; i < Player.Instance.EquippedSkills.Count; i++)
+            if (Player.Instance.EquippedSkills.Count == 0)
             {
-                string skillState = Player.Instance.EquippedSkills[i].ToString();
-                Console.WriteLine($"[{i + 1}] {skillState}");
+                Console.WriteLine("장착된 스킬이 없습니다.\n");
             }
+            else 
+            {
+                for (int i = 0; i < Player.Instance.EquippedSkills.Count; i++)
+                {
+                    string skillState = Player.Instance.EquippedSkills[i].ToString();
+                    Console.WriteLine($"[{i + 1}] {skillState}");
+                }
+            }
+                
             Console.Write("스킬 번호를 입력하세요: ");
+            
             int input;
             int.TryParse(Console.ReadLine(), out input);
+            if (input < 1 || input > Player.Instance.EquippedSkills.Count)
+            {
+                Console.WriteLine("잘못된 입력입니다. 다시 시도하세요.");
+                return UseSkill(); // 재귀 호출로 다시 입력 받기
+            }
             Skill selectedSkill = Player.Instance.EquippedSkills[input - 1];
             return selectedSkill;
         }
@@ -125,20 +140,28 @@ namespace TextRPG.SaveDatas
             }
         }
 
-        public static void ChooseAction(string input, List<Monster> spawnedMonster)
+        public static void ChooseAction(string input, List<Monster> spawnedMonster, DungeonType dungeonType)
         {
             int num = 0;
-
+            ChooseReAction:
             if (int.TryParse(input, out num))
             {
                 if (num == 1)
                 {
                     int targetNumber = 0;
-                    Console.Write("공격할 몬스터 번호선택");
-                    if (int.TryParse(Console.ReadLine(), out targetNumber))
+                    Console.WriteLine("공격할 몬스터 번호선택");
+                    Console.WriteLine($"1~{spawnedMonster.Count}번까지의 몬스터를 선택하세요.");
+                    int.TryParse(Console.ReadLine(), out targetNumber);
+                    if (targetNumber >= 1 && targetNumber <= spawnedMonster.Count)
                     {
                         Dungeon.PlayerTurn(spawnedMonster, targetNumber);
                         Thread.Sleep(1000);
+                    }
+                    else
+                    {
+                        
+                        Console.WriteLine("잘못된 입력입니다. 다시 시도하세요.");
+                        goto ChooseReAction;
                     }
                 }
                 else if (num == 2)
@@ -146,21 +169,32 @@ namespace TextRPG.SaveDatas
                     int targetNumber = 0;
                     Skill selectedSkill = Dungeon.UseSkill();
                     Console.WriteLine("스킬을 사용할 대상 선택");
+                    Console.WriteLine($"[1~{spawnedMonster.Count}]번까지의 몬스터를 선택하세요.");
                     Console.WriteLine($"[5] {Player.Instance.Name} (자신에게 사용)");
-                    if (int.TryParse(Console.ReadLine(), out targetNumber))
+                    int.TryParse(Console.ReadLine(), out targetNumber);
+                    if (targetNumber >= 1 && targetNumber <= spawnedMonster.Count || targetNumber == 5)
                     {
                         Dungeon.PlayerSkillTurn(spawnedMonster, targetNumber, selectedSkill);
                         Thread.Sleep(1000);
                     }
-                    Thread.Sleep(1000);
+                    else
+                    {
+                        Console.WriteLine("잘못된 입력입니다. 다시 시도하세요.");
+                        goto ChooseReAction;
+                    }
                 }
                 else if (num == 3)
                 {
                     Console.WriteLine("도망갔습니다.");
+                    Thread.Sleep(1000);
+                    Console.WriteLine("엔터를 눌러서 다음 스테이지 진행");
+                    Console.ReadLine();
+                    DungeonScene.RandomStage(dungeonType);
                 }
                 else
                 {
-                    Console.Write("잘못된 입력입니다.");
+                    Console.Write("당신은 머뭇거리다가 상대에게 틈을 내주었다..\n");
+                    Thread.Sleep(1000);
                 }
             }
             //몬스터의 턴
