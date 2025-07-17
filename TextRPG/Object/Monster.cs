@@ -12,7 +12,13 @@ namespace TextRPG.Object
     {
         public static List<Monster> monstersData = new List<Monster>()
         {
-            new Monster("쥐", 10, 4),
+            new Monster("쥐", 10, 3, 0, 10, 10),
+            new Monster("고블린", 25, 3, 1, 12, 12),
+            new Monster("슬라임", 30, 4, 1, 18, 18),
+            new Monster("늑대", 35, 5, 2, 25, 25),
+            new Monster("스켈레톤", 45, 6, 2, 35, 35),
+            new Monster("오크", 60, 8, 3, 50, 50),
+            new Monster("드래곤", 180, 18, 5, 100, 300)
         };
 
         public Monster Clone()
