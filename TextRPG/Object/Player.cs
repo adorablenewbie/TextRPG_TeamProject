@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,7 @@ namespace TextRPG.Object
 
         public Item EquippedWeapon { get; set; }
         public Item EquippedArmor { get; set; }
+        public float NextExp = 10;
         public Player()
         {
             this.MaxHP = 100f;
@@ -86,6 +88,25 @@ namespace TextRPG.Object
         {
             float restoreHealth = MaxHP - Hp;
             Hp += restoreHealth;
+        }
+
+        private void LevelUpCheck()
+        {
+            if (Exp < NextExp) return;
+
+            Exp -= NextExp;
+            Level++;
+            NextExp *= 1.5f; 
+            float growth = (float)Level * 0.5f;
+
+            MaxHP += 10f + growth;       // 기본 HP 증가 + 성장 비례
+            BaseAttack += growth;           // 공격력 증가
+            BaseDefense += growth;          // 방어력 증가
+            Hp = MaxHP;                     // 체력 전부 회복
+
+            // 출력
+            Console.WriteLine($"== 레벨 업! 현재 레벨: {Level} ==");
+            Console.WriteLine($"→ HP: {MaxHP}, 공격력: {TotalAttack}, 방어력: {TotalDefence}");
         }
     }
 }
