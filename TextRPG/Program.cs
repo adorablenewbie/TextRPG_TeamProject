@@ -64,5 +64,19 @@ namespace TextRPG
                 //ㅋㅋ 아무거나 써놔야지
             }
         }
+
+        public void ConsoleColorHelper(string text, ConsoleColor color, bool line)
+        {
+            Console.ForegroundColor = color;
+            if (line)
+            {
+                Console.Write(text);
+            }
+            else
+            {
+                Console.WriteLine(text);
+            }
+            Console.ResetColor();
+        }
     }
 }

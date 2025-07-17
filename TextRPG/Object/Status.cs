@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace TextRPG.Object
 {
     public abstract class Status
     {
-        private Effects currentEffect = Effects.None;
+        private Dictionary<Effects, Effect> currentEffect = new();
 
         public string Name { get; set; }
         public int Level { get; set; }
@@ -46,44 +47,73 @@ namespace TextRPG.Object
         public List<Skill> EquippedSkills { get; set; } = new List<Skill>();
         public List<Item> Inventory { get; set; }
 
-        public void AddEffect(Effects effect)
+        public void AddEffect(Effects effect, int duration)
         {
-            currentEffect |= effect;
-            //상태이상 부여
-            Console.WriteLine($"{effect} 상태이상 적용"); //디버그용
+            if (currentEffect.ContainsKey(effect))
+            {
+                Effect plusEffect = currentEffect[effect];
+                if (plusEffect.Duration < duration)
+                {
+                    plusEffect.Duration = duration; //상태 갱신
+                }
+            }
+            else
+            {
+                Effect newEffect = new Effect(effect, duration);
+                currentEffect.Add(effect, newEffect); //상태 추가
+            }
         }
+
         public void RemoveEffect(Effects effect)
         {
-            currentEffect &= ~effect;
-            Console.WriteLine($"{effect} 상태이상 제거"); //디버그용
+            if (currentEffect.Remove(effect))
+            {
+                Console.WriteLine($"{effect} 상태이상 제거"); //디버그용
+            }
         }
         public void RemoveAllEffect()
         {
-            currentEffect = Effects.None;
-            Console.WriteLine("모든 상태이상 제거");
+            currentEffect.Clear();
         }
         public bool HasEffect(Effects effect)
         {
-            return currentEffect.HasFlag(effect);
+            return currentEffect.ContainsKey(effect);
         }
 
         public void ApplyEffect()
         {
             if (Hp <= 0) return;
 
-            if (HasEffect(Effects.Poison))
+            List<Effects> effectKeys = currentEffect.Keys.ToList();
+
+            foreach (Effects key in effectKeys)
             {
-                Console.WriteLine("독 상태이상");
-                Hp -= 2;
-                return;
+                if (currentEffect.TryGetValue(key, out Effect effect))
+                {
+                    switch (effect.Type)
+                    {
+                        case Effects.Poison:
+                            Hp -= 5;
+                            break;
+                        case Effects.Sleep:
+                            break;
+                        case Effects.Stun:
+                            break;
+                    }
+                }
+                effect.Duration--;
+
+                if (effect.Duration <= 0)
+                {
+                    //제거됨
+                    currentEffect.Remove(key);
+                }
             }
-            if (HasEffect(Effects.Sleep))
+
+            if (Hp <= 0)
             {
-                Console.WriteLine("수면 상태이상");
-            }
-            if (HasEffect(Effects.Stun))
-            {
-                Console.WriteLine("기절 상태이상");
+                //쓰러짐
+                Hp = 0;
             }
         }
     }
