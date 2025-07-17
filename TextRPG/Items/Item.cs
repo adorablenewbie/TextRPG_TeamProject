@@ -12,7 +12,10 @@ namespace TextRPG.Items
     {
         Weapon,
         Armor,
-        Potion
+        Potion,
+        Antidote,
+        ManaPotion,
+        Throwing
     }
 
     public abstract class Item
