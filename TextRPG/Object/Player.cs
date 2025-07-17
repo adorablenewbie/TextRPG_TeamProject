@@ -92,7 +92,7 @@ namespace TextRPG.Object
             Hp += restoreHealth;
         }
 
-        private void LevelUpCheck()
+        public void LevelUpCheck()
         {
             if (Exp < NextExp) return;
 
