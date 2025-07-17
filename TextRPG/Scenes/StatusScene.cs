@@ -21,7 +21,11 @@ namespace TextRPG.Scenes
                 Console.Clear();
                 Console.WriteLine($"[상태 보기]\n");
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                 Console.WriteLine($"Lv. {player.Level}  경험치:{player.Exp}");
+=======
+                Console.WriteLine($"Lv. {player.Level} 경험치:{player.Exp}") ;
+>>>>>>> Stashed changes
 =======
                 Console.WriteLine($"Lv. {player.Level} 경험치:{player.Exp}") ;
 >>>>>>> Stashed changes
