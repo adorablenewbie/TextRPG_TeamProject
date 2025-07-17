@@ -12,7 +12,7 @@ namespace TextRPG.Scenes
         public override void ShowScene()
         {
             Console.Clear();
-            Console.WriteLine("게임을 시작합니다.");
+            Console.WriteLine("새 캐릭터를 생성합니다.");
             Console.WriteLine("캐릭터 이름을 입력해주세요.");
             string playerName = Console.ReadLine();
 
