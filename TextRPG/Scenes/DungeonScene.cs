@@ -96,7 +96,7 @@ namespace TextRPG.Scenes
                     Console.Write("행동 선택: ");
                     //플레이어의 턴
                     input = Console.ReadLine();
-                    Dungeon.ChooseAction(input, spawnedMonster);
+                    Dungeon.ChooseAction(input, spawnedMonster, dungeonType);
                 }
                 Console.WriteLine("모든 적을 처치하였습니다.");
                 System.Threading.Thread.Sleep(1000);
