@@ -22,8 +22,9 @@ namespace TextRPG.SaveDatas
         public Effects Effect { get; set; } // 스킬 상태이상
         public int Level { get; set; } // 스킬 레벨
         public int RequiredLevel { get; set; } // 스킬 사용에 필요한 최소 레벨
+        public bool IsEquipped { get; set; } // 스킬이 장착되어 있는지 여부
         //public bool IsEquipped { get; set; } // 스킬이 장착되어 있는지 여부
-        public Skill(int id, string name, string description, float requiredMana, float attackValue, float defenseValue, float healValue, Effects effect, int requiredLevel/*, bool isEquipped*/)
+        public Skill(int id, string name, string description, float requiredMana, float attackValue, float defenseValue, float healValue, Effects effect, int requiredLevel, bool isEquipped)
         {
             ID = id;
             Name = name;
@@ -34,18 +35,8 @@ namespace TextRPG.SaveDatas
             HealValue = healValue;
             Effect = effect;
             RequiredLevel = requiredLevel;
-            //IsEquipped = isEquipped;
+            IsEquipped = isEquipped;
         }
-        /*
-        public void Equip()
-        {
-            IsEquipped = true;
-        }
-        public void Unequip()
-        {
-            IsEquipped = false;
-        }
-        */
         public bool CanUse(int playerLevel, float playerMana)
         {
             if (playerLevel < RequiredLevel || playerMana < RequiredMana)
@@ -55,92 +46,93 @@ namespace TextRPG.SaveDatas
         }
         public override string ToString()
         {
-            return $"{Name} - 필요마나: {RequiredMana} - {(AttackValue == 0 ? "" : $"공격력: {AttackValue * player.attack}")} - " +
+            return $"{Name} - 필요마나: {RequiredMana} - {(AttackValue == 0 ? "" : $"공격력: {AttackValue * player.BaseAttack}")} - " +
                    $"{(DefenseValue == 0 ? "" : $"방어력: {DefenseValue}")} - {(HealValue == 0 ? "" : $"치유력: {HealValue}")} - 상태이상 효과: {(Effect == Effects.None ? "없음" : Effect)} - " +
                    $"필요 레벨: {RequiredLevel} - {Description}";
         }
-        public static Skill PowerAttack =>
-            new Skill(
-                id: 0,
-                name: "강력한 공격",
-                description: "적에게 강력한 공격을 가합니다.",
-                requiredMana: 10,
-                attackValue: 2.0f, // 공격력 곱연산
-                defenseValue: 0.0f, // 방어력 합연산
-                healValue: 0.0f,
-                effect: Effects.None,
-                requiredLevel: 1
-                //isEquipped: false
-            );
         public void UseSkill(Skill skill, Status target)
         {
-            if (skill.CanUse(player.level, player.mana))
+            if (skill.CanUse(player.Level, player.Mana))
             {
                 
-                player.mana -= skill.RequiredMana;
-                float skillAttack = skill.AttackValue * player.attack; // 공격력 곱연산
-                target.hp -= skillAttack; // 대상에게 피해
-                target.defense += skill.DefenseValue; // 방어력 합연산
-                target.hp += skill.HealValue; // 치유
+                player.Mana -= skill.RequiredMana;
+                float skillAttack = skill.AttackValue * player.BaseAttack; // 공격력 곱연산
+                target.Hp -= skillAttack; // 대상에게 피해
+                target.BaseDefense += skill.DefenseValue; // 방어력 합연산
+                target.Hp += skill.HealValue; // 치유
                 // 상태이상 효과 적용 로직 추가 가능
-                Console.WriteLine($"{player.name}이(가) {skill.Name}을(를) 사용했습니다.");
+                Console.WriteLine($"{player.Name}이(가) {skill.Name}을(를) 시전!");
             }
             else
             {
-                Console.WriteLine($"{player.name}은(는) {skill.Name}을(를) 사용할 수 없습니다.");
+                Console.WriteLine($"{player.Name}은(는) {skill.Name}을(를) 사용할 수 없습니다.");
             }
         }
-        public static Skill ReadyDefense =>
+        public static Skill Slam =>
+           new Skill(
+               id: 0,
+               name: "강타",
+               description: "적에게 강력한 일격을 날립니다. (공격력 * 2)",
+               requiredMana: 10,
+               attackValue: 2.0f, // 공격력 곱연산
+               defenseValue: 0.0f, // 방어력 합연산
+               healValue: 0.0f,
+               effect: Effects.None,
+               requiredLevel: 1,
+               isEquipped: false
+           );
+
+        public static Skill Barrier =>
             new Skill(
                 id: 1,
-                name: "방어준비",
-                description: "방어 자세를 갖춥니다.",
+                name: "방어막",
+                description: "자신에게 방어막을 감싸 피해를 흡수합니다. (방어력 + 2)",
                 requiredMana: 10,
                 attackValue: 0,
                 defenseValue: 2.0f, // 방어력 합연산
                 healValue: 0.0f,
                 effect: Effects.None,
-                requiredLevel: 1
-                //isEquipped: false
+                requiredLevel: 1,
+                isEquipped: false
             );
-        public static Skill SmallHeal =>
+        public static Skill Heal =>
             new Skill(
                 id: 2,
-                name: "하급 힐",
-                description: "작은 치유를 합니다.",
+                name: "회복",
+                description: "자신의 체력을 회복합니다. (체력 + 20)",
                 requiredMana: 10,
                 attackValue: 0,
                 defenseValue: 0,
                 healValue: 20f,
                 effect: Effects.None,
-                requiredLevel: 1
-                //isEquipped: false
+                requiredLevel: 1,
+                isEquipped: false
             );
-        public static Skill Fireball =>
+        public static Skill Bomb =>
             new Skill(
                 id: 3,
-                name: "파이어볼",
-                description: "적에게 불덩이를 던집니다.",
+                name: "폭탄 투척",
+                description: "적에게 폭탄을 던집니다. 폭탄에 맞은 적은 화상 상태가 됩니다. (공격력 * 3)\n※화상: 적에게 고정 피해를 입힙니다.)",
                 requiredMana: 15,
                 attackValue: 3.0f, // 공격력 곱연산
                 defenseValue: 0.0f, // 방어력 합연산
                 healValue: 0.0f,
                 effect: Effects.Burn,
-                requiredLevel: 2
-                //isEquipped: false
+                requiredLevel: 2,
+                isEquipped: false
             );
-        public static Skill IceShield =>
+        public static Skill Guts =>
             new Skill(
                 id: 4,
-                name: "얼음 방패",
-                description: "얼음으로 방패를 만들어 방어력을 증가시킵니다.",
+                name: "근성",
+                description: "적에게 피해를 입어도 끄떡없는 자세를 유지합니다. (방어력 + 3)",
                 requiredMana: 15,
                 attackValue: 0.0f, // 공격력 곱연산
                 defenseValue: 3.0f, // 방어력 합연산
                 healValue: 0.0f,
                 effect: Effects.None,
-                requiredLevel: 2
-                //isEquipped: false
+                requiredLevel: 2,
+                isEquipped: false
             );
         public static Skill LightningStrike =>
             new Skill(
@@ -152,8 +144,8 @@ namespace TextRPG.SaveDatas
                 defenseValue: 0.0f, // 방어력 합연산
                 healValue: 0.0f,
                 effect: Effects.Stun,
-                requiredLevel: 3
-                //isEquipped: false
+                requiredLevel: 3,
+                isEquipped: false
             );
         public static Skill Earthquake =>
             new Skill(
@@ -165,8 +157,8 @@ namespace TextRPG.SaveDatas
                 defenseValue: 0.0f, // 방어력 합연산
                 healValue: 0.0f,
                 effect: Effects.None,
-                requiredLevel: 4
-                //isEquipped: false
+                requiredLevel: 4,
+                isEquipped: false
             );
         public static Skill MiddleHeal =>
             new Skill(
@@ -178,8 +170,8 @@ namespace TextRPG.SaveDatas
                 defenseValue: 0.0f, // 방어력 합연산
                 healValue: 50f,
                 effect: Effects.None,
-                requiredLevel: 5
-                //isEquipped: false
+                requiredLevel: 5,
+                isEquipped: false
             );
         public static Skill UltimateStrike =>
             new Skill(
@@ -191,8 +183,8 @@ namespace TextRPG.SaveDatas
                 defenseValue: 0.0f, // 방어력 합연산
                 healValue: 0.0f,
                 effect: Effects.None,
-                requiredLevel: 6
-                //isEquipped: false
+                requiredLevel: 6,
+                isEquipped: false
             );
     }
 }

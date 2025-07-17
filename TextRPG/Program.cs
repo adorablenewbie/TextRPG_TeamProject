@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TextRPG.Old;
+using TextRPG.Object;
 using TextRPG.Scenes;
+using TextRPG.SaveDatas;
+using TextRPG.Items;
+
 
 namespace TextRPG
 {
@@ -22,25 +25,26 @@ namespace TextRPG
     {
         private static Dictionary<SceneType, Scene> scenes;
         private static Scene currentScene;
-        public static Player player;
+        public static List<Skill> skillList;
+        Player player = Player.Instance;
 
-        public static void initScenes()
+        public static void init()
         {
             scenes = new Dictionary<SceneType, Scene>();
-            player = new("이름", "전사", 1, 0, 10, 10, 10, 100);
+            Shop.InitItems();
 
             scenes.Add(SceneType.MainScene, new MainMenu());
             scenes.Add(SceneType.StatusScene, new StatusScene());
             scenes.Add(SceneType.RestScene, new RestScene());
             scenes.Add(SceneType.ShopScene, new ShopScene());
-            //scenes.Add(SceneType.SkillScene, new SkillScene());
-            //scenes.Add(SceneType.InventoryScene, new InventoryScene());
-            //scenes.Add(SceneType.DungeonScene, new DungeonScene());
+            scenes.Add(SceneType.SkillScene, new SkillScene());
+            scenes.Add(SceneType.InventoryScene, new InventoryScene());
+            scenes.Add(SceneType.DungeonScene, new DungeonScene());
         }
 
         public static void Main(string[] args)
         {
-            initScenes();
+            init();
             currentScene = scenes[SceneType.MainScene];
 
             while (currentScene != null)
@@ -59,6 +63,20 @@ namespace TextRPG
             {
                 //ㅋㅋ 아무거나 써놔야지
             }
+        }
+
+        public void ConsoleColorHelper(string text, ConsoleColor color, bool line)
+        {
+            Console.ForegroundColor = color;
+            if (line)
+            {
+                Console.Write(text);
+            }
+            else
+            {
+                Console.WriteLine(text);
+            }
+            Console.ResetColor();
         }
     }
 }
