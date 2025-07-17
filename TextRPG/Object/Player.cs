@@ -27,7 +27,8 @@ namespace TextRPG.Object
         public Item EquippedArmor { get; set; }
         public Player()
         {
-            this.Hp = 100f;
+            this.MaxHP = 100f;
+            this.Hp = MaxHP;
             this.Mana = 50f;
             this.Level = 1;
             this.BaseAttack = 10;
@@ -79,6 +80,12 @@ namespace TextRPG.Object
                     AddDefence += item.Defense;
                 }
             }
+        }
+
+        public void RestoreHealth()
+        {
+            float restoreHealth = MaxHP - Hp;
+            Hp += restoreHealth;
         }
     }
 }

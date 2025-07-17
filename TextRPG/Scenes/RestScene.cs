@@ -50,8 +50,8 @@ namespace TextRPG.Scenes
                 Console.Clear();
                 Console.WriteLine("[휴식]");
                 Console.WriteLine("휴식을 취합니다...");
-                System.Threading.Thread.Sleep(2000); // 2초 대기
-                //player.RestoreHealth();
+                System.Threading.Thread.Sleep(1000);
+                Player.Instance.RestoreHealth();
                 Console.WriteLine("체력이 회복되었습니다.");
                 Player.Instance.Gold -= 100;
                 Console.WriteLine($"남은 골드: {Player.Instance.Gold}\n");
