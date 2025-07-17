@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using TextRPG.Object;
 using TextRPG.Scenes;
@@ -82,7 +83,7 @@ namespace TextRPG.SaveDatas
             }
         }
 
-        public static void PlayerTurn(List<Monster> mList, int targetNumber)
+        public static void PlayerTurn(DungeonType dungeonType, List<Monster> mList, int targetNumber)
         {
             if (mList.Count <= 0) return;
             int idx = targetNumber - 1;
@@ -95,7 +96,7 @@ namespace TextRPG.SaveDatas
             Thread.Sleep(500);
             if (mList[idx].Hp <= 0)
             {
-
+                DungeonScene.Reward(mList[idx], Player.Instance);
                 mList.RemoveAt(idx);
             }
 
@@ -162,7 +163,7 @@ namespace TextRPG.SaveDatas
                     int.TryParse(Console.ReadLine(), out targetNumber);
                     if (targetNumber >= 1 && targetNumber <= spawnedMonster.Count)
                     {
-                        Dungeon.PlayerTurn(spawnedMonster, targetNumber);
+                        Dungeon.PlayerTurn(dungeonType, spawnedMonster, targetNumber);
                         Thread.Sleep(1000);
                     }
                     else
