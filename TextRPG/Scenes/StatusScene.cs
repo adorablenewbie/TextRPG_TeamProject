@@ -20,8 +20,8 @@ namespace TextRPG.Scenes
                 var player = Player.Instance;
                 Console.Clear();
                 Console.WriteLine($"[상태 보기]\n");
-                Console.WriteLine($"Lv. {player.Level} 경험치:{player.Exp}") ;
                 Console.WriteLine($"{player.Name}");  //( 직업 )");
+                Console.WriteLine($"Lv. {player.Level} 경험치:{player.Exp}") ;
                 Console.WriteLine($"공격력: {player.TotalAttack} {((player.AddAttack > 0) ? $"(+{player.AddAttack})" : "")}");
                 Console.WriteLine($"방어력: {player.TotalDefence} {((player.AddDefence > 0) ? $"(+{player.AddDefence})" : "")}");
                 Console.WriteLine($"체력: {player.Hp}");
