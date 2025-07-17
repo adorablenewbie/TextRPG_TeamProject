@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -83,12 +84,16 @@ namespace TextRPG.SaveDatas
             }
         }
 
-        public static void PlayerTurn(DungeonType dungeonType, List<Monster> mList, int targetNumber)
+        public static void PlayerTurn(List<Monster> mList, int targetNumber)
         {
             if (mList.Count <= 0) return;
             int idx = targetNumber - 1;
 
-
+            if (mList[idx].IsDead)
+            {
+                Console.WriteLine("잘못된 입력입니다.");
+                return;
+            }
             mList[idx].Hp -= Player.Instance.BaseAttack;
 
             //이곳에 몬스터 체력 몇 달았는지 적기
@@ -99,7 +104,6 @@ namespace TextRPG.SaveDatas
                 DungeonScene.Reward(mList[idx], Player.Instance);
                 mList.RemoveAt(idx);
             }
-
         }
 
         public static void PlayerSkillTurn(List<Monster> mList, int targetNumber, Skill selectedSkill)
@@ -168,72 +172,90 @@ namespace TextRPG.SaveDatas
             }
         }
 
+        public static void AttackMonster(List<Monster> spawnedMonster)
+        {
+            int targetNumber = 0;
+            Console.WriteLine("공격할 몬스터 번호선택");
+            Console.WriteLine($"1~{spawnedMonster.Count}번까지의 몬스터를 선택하세요.");
+            int.TryParse(Console.ReadLine(), out targetNumber);
+            if (targetNumber >= 1 && targetNumber <= spawnedMonster.Count)
+            {
+                Dungeon.PlayerTurn(spawnedMonster, targetNumber);
+                Thread.Sleep(1000);
+            }
+            else
+            {
+                Console.WriteLine("당신은 허공에다가 무기를 휘둘렀다..");
+            }
+        }
+
+        public static bool AttackMonsterSkill(List<Monster> spawnedMonster)
+        {
+            int targetNumber = 0;
+            Skill selectedSkill = Dungeon.UseSkill();
+            if (selectedSkill == null)
+            {
+                Console.WriteLine("이전으로 돌아갑니다.");
+                return false; // 이전으로 돌아가기
+            }
+            Console.WriteLine("스킬을 사용할 대상 선택");
+            Console.WriteLine($"[1~{spawnedMonster.Count}]번까지의 몬스터를 선택하세요.");
+            Console.WriteLine($"[5] {Player.Instance.Name} (자신에게 사용)");
+            int.TryParse(Console.ReadLine(), out targetNumber);
+            if (targetNumber >= 1 && targetNumber <= spawnedMonster.Count || targetNumber == 5)
+            {
+                Dungeon.PlayerSkillTurn(spawnedMonster, targetNumber, selectedSkill);
+                Thread.Sleep(1000);
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("당신은 허공에다가 스킬을 낭비했다..");
+                Thread.Sleep(1000);
+                return true;
+            }
+        }
+
+        public static void RunbyMonster(DungeonType dungeonType)
+        {
+            Random random = new Random();
+            int escapeChance = random.Next(1, 101);
+            if (escapeChance <= 70) // 70% 확률로 도망 성공
+            {
+                Console.WriteLine("도망에 성공했습니다!");
+                Thread.Sleep(1000);
+                Console.WriteLine("엔터를 눌러서 다음 스테이지 진행");
+                Console.ReadLine();
+                DungeonScene.RandomStage(dungeonType);
+            }
+            else
+            {
+                Console.WriteLine("도망에 실패했습니다!");
+                Thread.Sleep(1000);
+            }
+        }
+
         public static void ChooseAction(List<Monster> spawnedMonster, DungeonType dungeonType)
         {
-            ChooseReAction:
             int num = 0;
             string input = Console.ReadLine();
             if (int.TryParse(input, out num))
             {
                 if (num == 1)
                 {
-                    int targetNumber = 0;
-                    Console.WriteLine("공격할 몬스터 번호선택");
-                    Console.WriteLine($"1~{spawnedMonster.Count}번까지의 몬스터를 선택하세요.");
-                    int.TryParse(Console.ReadLine(), out targetNumber);
-                    if (targetNumber >= 1 && targetNumber <= spawnedMonster.Count)
-                    {
-                        Dungeon.PlayerTurn(dungeonType, spawnedMonster, targetNumber);
-                        Thread.Sleep(1000);
-                    }
-                    else
-                    {
-                        
-                        Console.WriteLine("잘못된 입력입니다. 다시 시도하세요.");
-                        goto ChooseReAction;
-                    }
+                    AttackMonster(spawnedMonster);
                 }
                 else if (num == 2)
                 {
-                    int targetNumber = 0;
-                    Skill selectedSkill = Dungeon.UseSkill();
-                    if (selectedSkill == null)
+                    bool Used = AttackMonsterSkill(spawnedMonster);
+                    if (!Used)
                     {
-                        Console.WriteLine("이전으로 돌아갑니다.");
-                        return; // 이전으로 돌아가기
-                    }
-                    Console.WriteLine("스킬을 사용할 대상 선택");
-                    Console.WriteLine($"[1~{spawnedMonster.Count}]번까지의 몬스터를 선택하세요.");
-                    Console.WriteLine($"[5] {Player.Instance.Name} (자신에게 사용)");
-                    int.TryParse(Console.ReadLine(), out targetNumber);
-                    if (targetNumber >= 1 && targetNumber <= spawnedMonster.Count || targetNumber == 5)
-                    {
-                        Dungeon.PlayerSkillTurn(spawnedMonster, targetNumber, selectedSkill);
-                        Thread.Sleep(1000);
-                    }
-                    else
-                    {
-                        Console.WriteLine("잘못된 입력입니다. 다시 시도하세요.");
-                        goto ChooseReAction;
+                        return;
                     }
                 }
                 else if (num == 3)
                 {
-                    Random random = new Random();
-                    int escapeChance = random.Next(1, 101);
-                    if (escapeChance <= 70) // 70% 확률로 도망 성공
-                    {
-                        Console.WriteLine("도망에 성공했습니다!");
-                        Thread.Sleep(1000);
-                        Console.WriteLine("엔터를 눌러서 다음 스테이지 진행");
-                        Console.ReadLine();
-                        DungeonScene.RandomStage(dungeonType);
-                    }
-                    else
-                    {
-                        Console.WriteLine("도망에 실패했습니다!");
-                        Thread.Sleep(1000);
-                    }
+                    RunbyMonster(dungeonType);
                 }
                 else
                 {
