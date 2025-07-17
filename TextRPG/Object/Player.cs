@@ -71,6 +71,28 @@ namespace TextRPG.Object
             System.Threading.Thread.Sleep(1000); // 1초 대기
         }
 
+        public void TestSkill(Skill selectedSkill)
+        {
+            if (selectedSkill.IsEquipped)
+            {
+                //해제
+                EquippedSkills.Remove(selectedSkill);
+                Console.WriteLine("스킬이 해제되었습니다.");
+                selectedSkill.IsEquipped = false;
+            }
+            else
+            {
+                //장착
+                EquippedSkills.Add(selectedSkill);
+                Console.WriteLine($"{selectedSkill.Name} 스킬을 장착하였습니다.");
+
+                if(EquippedSkills.Count > 2)
+                {
+                    Console.WriteLine("장착된 스킬이 2개를 초과했습니다. 가장 오래된 스킬을 해제합니다.");
+                    EquippedSkills.RemoveAt(0); // 가장 오래된 스킬 해제
+                }
+            }
+        }
         public void UpdateStatus()
         {
             AddAttack = 0;
