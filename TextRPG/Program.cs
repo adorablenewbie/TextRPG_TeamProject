@@ -65,7 +65,7 @@ namespace TextRPG
             }
         }
 
-        public void ConsoleColorHelper(string text, ConsoleColor color, bool line)
+        public static void ConsoleColorHelper(string text, ConsoleColor color, bool line)
         {
             Console.ForegroundColor = color;
             if (line)

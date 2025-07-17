@@ -78,9 +78,12 @@ namespace TextRPG.SaveDatas
 
             foreach (Monster m in mList)
             {
-                p.Hp -= m.BaseAttack;
-                Console.WriteLine($"몬스터 {m.Name} 의 공격! 데미지 {m.BaseAttack}");
-                Thread.Sleep(1000);
+                if (!m.IsDead)
+                {
+                    p.Hp -= m.BaseAttack;
+                    Console.WriteLine($"몬스터 {m.Name} 의 공격! 데미지 {m.BaseAttack}");
+                    Thread.Sleep(1000);
+                }
             }
         }
 
@@ -91,7 +94,7 @@ namespace TextRPG.SaveDatas
 
             if (mList[idx].IsDead)
             {
-                Console.WriteLine("잘못된 입력입니다.");
+                Console.WriteLine("시체에 무기를 박고 말았다.");
                 return;
             }
             mList[idx].Hp -= Player.Instance.BaseAttack;
@@ -102,7 +105,8 @@ namespace TextRPG.SaveDatas
             if (mList[idx].Hp <= 0)
             {
                 DungeonScene.Reward(mList[idx], Player.Instance);
-                mList.RemoveAt(idx);
+                mList[idx].IsDead = true;
+                //mList.RemoveAt(idx);
             }
         }
 
@@ -124,13 +128,13 @@ namespace TextRPG.SaveDatas
                 if (mList[idx].Hp <= 0)
                 {
                     DungeonScene.Reward(mList[idx], Player.Instance);
-                    mList.RemoveAt(idx);
-                    
+                    mList[idx].IsDead = true;
+                    //mList.RemoveAt(idx);
                 }
             }
             Thread.Sleep(500);
-
         }
+
         public static List<Monster> CreateMonster(DungeonType dungeonType)
         {
             List<Monster> mList = new();
@@ -166,12 +170,36 @@ namespace TextRPG.SaveDatas
 
         public static void SpawnMonster(List<Monster> mList)
         {
+            
             for (int i = 0; i < mList.Count; i++)
             {
-                Console.WriteLine($"|{i + 1} {mList[i].Name} 몬스터 출현");
+                string log = $"|{i + 1} Lv.{mList[i].Level} {mList[i].Name} {(mList[i].IsDead ? "Dead" : mList[i].Hp)}";
+                if (mList[i].IsDead)
+                {
+                    Program.ConsoleColorHelper(log, ConsoleColor.Gray, false);
+                }
+                else
+                {
+                    Console.WriteLine(log);
+                }
             }
         }
 
+        public static bool MonsterClearCheck(List<Monster> mList)
+        {
+            for (int i = 0; i < mList.Count; i++)
+            {
+                if (mList[i].IsDead)
+                {
+                    continue;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
         public static void AttackMonster(List<Monster> spawnedMonster)
         {
             int targetNumber = 0;
@@ -238,6 +266,9 @@ namespace TextRPG.SaveDatas
         public static void ChooseAction(List<Monster> spawnedMonster, DungeonType dungeonType)
         {
             int num = 0;
+            bool Used = false;
+            bool monsterCheck = false;
+            //플레이어의 턴
             string input = Console.ReadLine();
             if (int.TryParse(input, out num))
             {
@@ -247,7 +278,7 @@ namespace TextRPG.SaveDatas
                 }
                 else if (num == 2)
                 {
-                    bool Used = AttackMonsterSkill(spawnedMonster);
+                    Used = AttackMonsterSkill(spawnedMonster);
                     if (!Used)
                     {
                         return;
@@ -263,6 +294,13 @@ namespace TextRPG.SaveDatas
                     Thread.Sleep(1000);
                 }
             }
+            //몬스터 생존 체크
+            monsterCheck = MonsterClearCheck(spawnedMonster);
+            if (monsterCheck)
+            {
+                spawnedMonster.Clear();
+            }
+
             //몬스터의 턴
             Dungeon.MonsterTurn(spawnedMonster, Player.Instance);
             if (Player.Instance.Hp <= 0)
