@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TextRPG.Object;
+using TextRPG.SaveDatas;
 
 namespace TextRPG.Scenes
 {
@@ -48,7 +49,7 @@ namespace TextRPG.Scenes
                     Program.ChangeScene(SceneType.RestScene);
                     break;
                 case "7":
-                    Program.SavePlayer();
+                    SaveData.SavePlayer();
                     break;
                 case "8":
                     while (true)
@@ -58,7 +59,7 @@ namespace TextRPG.Scenes
 
                         if (exitGameCheck == "y")
                         {
-                            //ExitGame();
+                            Environment.Exit(0);
                             break;
                         }
                         else if (exitGameCheck == "n")

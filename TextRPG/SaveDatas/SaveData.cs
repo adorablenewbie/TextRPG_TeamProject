@@ -26,7 +26,7 @@ namespace TextRPG.SaveDatas
                 System.Threading.Thread.Sleep(1000);
             }
         }
-        public Player LoadOrCreatePlayer()
+        public static Player LoadOrCreatePlayer()
         {
             while (true)
             {
@@ -57,8 +57,6 @@ namespace TextRPG.SaveDatas
                     }
                     else if (input == "n")
                     {
-                        Console.Clear();
-                        Console.WriteLine("새로운 캐릭터를 생성합니다.");
                         return null;
                     }
                     else
@@ -69,8 +67,6 @@ namespace TextRPG.SaveDatas
                 }
                 else
                 {
-                    Console.Clear();
-                    Console.WriteLine("새로운 캐릭터를 생성합니다.");
                     return null;
                 }
             }
