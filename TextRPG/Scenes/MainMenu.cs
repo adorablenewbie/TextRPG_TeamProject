@@ -20,7 +20,8 @@ namespace TextRPG.Scenes
             Console.WriteLine("4. 스킬");
             Console.WriteLine("5. 상점");
             Console.WriteLine("6. 휴식하기");
-            Console.WriteLine("7. 게임 종료");
+            Console.WriteLine("7: 게임 저장하기");
+            Console.WriteLine("8. 게임 종료");
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요.");
             string input = Console.ReadLine();
@@ -46,6 +47,9 @@ namespace TextRPG.Scenes
                     Program.ChangeScene(SceneType.RestScene);
                     break;
                 case "7":
+
+
+                case "8":
                     while (true)
                     {
                         Console.WriteLine("\n게임을 종료하시겠습니까? (y/n)\n");
