@@ -100,6 +100,9 @@ namespace TextRPG.Object
                             break;
                         case Effects.Stun:
                             break;
+                        case Effects.Burn:
+                            Hp -= 2;
+                            break;
                     }
                 }
                 effect.Duration--;
