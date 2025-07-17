@@ -1,21 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TextRPG.Object;
 using TextRPG.SaveDatas;
 
 namespace TextRPG.Scenes
 {
-    public class SetupScene : Scene 
+    public class SetupScene : Scene
     {
-        public static Object.Player player = Object.Player.Instance;
+        public static Player player = Player.Instance;
+
         public override void ShowScene()
         {
-            player = SaveData.LoadOrCreatePlayer();
+            // 저장된 데이터 로드 시도
+            var loadedPlayer = SaveData.LoadOrCreatePlayer();
 
-            if (player == null)
+            if (loadedPlayer == null)
             {
                 Console.Clear();
                 Console.WriteLine("새 캐릭터를 생성합니다.");
@@ -53,13 +51,37 @@ namespace TextRPG.Scenes
                     break;
                 }
 
-                // 캐릭터 정보 Player.Instance에 저장
-                Player.Instance.Name = playerName;
-                Player.Instance.JobName = jobName;
-            }
-            // 메인신으로 이동
-            Program.ChangeScene(SceneType.MainScene);
+                // 새 캐릭터 기본값 설정
+                player.Name = playerName;
+                player.JobName = jobName;
+                player.Level = 1;
+                player.MaxHP = 100;
+                player.Hp = 100;
+                player.MaxMana = 50;
+                player.Mana = 50;
+                player.BaseAttack = 10;
+                player.BaseDefense = 5;
+                player.Gold = 100;
+                player.Exp = 0;
+                player.NextExp = 10;
+                player.Inventory = new();
+                player.Skills = new();
+                player.EquippedSkills = new();
 
+                Console.WriteLine("캐릭터가 생성되었습니다.");
+            }
+            else
+            {
+                // 저장된 데이터 적용
+                player.ApplyLoadedData(loadedPlayer);
+                Console.WriteLine("저장된 캐릭터 데이터를 불러왔습니다.");
+            }
+
+            // 초기화 (장비 등)
+            player.Initialize();
+
+            // 다음 씬으로 이동
+            Program.ChangeScene(SceneType.MainScene);
         }
     }
 }

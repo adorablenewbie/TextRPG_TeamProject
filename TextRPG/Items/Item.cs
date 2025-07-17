@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using TextRPG.Object;
 using TextRPG.SaveDatas;
@@ -17,7 +18,8 @@ namespace TextRPG.Items
         ManaPotion,
         Throwing
     }
-
+    [JsonPolymorphic(TypeDiscriminatorPropertyName = "$type")]
+    [JsonDerivedType(typeof(Equipable), "equipable")]
     public abstract class Item
     {
         public string Name { get; set; }
