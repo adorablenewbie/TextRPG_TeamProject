@@ -1,18 +1,20 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
-using TextRPG.Object;
-using TextRPG.Scenes;
-using TextRPG.SaveDatas;
 using TextRPG.Items;
+using TextRPG.Object;
+using TextRPG.SaveDatas;
+using TextRPG.Scenes;
 
 
 namespace TextRPG
 {
     public enum SceneType
     {
+        SetupScene,
         MainScene,
         ShopScene,
         RestScene,
@@ -32,7 +34,7 @@ namespace TextRPG
         {
             scenes = new Dictionary<SceneType, Scene>();
             Shop.InitItems();
-
+            scenes.Add(SceneType.SetupScene, new SetupScene());
             scenes.Add(SceneType.MainScene, new MainMenu());
             scenes.Add(SceneType.StatusScene, new StatusScene());
             scenes.Add(SceneType.RestScene, new RestScene());
@@ -45,7 +47,7 @@ namespace TextRPG
         public static void Main(string[] args)
         {
             init();
-            currentScene = scenes[SceneType.MainScene];
+            currentScene = scenes[SceneType.SetupScene]; // 첫 씬을 SetupScene으로 지정
 
             while (currentScene != null)
             {
@@ -65,9 +67,11 @@ namespace TextRPG
             }
         }
 
-        public static void ConsoleColorHelper(string text, ConsoleColor color, bool line)
+        public static void ConsoleColorHelper(string text, ConsoleColor foreground, ConsoleColor background, bool line)
         {
-            Console.ForegroundColor = color;
+            Console.ForegroundColor = foreground;
+            Console.BackgroundColor = background;
+
             if (line)
             {
                 Console.Write(text);
@@ -76,7 +80,10 @@ namespace TextRPG
             {
                 Console.WriteLine(text);
             }
+
             Console.ResetColor();
         }
-    }
+
+
+     }
 }

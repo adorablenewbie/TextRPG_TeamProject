@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TextRPG.Object;
 
 namespace TextRPG.Scenes
 {
@@ -20,7 +21,8 @@ namespace TextRPG.Scenes
             Console.WriteLine("4. 스킬");
             Console.WriteLine("5. 상점");
             Console.WriteLine("6. 휴식하기");
-            Console.WriteLine("7. 게임 종료");
+            Console.WriteLine("7: 게임 저장하기");
+            Console.WriteLine("8. 게임 종료");
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요.");
             string input = Console.ReadLine();
@@ -46,7 +48,7 @@ namespace TextRPG.Scenes
                     Program.ChangeScene(SceneType.RestScene);
                     break;
                 case "7":
-                    //Program.SavePlayer();
+                    Program.SavePlayer();
                     break;
                 case "8":
                     while (true)

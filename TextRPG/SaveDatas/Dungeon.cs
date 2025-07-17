@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
@@ -176,10 +176,7 @@ namespace TextRPG.SaveDatas
                 string log = $"|{i + 1} Lv.{mList[i].Level} {mList[i].Name} {(mList[i].IsDead ? "Dead" : mList[i].Hp)}";
                 if (mList[i].IsDead)
                 {
-<<<<<<< Updated upstream
-                    Program.ConsoleColorHelper(log, ConsoleColor.Gray, false);
-=======
->>>>>>> Stashed changes
+                    Program.ConsoleColorHelper(log, ConsoleColor.DarkGray, ConsoleColor.Black, false);
                 }
                 else
                 {
