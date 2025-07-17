@@ -43,8 +43,8 @@ namespace TextRPG.Object
             this.Skills = new List<Skill>();
             this.EquippedSkills = new List<Skill>();
             this.Inventory = new List<Item>();
-            this.EquippedWeapon = null; // 기본 무기 설정
-            this.EquippedArmor = null; // 기본 갑옷 설정
+            this.EquippedWeapon = new Equipable(); // 기본 무기 설정
+            this.EquippedArmor = new Equipable(); // 기본 갑옷 설정
         }
 
 
@@ -119,9 +119,9 @@ namespace TextRPG.Object
             if (Skills == null)
                 Skills = new List<Skill>();
             if (EquippedWeapon == null)
-                EquippedWeapon = Inventory.Find(item => item.Name == EquippedWeapon.Name);
+                EquippedWeapon = new Equipable(); // 기본 무기 설정
             if (EquippedArmor == null)
-                    EquippedArmor = Inventory.Find(item => item.Name == EquippedArmor.Name);
+                    EquippedArmor = new Equipable(); // 기본 갑옷 설정
         }
         public void ApplyLoadedData(Player loadedData)
         {
