@@ -10,15 +10,9 @@ namespace TextRPG.Scenes
 {
     public class DungeonScene : Scene
     {
-        // 던전별 등장 몬스터 목록
-        //private static readonly Dictionary<DungeonType, List<(string name, MonsterType type)>> DungeonMonsters = new()
-        //{
-        //    { DungeonType.Forest, new() { ("늑대", MonsterType.Weak), ("곰", MonsterType.Normal), ("도적", MonsterType.Strong) } },
-        //    { DungeonType.Cave, new() { ("이상한 박쥐", MonsterType.Weak), ("트롤", MonsterType.Normal), ("오우거", MonsterType.Strong) } },
-        //    { DungeonType.Castle, new() { ("해골병사", MonsterType.Weak), ("리빙아머", MonsterType.Normal), ("암흑기사", MonsterType.Strong) } },
-        //    { DungeonType.DragonLair, new() { ("헤츨링", MonsterType.Weak), ("작은 드래곤", MonsterType.Normal), ("성난 드래곤", MonsterType.Strong) } }
-        //};
-
+        static int killCount; // 처치한 몬스터 수
+        static int getGold; // 획득한 골드
+        static int getExp; // 획득한 경험치
         // 던전 메뉴
         public override void ShowScene()
         {
@@ -26,11 +20,11 @@ namespace TextRPG.Scenes
             Console.WriteLine("┌─────────────────────────────┐");
             Console.WriteLine("│         [ 던전 선택 ]       │");
             Console.WriteLine("├─────────────────────────────┤");
-            Console.WriteLine("│ 1. 🌲 숲 던전 (난이도: 쉬움)     │");
-            Console.WriteLine("│ 2. 🕳 동굴 던전 (난이도: 보통)    │");
-            Console.WriteLine("│ 3. 🏰 성 던전   (난이도: 어려움)   │");
-            Console.WriteLine("│ 4. 🐉 드래곤 둥지 (난이도: 매우 어려움)│");
-            Console.WriteLine("│ 0. ❌ 나가기                   │");
+            Console.WriteLine("│ 1. 숲 던전 (난이도: 쉬움)     │");
+            Console.WriteLine("│ 2. 동굴 던전 (난이도: 보통)    │");
+            Console.WriteLine("│ 3. 성 던전   (난이도: 어려움)   │");
+            Console.WriteLine("│ 4. 드래곤 둥지 (난이도: 매우 어려움)│");
+            Console.WriteLine("│ 0. 나가기                   │");
             Console.WriteLine("└─────────────────────────────┘");
             Console.Write("원하시는 던전을 선택해주세요: ");
             string input = Console.ReadLine();
@@ -59,6 +53,9 @@ namespace TextRPG.Scenes
                 string input = Console.ReadLine()?.ToLower();
                 if (input == "y")
                 {
+                    killCount = 0;
+                    getGold = 0;
+                    getExp = 0;
                     Fight(dungeonType);
                     break;
                 }
@@ -95,10 +92,17 @@ namespace TextRPG.Scenes
                     Console.WriteLine("\n[1] 공격  [2]스킬  [3] 도망치기");
                     Console.Write("행동 선택: ");
                     //플레이어의 턴
-                    input = Console.ReadLine();
-                    Dungeon.ChooseAction(input, spawnedMonster, dungeonType);
+                    
+                    Dungeon.ChooseAction(spawnedMonster, dungeonType);
                 }
                 Console.WriteLine("모든 적을 처치하였습니다.");
+                // 보상 지급
+                //foreach (var monster in spawnedMonster)
+                //{
+                //    getGold += (int)monster.Gold;
+                //    getExp += (int)monster.Exp;
+                //    Reward(dungeonType, monster, Player.Instance);
+                //}
                 System.Threading.Thread.Sleep(1000);
                 break;
             }
@@ -158,22 +162,22 @@ namespace TextRPG.Scenes
                         if (dungeonType == DungeonType.Forest)
                         {
                             damage = rand.Next(5, 16);
-                            Console.WriteLine("🌲 숲 던전의 함정에 걸렸습니다!");
+                            Console.WriteLine("숲 던전의 함정에 걸렸습니다!");
                         }
                         else if (dungeonType == DungeonType.Cave)
                         {
                             damage = rand.Next(10, 26);
-                            Console.WriteLine("🕳 동굴 던전의 함정에 걸렸습니다!");
+                            Console.WriteLine(" 동굴 던전의 함정에 걸렸습니다!");
                         }
                         else if (dungeonType == DungeonType.Castle)
                         {
                             damage = rand.Next(20, 36);
-                            Console.WriteLine("🏰 성 던전의 함정에 걸렸습니다!");
+                            Console.WriteLine("성 던전의 함정에 걸렸습니다!");
                         }
                         else if (dungeonType == DungeonType.DragonLair)
                         {
                             damage = rand.Next(30, 46);
-                            Console.WriteLine("🐉 드래곤 둥지의 함정에 걸렸습니다!");
+                            Console.WriteLine("드래곤 둥지의 함정에 걸렸습니다!");
 
                         }
                         Console.WriteLine($"HP {damage} 감소!");
@@ -181,7 +185,7 @@ namespace TextRPG.Scenes
                         Console.WriteLine($"남은 HP: {player.Hp}");
                         if (player.Hp <= 0)
                         {
-                            Console.WriteLine("☠️ 당신은 함정에 의해 사망했습니다...");
+                            Console.WriteLine("당신은 함정에 의해 사망했습니다...");
                             Thread.Sleep(1000);
                             Environment.Exit(0);
                         }
@@ -229,9 +233,9 @@ namespace TextRPG.Scenes
                     healingAmount = rand.Next(0, 400);
                 }
                 //int heal = Math.Min(healingAmount, player.MaxHp - player.Hp); // 최대 HP를 초과하지 않도록 조정
-                //Console.WriteLine($" 💧 회복의 샘 발견! HP가 {heal} 회복되었습니다!");
+                //Console.WriteLine($" 회복의 샘 발견! HP가 {heal} 회복되었습니다!");
                 //player.Hp += heal;
-                Console.WriteLine($" 💧 회복의 샘 발견! HP가 {healingAmount} 회복되었습니다!");
+                Console.WriteLine($" 회복의 샘 발견! HP가 {healingAmount} 회복되었습니다!");
                 player.Hp += healingAmount;
                 Console.WriteLine($"남은 HP: {player.Hp}\n");
                 Console.WriteLine("엔터로 다음 스테이지로 진행");
@@ -283,7 +287,7 @@ namespace TextRPG.Scenes
                         Console.WriteLine($"남은HP: {Player.Instance.Hp}");
                         if (Player.Instance.Hp <= 0)
                         {
-                            Console.WriteLine("☠️ 당신은 상자의 함정에 의해 사망했습니다...");
+                            Console.WriteLine("당신은 상자의 함정에 의해 사망했습니다...");
                             Thread.Sleep(1000);
                             Environment.Exit(0);
                         }
