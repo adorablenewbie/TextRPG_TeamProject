@@ -76,7 +76,7 @@ namespace TextRPG.Scenes
                     int skillIdx = result - 1;
                     Skill targetSkill = player.Skills[skillIdx]; //이거 맞는지 검증해야됨! (스킬 선택하면 맞게 착용되는지)
                     //player.EquipSkill(targetSkill);
-                    player.TestSkill(targetSkill);
+                    player.ArmedSkill(targetSkill);
                     ShowEquipSkill();
                     break;
             }

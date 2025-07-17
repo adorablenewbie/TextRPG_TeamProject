@@ -43,6 +43,7 @@ namespace TextRPG.Object
 
         public float Gold { get; set; }
         public float Exp { get; set; }
+        public bool IsDead {  get; set; }
         public List<Skill> Skills { get; set; } = new List<Skill>();
         public List<Skill> EquippedSkills { get; set; } = new List<Skill>();
         public List<Item> Inventory { get; set; }

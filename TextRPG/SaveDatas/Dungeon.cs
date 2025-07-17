@@ -250,6 +250,7 @@ namespace TextRPG.SaveDatas
                 Environment.Exit(0); // 게임 종료
             }
             //결과
+            Player.Instance.ApplyEffect();
             //turn++;
         }
         
