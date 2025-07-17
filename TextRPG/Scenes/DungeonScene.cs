@@ -10,9 +10,9 @@ namespace TextRPG.Scenes
 {
     public class DungeonScene : Scene
     {
-        static int killCount; // 처치한 몬스터 수
-        static int getGold; // 획득한 골드
-        static int getExp; // 획득한 경험치
+        public static int killCount; // 처치한 몬스터 수
+        public static int getGold; // 획득한 골드
+        public static int getExp; // 획득한 경험치
         // 던전 메뉴
         public override void ShowScene()
         {
@@ -96,13 +96,6 @@ namespace TextRPG.Scenes
                     Dungeon.ChooseAction(spawnedMonster, dungeonType);
                 }
                 Console.WriteLine("모든 적을 처치하였습니다.");
-                // 보상 지급
-                //foreach (var monster in spawnedMonster)
-                //{
-                //    getGold += (int)monster.Gold;
-                //    getExp += (int)monster.Exp;
-                //    Reward(dungeonType, monster, Player.Instance);
-                //}
                 System.Threading.Thread.Sleep(1000);
                 break;
             }
@@ -119,19 +112,14 @@ namespace TextRPG.Scenes
 
 
         // 보상 지급
-        public static void Reward(DungeonType dungeonType, Monster monster, Player player)
+        public static void Reward(Monster monster, Player player)
         {
-            float multiplier = dungeonType switch
-            {
-                DungeonType.Forest => 1.0f,
-                DungeonType.Cave => 1.2f,
-                DungeonType.Castle => 1.5f,
-                DungeonType.DragonLair => 2.0f,
-                _ => 1.0f
-            };
 
-            int rewardGold = (int)(monster.Gold * multiplier);
-            int rewardExp = (int)(monster.Exp * multiplier);
+            int rewardGold = (int)(monster.Gold);
+            int rewardExp = (int)(monster.Exp);
+            killCount++;
+            getGold += rewardGold;
+            getExp += rewardExp;
 
             player.Gold += rewardGold;
             player.Exp += rewardExp;
