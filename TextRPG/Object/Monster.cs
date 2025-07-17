@@ -16,13 +16,17 @@ namespace TextRPG.Object
         {
             new Monster("슬라임", 10, 2, 0, 10, 10, DungeonType.Forest),
             new Monster("고블린", 20, 3, 1, 15, 15, DungeonType.Forest),
-            new Monster("늑대", 30, 4, 2, 25, 25, DungeonType.Forest),
-            new Monster("스켈레톤", 40, 5, 2, 40, 40, DungeonType.Cave),
+            new Monster("산적", 25, 3, 2, 25, 25, DungeonType.Forest),
+            new Monster("늑대인간", 30, 4, 2, 30, 30, DungeonType.Forest),
+            new Monster("박쥐", 35, 5, 2, 40, 40, DungeonType.Cave),
             new Monster("좀비", 50, 5, 3, 50, 50, DungeonType.Cave),
-            new Monster("오크", 75, 8, 4, 70, 70, DungeonType.Cave),
-            new Monster("미믹", 80, 10, 5, 90, 90, DungeonType.Castle),
-            new Monster("흑마법사", 100, 12, 5, 100, 100, DungeonType.Castle),
-            new Monster("흑염룡", 500, 25, 10, 300, 300, DungeonType.DragonLair),
+            new Monster("스켈레톤", 60, 6, 3, 60, 60, DungeonType.Cave),
+            new Monster("오크", 75, 8, 4, 75, 75, DungeonType.Cave),
+            new Monster("미믹", 80, 10, 5, 80, 80, DungeonType.Castle),
+            new Monster("뱀파이어", 100, 10, 5, 100, 100, DungeonType.Castle),
+            new Monster("흑마법사", 120, 12, 5, 120, 120, DungeonType.Castle),
+            new Monster("흑기사", 150, 15, 7, 150, 150, DungeonType.Castle),
+            new Monster("흑염룡", 500, 25, 10, 300, 300, DungeonType.DragonLair)
         };
 
         public Monster Clone()
