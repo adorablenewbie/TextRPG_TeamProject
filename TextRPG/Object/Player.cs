@@ -43,35 +43,8 @@ namespace TextRPG.Object
             this.Inventory = new List<Item>();
         }
 
-        public void EquipSkill(Skill selectedSkill)
-        {
-            EquippedSkills.Add(selectedSkill);
-            selectedSkill.IsEquipped = true; 
-            Console.WriteLine($"{selectedSkill.Name} 스킬이 장착되었습니다.");
-            System.Threading.Thread.Sleep(1000); // 1초 대기
 
-            if (EquippedSkills.Count > 2)
-            {
-                Console.WriteLine("장착된 스킬이 2개를 초과했습니다. 가장 오래된 스킬을 해제합니다.");
-                EquippedSkills.RemoveAt(0); // 가장 오래된 스킬 해제
-            }
-        }
-        public void UnequipSkill(Skill selectedSkill)
-        {
-            if (EquippedSkills.Contains(selectedSkill))
-            {
-                EquippedSkills.Remove(selectedSkill);
-                Console.WriteLine($"{selectedSkill.Name} 스킬이 해제되었습니다.");
-                selectedSkill.IsEquipped = false; // 스킬 장착 상태 해제
-            }
-            else
-            {
-                Console.WriteLine("해제할 수 없는 스킬입니다.");
-            }
-            System.Threading.Thread.Sleep(1000); // 1초 대기
-        }
-
-        public void TestSkill(Skill selectedSkill)
+        public void ArmedSkill(Skill selectedSkill)
         {
             if (selectedSkill.IsEquipped)
             {
@@ -85,11 +58,13 @@ namespace TextRPG.Object
                 //장착
                 EquippedSkills.Add(selectedSkill);
                 Console.WriteLine($"{selectedSkill.Name} 스킬을 장착하였습니다.");
+                selectedSkill.IsEquipped = true;
 
                 if(EquippedSkills.Count > 2)
                 {
                     Console.WriteLine("장착된 스킬이 2개를 초과했습니다. 가장 오래된 스킬을 해제합니다.");
-                    EquippedSkills.RemoveAt(0); // 가장 오래된 스킬 해제
+                    EquippedSkills[0].IsEquipped = false;
+                    EquippedSkills.RemoveAt(0); // 가장 오래된 스킬 해제\
                 }
             }
         }
