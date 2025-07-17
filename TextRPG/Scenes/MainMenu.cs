@@ -46,6 +46,9 @@ namespace TextRPG.Scenes
                     Program.ChangeScene(SceneType.RestScene);
                     break;
                 case "7":
+                    //Program.SavePlayer();
+                    break;
+                case "8":
                     while (true)
                     {
                         Console.WriteLine("\n게임을 종료하시겠습니까? (y/n)\n");

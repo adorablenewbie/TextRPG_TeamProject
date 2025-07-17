@@ -176,7 +176,10 @@ namespace TextRPG.SaveDatas
                 string log = $"|{i + 1} Lv.{mList[i].Level} {mList[i].Name} {(mList[i].IsDead ? "Dead" : mList[i].Hp)}";
                 if (mList[i].IsDead)
                 {
+<<<<<<< Updated upstream
                     Program.ConsoleColorHelper(log, ConsoleColor.Gray, false);
+=======
+>>>>>>> Stashed changes
                 }
                 else
                 {
