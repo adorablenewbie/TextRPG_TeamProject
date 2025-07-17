@@ -13,6 +13,7 @@ namespace TextRPG
 {
     public enum SceneType
     {
+        SetupScene,
         MainScene,
         ShopScene,
         RestScene,
@@ -32,7 +33,7 @@ namespace TextRPG
         {
             scenes = new Dictionary<SceneType, Scene>();
             Shop.InitItems();
-
+            scenes.Add(SceneType.SetupScene, new SetupScene());
             scenes.Add(SceneType.MainScene, new MainMenu());
             scenes.Add(SceneType.StatusScene, new StatusScene());
             scenes.Add(SceneType.RestScene, new RestScene());
