@@ -401,9 +401,20 @@ namespace TextRPG.SaveDatas
 
         public static void EffectAll(List<Monster> mList)
         {
-            Player.Instance.ApplyEffect();
+            if (Player.Instance.HasEffect())
+            {
+                Console.WriteLine($"{Player.Instance.Name}이(가)");
+                Player.Instance.ApplyEffect();
+            }
+            
             for (int i = 0; i < mList.Count; i++) {
-                mList[i].ApplyEffect();
+                if (mList[i].HasEffect()) {
+                    mList[i].ApplyEffect();
+                    if (mList[i].Hp <= 0)
+                    {
+                        mList[i].IsDead = true;
+                    }
+                }
             }
         }
 

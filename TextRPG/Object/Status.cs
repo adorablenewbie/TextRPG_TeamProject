@@ -76,6 +76,14 @@ namespace TextRPG.Object
         {
             currentEffect.Clear();
         }
+        public bool HasEffect()
+        {
+            if(currentEffect.Count > 0)
+            {
+                return true;
+            }
+            return false;
+        }
         public bool HasEffect(Effects effect)
         {
             return currentEffect.ContainsKey(effect);
