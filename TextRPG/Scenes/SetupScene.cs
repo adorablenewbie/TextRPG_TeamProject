@@ -54,12 +54,12 @@ namespace TextRPG.Scenes
                 // 새 캐릭터 기본값 설정
                 player.Name = playerName;
                 player.JobName = jobName;
-                player.Level = 1;
+                player.Level = 2;
                 player.MaxHP = 100;
                 player.Hp = 100;
                 player.MaxMana = 50;
-                player.Mana = 50;
-                player.BaseAttack = 10;
+                player.Mana = 500;
+                player.BaseAttack = 5;
                 player.BaseDefense = 5;
                 player.Gold = 100;
                 player.Exp = 0;
