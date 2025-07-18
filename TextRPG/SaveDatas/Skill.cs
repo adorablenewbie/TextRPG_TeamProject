@@ -78,6 +78,9 @@ namespace TextRPG.SaveDatas
             if(skill.HealValue > 0)
             {
                 target.Hp += skill.HealValue;
+                if (target.MaxHP > target.Hp) {
+                    target.Hp = target.MaxHP;
+                }
             }
             if(skill.DefenseValue > 0)
             {
