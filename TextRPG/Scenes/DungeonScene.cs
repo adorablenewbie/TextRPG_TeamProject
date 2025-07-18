@@ -112,6 +112,12 @@ namespace TextRPG.Scenes
                 else
                 {
                     Console.WriteLine("모든 적을 처치하였습니다.");
+                    Player.Instance.Mana += 10;
+                    if (Player.Instance.MaxMana < Player.Instance.Mana)
+                    {
+                        Player.Instance.Mana = Player.Instance.MaxMana;
+                    }
+                    
                     System.Threading.Thread.Sleep(1000);
                 }
                 break;
