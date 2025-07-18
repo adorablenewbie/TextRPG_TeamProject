@@ -77,8 +77,6 @@ namespace TextRPG.Items
             }
         }
 
-    
-
         public override void AddItem()
         {
             Player.Instance.Inventory.Add(GetItem(this));
