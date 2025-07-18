@@ -9,7 +9,7 @@ using TextRPG.SaveDatas;
 
 namespace TextRPG.Items
 {
-    internal class Usable : Item
+    public class Usable : Item
     {
         public float Value;
 

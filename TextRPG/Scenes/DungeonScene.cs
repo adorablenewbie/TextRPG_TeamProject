@@ -96,7 +96,7 @@ namespace TextRPG.Scenes
                     }
                     
                     Console.WriteLine($"▶ 당신: HP: {Player.Instance.Hp} / MANA: {Player.Instance.Mana} / ATK: {Player.Instance.BaseAttack} / DEF: {Player.Instance.BaseDefense} / GOLD: {Player.Instance.Gold}");
-                    Console.WriteLine("\n[1] 공격  [2]스킬  [3] 도망치기");
+                    Console.WriteLine("\n[1] 공격  [2]스킬  [3]아이템 사용  [4] 도망치기");
                     Console.Write("행동 선택: ");
                     //플레이어의 턴
                     if(Dungeon.ChooseAction(spawnedMonster, dungeonType))

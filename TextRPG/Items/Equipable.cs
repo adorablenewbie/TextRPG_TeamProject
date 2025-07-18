@@ -8,7 +8,7 @@ using TextRPG.SaveDatas;
 
 namespace TextRPG.Items
 {
-    internal class Equipable : Item
+    public class Equipable : Item
     {
         public override bool IsEquipped { get; set; }
 
