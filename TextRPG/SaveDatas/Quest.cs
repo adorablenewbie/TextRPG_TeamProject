@@ -19,7 +19,7 @@ namespace TextRPG.SaveDatas
         private float questRewardGold;
         private Item questSpecialReward;
         private int requiredLevel;
-        private bool isProgress;
+        private bool isProgress = false;
         private bool isCompleted = false;
 
 
@@ -39,18 +39,26 @@ namespace TextRPG.SaveDatas
             this.questRewardExp = questRewardExp;
             this.questSpecialReward = questSpecialReward;
             this.isProgress = false;
-            this. isCompleted = false;
+            this.isCompleted = false;
         }
         public void ChooseQuest()
         {
             if (Player.Instance.Level < requiredLevel)
             {
-                Console.WriteLine("레벨이 부족합니다.");
+                Console.WriteLine("잘못된 입력입니다. 다시 시도해주세요.");
+                System.Threading.Thread.Sleep(1000);
                 return;
             }
             if (isCompleted)
             {
                 Console.WriteLine("이미 완료한 퀘스트입니다.");
+                System.Threading.Thread.Sleep(1000);
+                return;
+            }
+            if (isProgress)
+            {
+                CheckCompletQuest();
+                System.Threading.Thread.Sleep(1000);
                 return;
             }
             Console.WriteLine($"퀘스트를 수락하였습니다: {questTitle}");
@@ -60,16 +68,16 @@ namespace TextRPG.SaveDatas
 
         public void ShowQuestTitle()
         {
-                Console.WriteLine($"{questTitle}\n" +
-                    $"   | 레벨: {requiredLevel} 이상 " +
-                    $"   | 설명: {questDescript} \n" +
-                    $"   | 보상: {questRewardGold} 골드, {questRewardExp}경험치\n" +
-                    $"   | 특별보상: {(questSpecialReward != null ? questSpecialReward.Name : "거지라서 없음 ㅋ")}\n" +
-                    $"   | 진행 상황: {(isProgress ? "퀘스트 수락" : "수락 안 함")}");
-                    
+            Console.WriteLine($"{questTitle}\n" +
+                $"   | 레벨: {requiredLevel} 이상 \n" +
+                $"   | 설명: {questDescript} \n" +
+                $"   | 보상: {questRewardGold} 골드, {questRewardExp}경험치\n" +
+                $"   | 특별보상: {(questSpecialReward != null ? questSpecialReward.Name : "거지라서 없음 ㅋ")}\n" +
+                $"   | 진행 상황: {(isProgress ? (isCompleted ? "완료" : "진행 중") : "수락 안 함")}\n");
+
         }
 
-        public  static void ShowQuestList()
+        public static void ShowQuestList()
         {
             for (int i = 0; i < questList.Count; i++)
             {
@@ -81,6 +89,36 @@ namespace TextRPG.SaveDatas
                 }
             }
 
+        }
+        public void CompleteQuest()
+        {
+            isCompleted = true;
+            Player.Instance.Gold += questRewardGold;
+            Player.Instance.Exp += questRewardExp;
+            Player.Instance.LevelUpCheck();
+            Console.WriteLine($"퀘스트 '{questTitle}' 완료! {questRewardGold} 골드와 {questRewardExp} 경험치를 획득했습니다.\n");
+            if (questSpecialReward != null)
+            {
+                Player.Instance.Inventory.Add(questSpecialReward);
+                Console.WriteLine($"특별 보상으로 {questSpecialReward.Name}을 획득했습니다.\n");
+            }
+            Console.WriteLine($"퀘스트 '{questTitle}' 완료! 보상을 받았습니다.");
+            System.Threading.Thread.Sleep(2000);
+        }
+        public void CheckCompletQuest()
+        {
+            if (!isCompleted)
+            {
+                if (Player.Instance.EquippedArmor != null || Player.Instance.EquippedWeapon != null)
+                {
+                    questList[0].isCompleted = true;
+                    questList[0].CompleteQuest();
+                }
+            }
+            else
+            {
+                Console.WriteLine("퀘스트가 진행 중이거나 이미 완료되었습니다.");
+            }
+        }
     }
-}
 }

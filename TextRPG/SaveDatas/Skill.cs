@@ -60,12 +60,9 @@ namespace TextRPG.SaveDatas
                 player.Mana -= skill.RequiredMana;
                 float skillAttack = skill.AttackValue * player.BaseAttack; // 공격력 곱연산
                 target.Hp -= skillAttack; // 대상에게 피해
-                target.BaseDefense += skill.DefenseValue; // 방어력 합연산
-                target.Hp += skill.HealValue; // 치유
-                if (target.Hp >= target.MaxHP)
-                {
-                    target.Hp = target.MaxHP;
-                }
+
+                SkillValue(skill, target);
+                
                 // 상태이상 효과 적용 로직 추가 가능
                 target.AddEffect(skill.Effect, skill.Duration);
                 Console.WriteLine($"{player.Name}이(가) {skill.Name}을(를) 시전!");
@@ -75,6 +72,19 @@ namespace TextRPG.SaveDatas
                 Console.WriteLine($"{player.Name}은(는) {skill.Name}을(를) 사용할 수 없습니다.");
             }
         }
+
+        public void SkillValue(Skill skill, Status target)
+        {
+            if(skill.HealValue > 0)
+            {
+                target.Hp += skill.HealValue;
+            }
+            if(skill.DefenseValue > 0)
+            {
+                target.AddDefence += skill.DefenseValue;
+            }
+        }
+
         public static Skill Slam =>
            new Skill(
                id: 0,
