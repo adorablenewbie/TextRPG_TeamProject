@@ -20,11 +20,12 @@ namespace TextRPG.SaveDatas
         public float DefenseValue { get; set; } // 방어력 합연산
         public float HealValue { get; set; }
         public Effects Effect { get; set; } // 스킬 상태이상
+        public int Duration {  get; set; }
         public int Level { get; set; } // 스킬 레벨
         public int RequiredLevel { get; set; } // 스킬 사용에 필요한 최소 레벨
         public bool IsEquipped { get; set; } // 스킬이 장착되어 있는지 여부
         //public bool IsEquipped { get; set; } // 스킬이 장착되어 있는지 여부
-        public Skill(int id, string name, string description, float requiredMana, float attackValue, float defenseValue, float healValue, Effects effect, int requiredLevel, bool isEquipped)
+        public Skill(int id, string name, string description, float requiredMana, float attackValue, float defenseValue, float healValue, Effects effect, int duration, int requiredLevel, bool isEquipped)
         {
             ID = id;
             Name = name;
@@ -34,6 +35,7 @@ namespace TextRPG.SaveDatas
             DefenseValue = defenseValue;
             HealValue = healValue;
             Effect = effect;
+            Duration = duration;
             RequiredLevel = requiredLevel;
             IsEquipped = isEquipped;
         }
@@ -65,6 +67,7 @@ namespace TextRPG.SaveDatas
                     target.Hp = target.MaxHP;
                 }
                 // 상태이상 효과 적용 로직 추가 가능
+                target.AddEffect(skill.Effect, skill.Duration);
                 Console.WriteLine($"{player.Name}이(가) {skill.Name}을(를) 시전!");
             }
             else
@@ -82,6 +85,7 @@ namespace TextRPG.SaveDatas
                defenseValue: 0.0f, // 방어력 합연산
                healValue: 0.0f,
                effect: Effects.None,
+               duration: 0,
                requiredLevel: 1,
                isEquipped: false
            );
@@ -96,6 +100,7 @@ namespace TextRPG.SaveDatas
                 defenseValue: 3.0f, // 방어력 합연산
                 healValue: 0.0f,
                 effect: Effects.None,
+                duration: 0,
                 requiredLevel: 1,
                 isEquipped: false
             );
@@ -109,6 +114,7 @@ namespace TextRPG.SaveDatas
                 defenseValue: 0,
                 healValue: 20f,
                 effect: Effects.None,
+                duration: 0,
                 requiredLevel: 1,
                 isEquipped: false
             );
@@ -122,6 +128,7 @@ namespace TextRPG.SaveDatas
                 defenseValue: 0.0f, // 방어력 합연산
                 healValue: 0.0f,
                 effect: Effects.Burn,
+                duration: 3,
                 requiredLevel: 2,
                 isEquipped: false
             );
@@ -135,6 +142,7 @@ namespace TextRPG.SaveDatas
                 defenseValue: 0.0f, // 방어력 합연산
                 healValue: 0.0f,
                 effect: Effects.Poison,
+                duration: 3,
                 requiredLevel: 2,
                 isEquipped: false
             );
@@ -148,6 +156,7 @@ namespace TextRPG.SaveDatas
                 defenseValue: 0.0f, // 방어력 합연산
                 healValue: 0.0f,
                 effect: Effects.Stun,
+                duration: 3,
                 requiredLevel: 3,
                 isEquipped: false
             );
@@ -161,6 +170,7 @@ namespace TextRPG.SaveDatas
                 defenseValue: 0.0f, // 방어력 합연산
                 healValue: 0.0f,
                 effect: Effects.Sleep,
+                duration: 3,
                 requiredLevel: 4,
                 isEquipped: false
             );
@@ -174,6 +184,7 @@ namespace TextRPG.SaveDatas
                 defenseValue: 5.0f, // 방어력 합연산
                 healValue: 200f,
                 effect: Effects.None,
+                duration: 0,
                 requiredLevel: 5,
                 isEquipped: false
             );
@@ -187,6 +198,7 @@ namespace TextRPG.SaveDatas
                 defenseValue: 0.0f, // 방어력 합연산
                 healValue: 0.0f,
                 effect: Effects.None,
+                duration: 0,
                 requiredLevel: 6,
                 isEquipped: false
             );
