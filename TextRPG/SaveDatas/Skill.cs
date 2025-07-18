@@ -116,7 +116,7 @@ namespace TextRPG.SaveDatas
             new Skill(
                 id: 3,
                 name: "폭탄 투척",
-                description: "적에게 폭탄을 던집니다. 폭탄에 맞은 적은 화상 상태가 됩니다. (공격력*3)\n※화상: 적에게 3 고정 피해를 줍니다.",
+                description: "적에게 폭탄을 던집니다. 폭탄에 맞은 적은 화상 상태가 됩니다. (공격력*3)\n※화상: 적에게 2 고정 피해를 줍니다.",
                 requiredMana: 15,
                 attackValue: 3.0f, // 공격력 곱연산
                 defenseValue: 0.0f, // 방어력 합연산
@@ -129,9 +129,9 @@ namespace TextRPG.SaveDatas
             new Skill(
                 id: 4,
                 name: "독침",
-                description: "적에게 독침을 발사해 피해를 줍니다. 독침에 맞은 적은 중독 상태가 됩니다. (공격력*1)\n※중독: 적에게 5 고정 피해를 줍니다.",
+                description: "적에게 독침을 발사해 피해를 줍니다. 독침에 맞은 적은 중독 상태가 됩니다.\n※중독: 적에게 5 고정 피해를 줍니다.",
                 requiredMana: 15,
-                attackValue: 1.0f, // 공격력 곱연산
+                attackValue: 0.0f, // 공격력 곱연산
                 defenseValue: 0.0f, // 방어력 합연산
                 healValue: 0.0f,
                 effect: Effects.Poison,
