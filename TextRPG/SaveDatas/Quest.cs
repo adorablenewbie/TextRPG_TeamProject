@@ -170,15 +170,92 @@ namespace TextRPG.SaveDatas
                             
                             }
                             break;
-                        case "더욱 더 강해지기":
+                        case "단련":
                             if (Player.Instance.Level >= 5)
                             {
                                 isCompleted = true;
                                 CompleteQuest();
                             }
                             break;
-                        case "마을을 위협하는 오크":
-                            if (orcKillCount >= 3)
+                        case "토양 오염의 근원 퇴치":
+                            if (slimeKillCount >= 5)
+                            {
+                                isCompleted = true;
+                                CompleteQuest();
+                            }
+                            break;
+                        case "고블린의 습격 저지":
+                            if (goblinKillCount >= 5)
+                            {
+                                isCompleted = true;
+                                CompleteQuest();
+                            }
+                            break;
+                        case "산적 대장 체포 작전":
+                            if (banditKillCount >= 5)
+                            {
+                                isCompleted = true;
+                                CompleteQuest();
+                            }
+                            break;
+                        case "밤의 공포":
+                            if (werewolfKillCount >= 5)
+                            {
+                                isCompleted = true;
+                                CompleteQuest();
+                            }
+                            break;
+                        case "동굴 탐험의 시작":
+                            if (batKillCount >= 7)
+                            {
+                                isCompleted = true;
+                                CompleteQuest();
+                            }
+                            break;
+                        case "동굴 속 생존자의 흔적 탐색":
+                            if (zombieKillCount >= 7)
+                            {
+                                isCompleted = true;
+                                CompleteQuest();
+                            }
+                            break;
+                        case "유물 수집":
+                            if (skeletonKillCount >= 7)
+                            {
+                                isCompleted = true;
+                                CompleteQuest();
+                            }
+                            break;
+                        case "동굴의 지배자 추적":
+                            if (orcKillCount >= 10)
+                            {
+                                isCompleted = true;
+                                CompleteQuest();
+                            }
+                            break;
+                        case "보물 상자 찾기":
+                            if (mimicKillCount >= 10)
+                            {
+                                isCompleted = true;
+                                CompleteQuest();
+                            }
+                            break;
+                        case "초대받지 않은 손님":
+                            if (vampireKillCount >= 10)
+                            {
+                                isCompleted = true;
+                                CompleteQuest();
+                            }
+                            break;
+                        case "흑막의 정체":
+                            if (blackMageKillCount >= 12)
+                            {
+                                isCompleted = true;
+                                CompleteQuest();
+                            }
+                            break;
+                        case "마법진 해제 작업":
+                            if (blackKnightKillCount >= 15)
                             {
                                 isCompleted = true;
                                 CompleteQuest();
