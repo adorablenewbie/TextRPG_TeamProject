@@ -247,7 +247,7 @@ namespace TextRPG.SaveDatas
             
             for (int i = 0; i < mList.Count; i++)
             {
-                string log = $"|{i + 1} Lv.{mList[i].Level} {mList[i].Name} {(mList[i].IsDead ? "Dead" : mList[i].Hp)}";
+                string log = $"|{i + 1} Lv.{mList[i].Level} {mList[i].Name} {(mList[i].IsDead ? "Dead" : $"{mList[i].Hp:F0}")}";
                 if (mList[i].IsDead)
                 {
                     Program.ConsoleColorHelper(log, ConsoleColor.DarkGray, ConsoleColor.Black, false);

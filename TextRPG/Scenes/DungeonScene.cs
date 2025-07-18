@@ -148,12 +148,12 @@ namespace TextRPG.Scenes
             player.Gold += rewardGold;
             player.Exp += rewardExp;
 
-            int random = new Random().Next(0, Shop.shopItems.Count+1);
+            int random = new Random().Next(0, Shop.shopItems.Count);
             Item selected = Shop.shopItems[random];
             selected.AddItem();
 
             Console.WriteLine($"{monster.Name} 처치! 골드 +{rewardGold}, 경험치 +{rewardExp}");
-            Console.WriteLine($"{selected} 을 획득하였습니다.");
+            Console.WriteLine($"{selected.Name} 을 획득하였습니다.");
 
             Thread.Sleep(1000);
         }
