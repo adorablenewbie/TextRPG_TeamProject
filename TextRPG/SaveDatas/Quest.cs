@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TextRPG.Items;
 using TextRPG.Object;
+using TextRPG.SaveDatas;
 
 namespace TextRPG.SaveDatas
 {
@@ -43,7 +44,7 @@ namespace TextRPG.SaveDatas
         private string questDescript;
         private float questRewardExp;
         private float questRewardGold;
-        private Item questSpecialReward;
+        private Skill questSpecialReward;
         private int requiredLevel;
         private bool isProgress = false;
         private bool isCompleted = false;
@@ -64,19 +65,24 @@ namespace TextRPG.SaveDatas
 
         public static List<Quest> questList = new()
         {
-            new Quest("장비 장착", "갑옷이든 무기든 착용해보자!", 0, 200, 10),
-            new Quest("더욱 더 강해지기", "레벨 5이상으로 달성하자", 2, 500, 25, Equipable.equipedItemData[0]),
-            new Quest("마을을 위협하는 오크", "동굴에 거주하는 오크 3마리 처치", 7, 1000, 30),
-            new Quest("구원", "세에에에에에에에계ㅔㅔㅔㅔㅔㅔㅔㅔ 평화를 위해 흑염룡 퇴치", 10, 5000, 60, Equipable.equipedItemData[0]),
+            new Quest("장비 장착", "갑옷이든 무기든 착용해보자!", 0, 200, 10, Skill.Slam),
+            new Quest("더욱 더 강해지기", "레벨 5이상으로 달성하자", 2, 500, 25, Skill.Barrier),
+            new Quest("토양 오염의 원흉", "슬라임들이 땅을 못 쓰게 만든다. 슬라임 5마리 처치하자!", 1, 300, 15, Skill.Heal),
+            new Quest("고블린의 습격", "고블린 5마리 처치", 3, 400, 20, Skill.Bomb),
+            new Quest("산적의 소굴", "산적 5마리 처치", 4, 600, 25, Skill.Stinger),
+            new Quest("늑대인간의 위협", "늑대인간 5마리 처치", 5, 700, 30, Skill.Lightning),
+            new Quest("박쥐의 습격", "박쥐 5마리 처치", 6, 800, 35, Skill.Hypnosis),
+            new Quest("마을을 위협하는 오크", "동굴에 거주하는 오크 3마리 처치", 7, 1000, 50, Skill.HealingWind),
+            new Quest("구원", "세에에에에에에에계ㅔㅔㅔㅔㅔㅔㅔㅔ 평화를 위해 흑염룡 퇴치", 10, 5000, 100, Skill.DeathBlow),
         };
-        public Quest(string title, string descript, int requiredLevel, float questRewardGold, float questRewardExp, Item questSpecialReward = null)
+        public Quest(string title, string descript, int requiredLevel, float Gold, float Exp, Skill SpecialReward)
         {
             this.questTitle = title;
             this.questDescript = descript;
             this.requiredLevel = requiredLevel;
-            this.questRewardGold = questRewardGold;
-            this.questRewardExp = questRewardExp;
-            this.questSpecialReward = questSpecialReward;
+            this.questRewardGold = Gold;
+            this.questRewardExp = Exp;
+            this.questSpecialReward =SpecialReward;
             this.isProgress = false;
             this.isCompleted = false;
         }
@@ -138,7 +144,7 @@ namespace TextRPG.SaveDatas
             Console.WriteLine($"퀘스트 '{questTitle}' 완료! {questRewardGold} 골드와 {questRewardExp} 경험치를 획득했습니다.\n");
             if (questSpecialReward != null)
             {
-                Player.Instance.Inventory.Add(questSpecialReward);
+                Player.Instance.Skills.Add(questSpecialReward);
                 Console.WriteLine($"특별 보상으로 {questSpecialReward.Name}을 획득했습니다.\n");
             }
             Console.WriteLine($"퀘스트 '{questTitle}' 완료! 보상을 받았습니다.");
