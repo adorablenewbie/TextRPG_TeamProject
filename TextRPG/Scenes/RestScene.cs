@@ -12,20 +12,21 @@ namespace TextRPG.Scenes
             {
                 Console.Clear();
                 Console.WriteLine("[휴게소]");
-                Console.WriteLine($"휴게소에서 100골드로 잠시 쉬어가시겠습니까?.   (보유골드: {Player.Instance.gold})\n");
+                Console.WriteLine($"휴게소에서 100골드로 잠시 쉬어가시겠습니까?.   (보유골드: {Player.Instance.Gold})\n");
                 Console.WriteLine("1. 예\r\n0. 아니요\n");
                 Console.Write("원하시는 행동을 입력해주세요: ");
                 string input = Console.ReadLine();
                 if (input == "1")
                 {
-                    if (100 <= Player.Instance.gold)
+                    if (100 <= Player.Instance.Gold)
                     {
                         PlayerRest();
                         break;
                     }
                     else
                     {
-                        Console.WriteLine("골드가 부족합니다. 휴식을 취할 수 없습니다.");
+                        Program.ConsoleColorHelper("골드가 부족합니다. 휴식을 취할 수 없습니다.", ConsoleColor.Red,ConsoleColor.Black, false);//돈부족 빨간색
+
                         Console.WriteLine("계속하려면 아무 키나 누르세요...");
                         Console.ReadKey();
                     }
@@ -48,13 +49,15 @@ namespace TextRPG.Scenes
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("[휴식]");
-                Console.WriteLine("휴식을 취합니다...");
-                System.Threading.Thread.Sleep(2000); // 2초 대기
-                //player.RestoreHealth();
-                Console.WriteLine("체력이 회복되었습니다.");
-                Player.Instance.gold -= 100;
-                Console.WriteLine($"남은 골드: {Player.Instance.gold}\n");
+                Program.ConsoleColorHelper("[휴식]", ConsoleColor.Cyan, ConsoleColor.Black, false); //휴식 색 파란색
+                Program.ConsoleColorHelper("휴식을 취합니다...", ConsoleColor.Green, ConsoleColor.Black, false);
+
+                System.Threading.Thread.Sleep(1000);
+                Player.Instance.RestoreHealth();
+                Program.ConsoleColorHelper("체력이 회복되었습니다.", ConsoleColor.Green, ConsoleColor.Black, false);
+
+                Player.Instance.Gold -= 100;
+                Console.WriteLine($"남은 골드: {Player.Instance.Gold}\n");
                 Console.WriteLine("0. 나가기\n");
                 Console.Write("원하시는 행동을 입력해주세요: ");
                 string input = Console.ReadLine();

@@ -15,9 +15,17 @@ namespace TextRPG.SaveDatas
         Sleep = 1 << 1, //0000 0010
         Freeze = 1 << 2, //0000 0100
         Stun = 1 << 3, //0000 1000
+        Burn = 1 << 4, //0001 0000
     }
-    internal class Effect
+    public class Effect
     {
-        
+        public Effects Type { get; private set; }
+        public int Duration { get; set; }
+
+        public Effect(Effects type, int duration)
+        {
+            Type = type;
+            Duration = duration;
+        }
     }
 }
