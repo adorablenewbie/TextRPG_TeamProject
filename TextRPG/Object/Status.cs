@@ -50,9 +50,9 @@ namespace TextRPG.Object
 
         public void AddEffect(Effects effect, int duration)
         {
-            if (currentEffect.ContainsKey(effect))
+            if (this.currentEffect.ContainsKey(effect))
             {
-                Effect plusEffect = currentEffect[effect];
+                Effect plusEffect = this.currentEffect[effect];
                 if (plusEffect.Duration < duration)
                 {
                     plusEffect.Duration = duration; //상태 갱신
@@ -61,43 +61,46 @@ namespace TextRPG.Object
             else
             {
                 Effect newEffect = new Effect(effect, duration);
-                currentEffect.Add(effect, newEffect); //상태 추가
+                this.currentEffect.Add(effect, newEffect); //상태 추가
             }
         }
 
         public void RemoveEffect(Effects effect)
         {
-            if (currentEffect.Remove(effect))
+            if (this.currentEffect.Remove(effect))
             {
                 Console.WriteLine($"{effect} 상태이상 제거"); //디버그용
             }
         }
         public void RemoveAllEffect()
         {
-            currentEffect.Clear();
+            this.currentEffect.Clear();
         }
         public bool HasEffect()
         {
-            if(currentEffect.Count > 0)
+            if(this.currentEffect.Count > 0)
             {
                 return true;
             }
-            return false;
+            else
+            {
+                return false;
+            }
         }
         public bool HasEffect(Effects effect)
         {
-            return currentEffect.ContainsKey(effect);
+            return this.currentEffect.ContainsKey(effect);
         }
 
         public void ApplyEffect()
         {
             if (Hp <= 0) return;
 
-            List<Effects> effectKeys = currentEffect.Keys.ToList();
+            List<Effects> effectKeys = this.currentEffect.Keys.ToList();
 
             foreach (Effects key in effectKeys)
             {
-                if (currentEffect.TryGetValue(key, out Effect effect))
+                if (this.currentEffect.TryGetValue(key, out Effect effect))
                 {
                     switch (effect.Type)
                     {
@@ -119,10 +122,10 @@ namespace TextRPG.Object
                 }
                 effect.Duration--;
 
-                if (effect.Duration <= 0)
+                if (effect.Duration <= 0 || this.IsDead == true)
                 {
                     //제거됨
-                    currentEffect.Remove(key);
+                    this.currentEffect.Remove(key);
                 }
             }
 

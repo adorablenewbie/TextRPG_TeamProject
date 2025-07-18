@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using TextRPG.Object;
 using TextRPG.SaveDatas;
 
@@ -54,19 +54,6 @@ namespace TextRPG.Scenes
                 // 새 캐릭터 기본값 설정
                 player.Name = playerName;
                 player.JobName = jobName;
-                player.Level = 2;
-                player.MaxHP = 100;
-                player.Hp = 100;
-                player.MaxMana = 50;
-                player.Mana = 500;
-                player.BaseAttack = 5;
-                player.BaseDefense = 5;
-                player.Gold = 100;
-                player.Exp = 0;
-                player.NextExp = 10;
-                player.Inventory = new();
-                player.Skills = new();
-                player.EquippedSkills = new();
 
                 Console.WriteLine("캐릭터가 생성되었습니다.");
             }
