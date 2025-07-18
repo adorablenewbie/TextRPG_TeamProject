@@ -177,7 +177,7 @@ namespace TextRPG.SaveDatas
             new Skill(
                 id: 6,
                 name: "최면술",
-                description: "적에게 졸음을 유도하는 마법을 겁니다. 마법에 걸린 적은 잠듦 상태가 됩니다.\n※잠듦: 적이 3턴 동안 어떤 행동도 할 수 없습니다.",
+                description: "적에게 졸음을 유도하는 마법을 겁니다. 마법에 걸린 적은 수면 상태가 됩니다.\n※수면: 적이 3턴 동안 어떤 행동도 할 수 없습니다.",
                 requiredMana: 30,
                 attackValue: 0.0f, // 공격력 곱연산
                 defenseValue: 0.0f, // 방어력 합연산
