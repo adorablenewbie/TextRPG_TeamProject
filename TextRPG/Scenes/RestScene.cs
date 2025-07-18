@@ -25,7 +25,8 @@ namespace TextRPG.Scenes
                     }
                     else
                     {
-                        Console.WriteLine("골드가 부족합니다. 휴식을 취할 수 없습니다.");
+                        Program.ConsoleColorHelper("골드가 부족합니다. 휴식을 취할 수 없습니다.", ConsoleColor.Red,ConsoleColor.Black, false);//돈부족 빨간색
+
                         Console.WriteLine("계속하려면 아무 키나 누르세요...");
                         Console.ReadKey();
                     }
@@ -48,8 +49,9 @@ namespace TextRPG.Scenes
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("[휴식]");
-                Console.WriteLine("휴식을 취합니다...");
+                Program.ConsoleColorHelper("[휴식]", ConsoleColor.Cyan, ConsoleColor.Black, false); //휴식 색 파란색
+                Program.ConsoleColorHelper("휴식을 취합니다...", ConsoleColor.Green, ConsoleColor.Black, false);
+
                 System.Threading.Thread.Sleep(1000);
                 Player.Instance.RestoreHealth();
                 Console.WriteLine("체력이 회복되었습니다.");
