@@ -405,7 +405,6 @@ namespace TextRPG.SaveDatas
             {
                 Console.WriteLine($"{Player.Instance.Name}이(가)");
                 Player.Instance.ApplyEffect();
-                Thread.Sleep(1000);
             }
             
             for (int i = 0; i < mList.Count; i++) {
@@ -416,7 +415,6 @@ namespace TextRPG.SaveDatas
                     {
                         mList[i].IsDead = true;
                     }
-                    Thread.Sleep(1000);
                 }
             }
         }
