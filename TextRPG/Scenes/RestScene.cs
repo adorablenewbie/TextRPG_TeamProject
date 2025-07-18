@@ -54,7 +54,8 @@ namespace TextRPG.Scenes
 
                 System.Threading.Thread.Sleep(1000);
                 Player.Instance.RestoreHealth();
-                Console.WriteLine("체력이 회복되었습니다.");
+                Program.ConsoleColorHelper("체력이 회복되었습니다.", ConsoleColor.Green, ConsoleColor.Black, false);
+
                 Player.Instance.Gold -= 100;
                 Console.WriteLine($"남은 골드: {Player.Instance.Gold}\n");
                 Console.WriteLine("0. 나가기\n");
