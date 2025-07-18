@@ -171,7 +171,8 @@ namespace TextRPG.Scenes
                 Console.WriteLine("당신은 어느 길로 가시겠습니까?\n");
                 Console.WriteLine("[1] 왼쪽 길로 간다.\n[2] 오른쪽 길로 간다.");
                 Console.Write("행동 선택: ");
-                int input = int.Parse(Console.ReadLine());
+                string inputStr = Console.ReadLine();
+                int.TryParse(inputStr, out int input);
                 if (input == 1| input == 2)
                 {
                     if (trapRoad == input - 1)
