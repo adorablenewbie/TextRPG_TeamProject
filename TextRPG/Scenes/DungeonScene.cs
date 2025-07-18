@@ -181,22 +181,22 @@ namespace TextRPG.Scenes
                         if (dungeonType == DungeonType.Forest)
                         {
                             damage = rand.Next(5, 16);
-                            Console.WriteLine("숲 던전의 함정에 걸렸습니다!");
+                            Program.ConsoleColorHelper("숲의 함정에 걸렸습니다!...", ConsoleColor.Red, ConsoleColor.Black, false);
                         }
                         else if (dungeonType == DungeonType.Cave)
                         {
                             damage = rand.Next(10, 26);
-                            Console.WriteLine(" 동굴 던전의 함정에 걸렸습니다!");
+                            Program.ConsoleColorHelper(" 동굴 던전의 함정에 걸렸습니다!", ConsoleColor.Red, ConsoleColor.Black, false);
                         }
                         else if (dungeonType == DungeonType.Castle)
                         {
                             damage = rand.Next(20, 36);
-                            Console.WriteLine("성 던전의 함정에 걸렸습니다!");
+                            Program.ConsoleColorHelper("성 던전의 함정에 걸렸습니다!", ConsoleColor.Red, ConsoleColor.Black, false);
                         }
                         else if (dungeonType == DungeonType.DragonLair)
                         {
                             damage = rand.Next(30, 46);
-                            Console.WriteLine("드래곤 둥지의 함정에 걸렸습니다!");
+                            Program.ConsoleColorHelper("드래곤 둥지의 함정에 걸렸습니다!", ConsoleColor.Red, ConsoleColor.Black, false);
 
                         }
                         Console.WriteLine($"HP {damage} 감소!");
@@ -204,7 +204,8 @@ namespace TextRPG.Scenes
                         Console.WriteLine($"남은 HP: {player.Hp}");
                         if (player.Hp <= 0)
                         {
-                            Console.WriteLine("당신은 함정에 의해 사망했습니다...");
+                            Program.ConsoleColorHelper("당신은 함정에 의해 사망했습니다...", ConsoleColor.Red, ConsoleColor.Black, false);
+
                             Thread.Sleep(1000);
                             Environment.Exit(0);
                         }
@@ -235,8 +236,8 @@ namespace TextRPG.Scenes
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("당신은 회복의 샘이 있는 곳에 도착했습니다.");
-                Console.WriteLine("샘에서 물을 마시면 HP가 회복될 것 같습니다.");
+                Program.ConsoleColorHelper("당신은 회복의 샘이 있는 곳에 도착했습니다.", ConsoleColor.Green, ConsoleColor.Black, false);
+                Program.ConsoleColorHelper("샘에서 물을 마시면 HP가 회복될 것 같습니다.", ConsoleColor.Green, ConsoleColor.Black, false);
                 Console.WriteLine("당신은 달고 단 샘물을 들이켰습니다.\n");
                 Thread.Sleep(1000);
                 int healingAmount = 0;
@@ -294,7 +295,7 @@ namespace TextRPG.Scenes
                     int boxResult = random.Next(0, 10);
                     if (boxResult < 3)
                     {
-                        Console.WriteLine("상자를 열었더니 함정에 걸렸습니다!");
+                        Program.ConsoleColorHelper("상자를 열었더니 함정에 걸렸습니다!",ConsoleColor.Red, ConsoleColor.Black, false);
                         int damage = 0;
                         if (dungeonType == DungeonType.Forest)
                         {
@@ -317,7 +318,7 @@ namespace TextRPG.Scenes
                         Console.WriteLine($"남은HP: {Player.Instance.Hp}");
                         if (Player.Instance.Hp <= 0)
                         {
-                            Console.WriteLine("당신은 상자의 함정에 의해 사망했습니다...");
+                            Program.ConsoleColorHelper("당신은 상자의 함정에 의해 사망했습니다...", ConsoleColor.Red, ConsoleColor.Black, false);
                             Thread.Sleep(1000);
                             Environment.Exit(0);
                         }
@@ -426,7 +427,7 @@ namespace TextRPG.Scenes
         public static void ShowDungeonResult(DungeonType dungeonType, int killCount, int getGold, int getExp)
         {
             Console.Clear();
-            Console.WriteLine("🎉 던전 클리어! 🎉");
+            Program.ConsoleColorHelper("🎉 던전 클리어! 🎉",ConsoleColor.Yellow,ConsoleColor.White,false);
             Console.WriteLine("───────────────");
             Console.WriteLine($"▶ 던전: {Dungeon.GetDungeonName(dungeonType)}");
             Console.WriteLine($"▶ 처치 수: {killCount}");
