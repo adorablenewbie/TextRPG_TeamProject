@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Threading;
 using TextRPG;
+using TextRPG.Items;
 using TextRPG.Object;
 using TextRPG.SaveDatas;
 
@@ -95,7 +96,7 @@ namespace TextRPG.Scenes
                         break;
                     }
                     
-                    Console.WriteLine($"▶ 당신: HP: {Player.Instance.Hp} / MANA: {Player.Instance.Mana} / ATK: {Player.Instance.BaseAttack} / DEF: {Player.Instance.BaseDefense} / GOLD: {Player.Instance.Gold}");
+                    Console.WriteLine($"▶ 당신: Lv:{Player.Instance.Level} HP: {Player.Instance.Hp} / MANA: {Player.Instance.Mana} / ATK: {Player.Instance.BaseAttack} / DEF: {Player.Instance.BaseDefense} / GOLD: {Player.Instance.Gold}");
                     Console.WriteLine("\n[1] 공격  [2]스킬  [3]아이템 사용  [4] 도망치기");
                     Console.Write("행동 선택: ");
                     //플레이어의 턴
@@ -147,7 +148,13 @@ namespace TextRPG.Scenes
             player.Gold += rewardGold;
             player.Exp += rewardExp;
 
+            int random = new Random().Next(0, Shop.shopItems.Count+1);
+            Item selected = Shop.shopItems[random];
+            selected.AddItem();
+
             Console.WriteLine($"{monster.Name} 처치! 골드 +{rewardGold}, 경험치 +{rewardExp}");
+            Console.WriteLine($"{selected} 을 획득하였습니다.");
+
             Thread.Sleep(1000);
         }
 
