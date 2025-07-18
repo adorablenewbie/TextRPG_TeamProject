@@ -35,10 +35,10 @@ namespace TextRPG.Object
             this.Hp = 100;
             this.MaxMana = 50;
             this.Mana = 50;
-            this.Level = 2;
+            this.Level = 1;
             this.BaseAttack = 10;
             this.BaseDefense = 5; 
-            this.Gold = 0;
+            this.Gold = 1500;
             this.Exp = 0;
             this.Skills = new List<Skill>();
             this.EquippedSkills = new List<Skill>();

@@ -29,7 +29,7 @@ namespace TextRPG.Scenes
                 Console.WriteLine();
                 Console.WriteLine("원하시는 행동을 입력해주세요.");
 
-                int result = CheckInput(0, 2);
+                int result = CheckInput(0, 1);
 
                 switch (result)
                 {
@@ -39,14 +39,6 @@ namespace TextRPG.Scenes
                     case 1: // 스킬 장착 관리
                         ShowEquipSkill();
                         break;
-                    case 2:
-                        Console.WriteLine("기본 스킬 획득.");
-                        player.Skills.Add(Skill.Slam);
-                        player.Skills.Add(Skill.Barrier);
-                        player.Skills.Add(Skill.Heal);
-                        player.Skills.Add(Skill.Bomb);
-                        break;
-
                 }
         }
 
