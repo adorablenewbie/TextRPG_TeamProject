@@ -152,6 +152,7 @@ namespace TextRPG.SaveDatas
                 Thread.Sleep(500);
                 if (mList[idx].Hp <= 0)
                 {
+                    Quest.CountKill(mList[idx]);
                     DungeonScene.Reward(mList[idx], Player.Instance);
                     mList[idx].IsDead = true;
                     //mList.RemoveAt(idx);
@@ -199,6 +200,7 @@ namespace TextRPG.SaveDatas
                 Console.WriteLine($"{mList[idx].Name}의 남은 HP: {mList[idx].Hp}");
                 if (mList[idx].Hp <= 0)
                 {
+                    Quest.CountKill(mList[idx]);
                     DungeonScene.Reward(mList[idx], Player.Instance);
                     mList[idx].IsDead = true;
                     //mList.RemoveAt(idx);
@@ -367,6 +369,7 @@ namespace TextRPG.SaveDatas
                 Console.WriteLine($"{mList[idx].Name}의 남은 HP: {mList[idx].Hp}");
                 if (mList[idx].Hp <= 0)
                 {
+                    Quest.CountKill(mList[idx]);
                     DungeonScene.Reward(mList[idx], Player.Instance);
                     mList[idx].IsDead = true;
                     //mList.RemoveAt(idx);

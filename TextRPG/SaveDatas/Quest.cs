@@ -21,6 +21,19 @@ namespace TextRPG.SaveDatas
         private int requiredLevel;
         private bool isProgress = false;
         private bool isCompleted = false;
+        public static int slimeKillCount = 0; // 슬라임 처치 횟수
+        public static int goblinKillCount = 0; // 고블린 처치 횟수
+        public static int banditKillCount = 0; // 산적 처치 횟수
+        public static int werewolfKillCount = 0; // 늑대인간 처치 횟수
+        public static int batKillCount = 0; // 박쥐 처치 횟수
+        public static int zombieKillCount = 0; // 좀비 처치 횟수
+        public static int skeletonKillCount = 0; // 스켈레톤 처치 횟수
+        public static int orcKillCount = 0; // 오크 처치 횟수
+        public static int mimicKillCount = 0; // 미믹 처치 횟수
+        public static int vampireKillCount = 0; // 뱀파이어 처치 횟수
+        public static int blackMageKillCount = 0; // 흑마법사 처치 횟수
+        public static int blackKnightKillCount = 0; // 흑기사 처치 횟수
+        public static int dragonKillCount = 0; // 흑염룡 처치 횟수
 
 
         public static List<Quest> questList = new()
@@ -114,10 +127,85 @@ namespace TextRPG.SaveDatas
                     questList[0].isCompleted = true;
                     questList[0].CompleteQuest();
                 }
+                if (Player.Instance.Level >= 5)
+                {
+                    questList[1].isCompleted = true;
+                    questList[1].CompleteQuest();
+                }
+                if (orcKillCount >= 3)
+                {
+                    questList[2].isCompleted = true;
+                    questList[2].CompleteQuest();
+                }
+                if (dragonKillCount >= 1)
+                {
+                    questList[3].isCompleted = true;
+                    questList[3].CompleteQuest();
+                }
             }
             else
             {
                 Console.WriteLine("퀘스트가 진행 중이거나 이미 완료되었습니다.");
+            }
+        }
+
+        public static void CountKill(Monster monster)
+        {
+            if(monster.Name == "슬라임")
+            {
+                slimeKillCount++;
+            }
+            else if (monster.Name == "고블린")
+            {
+                goblinKillCount++;
+            }
+            else if (monster.Name == "산적")
+            {
+                banditKillCount++;
+            }
+            else if (monster.Name == "늑대인간")
+            {
+                werewolfKillCount++;
+            }
+            else if (monster.Name == "박쥐")
+            {
+                batKillCount++;
+            }
+            else if (monster.Name == "좀비")
+            {
+                zombieKillCount++;
+            }
+            else if (monster.Name == "스켈레톤")
+            {
+                skeletonKillCount++;
+            }
+            else if (monster.Name == "미믹")
+            {
+                mimicKillCount++;
+            }
+            else if (monster.Name == "뱀파이어")
+            {
+                vampireKillCount++;
+            }
+            else if (monster.Name == "흑마법사")
+            {
+                blackMageKillCount++;
+            }
+            else if (monster.Name == "흑기사")
+            {
+                blackKnightKillCount++;
+            }
+            else if (monster.Name == "오크")
+            {
+                orcKillCount++;
+            }
+            else if (monster.Name == "흑염룡")
+            {
+                dragonKillCount++;
+            }
+            else
+            {
+                Console.WriteLine("알 수 없는 몬스터입니다.");
             }
         }
     }
