@@ -17,6 +17,11 @@ namespace TextRPG.Items
             new Equipable("갑옷", "대체 이 갑옷은 뭐냐!", 0, 10, 1000, ItemType.Armor),
         };
 
+        public Equipable GetItem(Equipable item) //독립저장용 복사본
+        {
+            return new Equipable(item.Name, item.Description, item.Attack, item.Defense, item.Price, item.Type);
+        }
+
         public Equipable() { }
         public Equipable(string name, string descript, float atk, float def, float price, ItemType type)
         {
@@ -73,13 +78,11 @@ namespace TextRPG.Items
 
         public override void AddItem()
         {
-            Player.Instance.Inventory.Add(this);
-            Shop.shopItems.Remove(this);
+            Player.Instance.Inventory.Add(GetItem(this));
         }
 
         public override void RemoveItem() 
         {
-            Shop.shopItems.Add(this);
             base.RemoveItem();
         }
     }

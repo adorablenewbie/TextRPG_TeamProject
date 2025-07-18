@@ -122,26 +122,38 @@ namespace TextRPG.SaveDatas
         {
             if (!isCompleted)
             {
-                if (Player.Instance.EquippedArmor != null || Player.Instance.EquippedWeapon != null)
-                {
-                    questList[0].isCompleted = true;
-                    questList[0].CompleteQuest();
-                }
-                if (Player.Instance.Level >= 5)
-                {
-                    questList[1].isCompleted = true;
-                    questList[1].CompleteQuest();
-                }
-                if (orcKillCount >= 3)
-                {
-                    questList[2].isCompleted = true;
-                    questList[2].CompleteQuest();
-                }
-                if (dragonKillCount >= 1)
-                {
-                    questList[3].isCompleted = true;
-                    questList[3].CompleteQuest();
-                }
+                switch(this.questTitle)
+                    {
+                        case "장비 장착":
+                            if (Player.Instance.EquippedArmor != null || Player.Instance.EquippedWeapon != null)
+                            {
+                                isCompleted = true;
+                                CompleteQuest();
+                            
+                            }
+                            break;
+                        case "더욱 더 강해지기":
+                            if (Player.Instance.Level >= 5)
+                            {
+                                isCompleted = true;
+                                CompleteQuest();
+                            }
+                            break;
+                        case "마을을 위협하는 오크":
+                            if (orcKillCount >= 3)
+                            {
+                                isCompleted = true;
+                                CompleteQuest();
+                            }
+                            break;
+                        case "구원":
+                            if (dragonKillCount >= 1)
+                            {
+                                isCompleted = true;
+                                CompleteQuest();
+                            }
+                            break;
+                     }
             }
             else
             {
