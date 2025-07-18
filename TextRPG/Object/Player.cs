@@ -109,6 +109,7 @@ namespace TextRPG.Object
             // 출력
             Console.WriteLine($"== 레벨 업! 현재 레벨: {Level} ==");
             Console.WriteLine($"→ HP: {MaxHP}, 공격력: {TotalAttack}, 방어력: {TotalDefence}");
+            LevelUpCheck();
         }
         public void Initialize()
         {
