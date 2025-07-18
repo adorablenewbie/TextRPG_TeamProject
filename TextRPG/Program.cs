@@ -21,6 +21,7 @@ namespace TextRPG
         StatusScene,
         SkillScene,
         InventoryScene,
+        QuestScene,
         DungeonScene,
     }
     internal class Program
@@ -41,6 +42,7 @@ namespace TextRPG
             scenes.Add(SceneType.ShopScene, new ShopScene());
             scenes.Add(SceneType.SkillScene, new SkillScene());
             scenes.Add(SceneType.InventoryScene, new InventoryScene());
+            scenes.Add(SceneType.QuestScene, new QuestScene());
             scenes.Add(SceneType.DungeonScene, new DungeonScene());
         }
 
