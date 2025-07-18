@@ -29,18 +29,22 @@ namespace TextRPG.Object
         public float NextExp = 10;
         public Player()
         {
-            this.MaxHP = 100f;
-            this.Hp = MaxHP;
-            this.MaxMana = 50f;
-            this.Mana = MaxMana;
+            this.Name = "Player";
+            this.JobName = "전사";
+            this.MaxHP = 100;
+            this.Hp = 100;
+            this.MaxMana = 50;
+            this.Mana = 50;
             this.Level = 1;
             this.BaseAttack = 10;
-            this.BaseDefense = 5;
-            this.Gold = 1500;
+            this.BaseDefense = 5; 
+            this.Gold = 0;
             this.Exp = 0;
             this.Skills = new List<Skill>();
             this.EquippedSkills = new List<Skill>();
             this.Inventory = new List<Item>();
+            this.EquippedWeapon = new Equipable(); // 기본 무기 설정
+            this.EquippedArmor = new Equipable(); // 기본 갑옷 설정
         }
 
 
@@ -88,7 +92,7 @@ namespace TextRPG.Object
             Hp += restoreHealth;
         }
 
-        private void LevelUpCheck()
+        public void LevelUpCheck()
         {
             if (Exp < NextExp) return;
 
@@ -105,6 +109,39 @@ namespace TextRPG.Object
             // 출력
             Console.WriteLine($"== 레벨 업! 현재 레벨: {Level} ==");
             Console.WriteLine($"→ HP: {MaxHP}, 공격력: {TotalAttack}, 방어력: {TotalDefence}");
+        }
+        public void Initialize()
+        {
+            if (Inventory == null)
+                Inventory = new List<Item>();
+            if (EquippedSkills == null)
+                EquippedSkills = new List<Skill>();
+            if (Skills == null)
+                Skills = new List<Skill>();
+            if (EquippedWeapon == null)
+                EquippedWeapon = new Equipable(); // 기본 무기 설정
+            if (EquippedArmor == null)
+                    EquippedArmor = new Equipable(); // 기본 갑옷 설정
+        }
+        public void ApplyLoadedData(Player loadedData)
+        {
+            this.Name = loadedData.Name;
+            this.JobName = loadedData.JobName;
+            this.MaxHP = loadedData.MaxHP;
+            this.Hp = loadedData.Hp;
+            this.MaxMana = loadedData.MaxMana;
+            this.Mana = loadedData.Mana;
+            this.Level = loadedData.Level;
+            this.BaseAttack = loadedData.BaseAttack;
+            this.BaseDefense = loadedData.BaseDefense;
+            this.Gold = loadedData.Gold;
+            this.Exp = loadedData.Exp;
+            this.NextExp = loadedData.NextExp;
+            this.Inventory = loadedData.Inventory;
+            this.Skills = loadedData.Skills;
+            this.EquippedSkills = loadedData.EquippedSkills;
+            this.EquippedWeapon = loadedData.EquippedWeapon;
+            this.EquippedArmor = loadedData.EquippedArmor;
         }
     }
 }

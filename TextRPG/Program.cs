@@ -1,12 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
-using TextRPG.Object;
-using TextRPG.Scenes;
-using TextRPG.SaveDatas;
 using TextRPG.Items;
+using TextRPG.Object;
+using TextRPG.SaveDatas;
+using TextRPG.Scenes;
 
 
 namespace TextRPG
@@ -20,6 +21,7 @@ namespace TextRPG
         StatusScene,
         SkillScene,
         InventoryScene,
+        QuestScene,
         DungeonScene,
     }
     internal class Program
@@ -40,6 +42,7 @@ namespace TextRPG
             scenes.Add(SceneType.ShopScene, new ShopScene());
             scenes.Add(SceneType.SkillScene, new SkillScene());
             scenes.Add(SceneType.InventoryScene, new InventoryScene());
+            scenes.Add(SceneType.QuestScene, new QuestScene());
             scenes.Add(SceneType.DungeonScene, new DungeonScene());
         }
 
@@ -66,9 +69,11 @@ namespace TextRPG
             }
         }
 
-        public void ConsoleColorHelper(string text, ConsoleColor color, bool line)
+        public static void ConsoleColorHelper(string text, ConsoleColor foreground, ConsoleColor background, bool line)
         {
-            Console.ForegroundColor = color;
+            Console.ForegroundColor = foreground;
+            Console.BackgroundColor = background;
+
             if (line)
             {
                 Console.Write(text);
@@ -77,7 +82,10 @@ namespace TextRPG
             {
                 Console.WriteLine(text);
             }
+
             Console.ResetColor();
         }
-    }
+
+
+     }
 }

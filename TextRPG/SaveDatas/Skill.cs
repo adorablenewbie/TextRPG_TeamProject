@@ -60,6 +60,10 @@ namespace TextRPG.SaveDatas
                 target.Hp -= skillAttack; // 대상에게 피해
                 target.BaseDefense += skill.DefenseValue; // 방어력 합연산
                 target.Hp += skill.HealValue; // 치유
+                if (target.Hp >= target.MaxHP)
+                {
+                    target.Hp = target.MaxHP;
+                }
                 // 상태이상 효과 적용 로직 추가 가능
                 Console.WriteLine($"{player.Name}이(가) {skill.Name}을(를) 시전!");
             }

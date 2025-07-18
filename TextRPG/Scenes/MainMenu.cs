@@ -1,8 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TextRPG.Object;
+using TextRPG.SaveDatas;
 
 namespace TextRPG.Scenes
 {
@@ -20,7 +22,9 @@ namespace TextRPG.Scenes
             Console.WriteLine("4. 스킬");
             Console.WriteLine("5. 상점");
             Console.WriteLine("6. 휴식하기");
-            Console.WriteLine("7. 게임 종료");
+            Console.WriteLine("7. 퀘스트");
+            Console.WriteLine("8: 게임 저장하기");
+            Console.WriteLine("9. 게임 종료");
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요.");
             string input = Console.ReadLine();
@@ -46,6 +50,12 @@ namespace TextRPG.Scenes
                     Program.ChangeScene(SceneType.RestScene);
                     break;
                 case "7":
+                    Program.ChangeScene(SceneType.QuestScene);
+                    break;
+                case "8":
+                    SaveData.SavePlayer();
+                    break;
+                case "9":
                     while (true)
                     {
                         Console.WriteLine("\n게임을 종료하시겠습니까? (y/n)\n");
@@ -53,7 +63,7 @@ namespace TextRPG.Scenes
 
                         if (exitGameCheck == "y")
                         {
-                            //ExitGame();
+                            Environment.Exit(0);
                             break;
                         }
                         else if (exitGameCheck == "n")

@@ -78,25 +78,42 @@ namespace TextRPG.Scenes
         {   
             //몬스터 생성
             List<Monster> spawnedMonster = Dungeon.CreateMonster(dungeonType);
-            //int turn = 1;
-            string input;
+            bool end = false;
             while (true)
             {
                 while (spawnedMonster.Count > 0) 
                 {
+
                     Console.Clear();
                     Console.WriteLine("┌────────────[ 전투 시작 ]────────────┐");
                     Dungeon.SpawnMonster(spawnedMonster);
                     Console.WriteLine("└────────────────────────────────────┘");
-                    Console.WriteLine($"▶ 당신: HP: {Player.Instance.Hp} / ATK: {Player.Instance.BaseAttack} / DEF: {Player.Instance.BaseDefense} / GOLD: {Player.Instance.Gold}");
+
+                    if (Dungeon.MonsterClearCheck(spawnedMonster))
+                    {
+                        Thread.Sleep(1000);
+                        break;
+                    }
+                    
+                    Console.WriteLine($"▶ 당신: HP: {Player.Instance.Hp} / MANA: {Player.Instance.Mana} / ATK: {Player.Instance.BaseAttack} / DEF: {Player.Instance.BaseDefense} / GOLD: {Player.Instance.Gold}");
                     Console.WriteLine("\n[1] 공격  [2]스킬  [3] 도망치기");
                     Console.Write("행동 선택: ");
                     //플레이어의 턴
-                    
-                    Dungeon.ChooseAction(spawnedMonster, dungeonType);
+                    if(Dungeon.ChooseAction(spawnedMonster, dungeonType))
+                    {
+                        end = true;
+                        break;
+                    }
                 }
-                Console.WriteLine("모든 적을 처치하였습니다.");
-                System.Threading.Thread.Sleep(1000);
+                if (end)
+                {
+                    Console.WriteLine("다음 장소로 이동합니다.");
+                }
+                else
+                {
+                    Console.WriteLine("모든 적을 처치하였습니다.");
+                    System.Threading.Thread.Sleep(1000);
+                }
                 break;
             }
             Console.Clear();
@@ -229,7 +246,13 @@ namespace TextRPG.Scenes
                 //Console.WriteLine($" 회복의 샘 발견! HP가 {heal} 회복되었습니다!");
                 //player.Hp += heal;
                 Console.WriteLine($" 회복의 샘 발견! HP가 {healingAmount} 회복되었습니다!");
+                
                 player.Hp += healingAmount;
+                if (player.Hp >= player.MaxHP)
+                {
+                    player.Hp = player.MaxHP;
+                }
+
                 Console.WriteLine($"남은 HP: {player.Hp}\n");
                 Console.WriteLine("엔터로 다음 스테이지로 진행");
                 Console.ReadLine();
