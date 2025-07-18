@@ -31,7 +31,7 @@ namespace TextRPG.Object
 
         public Monster Clone()
         {
-            return new Monster(this.Name, this.Hp, this.BaseAttack, this.BaseDefense, this.Gold, this.Exp, this.DungeonType);
+            return new Monster(this.Level, this.Name, this.Hp, this.BaseAttack, this.BaseDefense, this.Gold, this.Exp, this.DungeonType);
         }
 
         public Monster(int level, string name, float hp, float attack, float defense, float gold, float exp, DungeonType dungeonType)
