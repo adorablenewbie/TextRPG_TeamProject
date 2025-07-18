@@ -97,17 +97,43 @@ namespace TextRPG.SaveDatas
                 Console.WriteLine("시체에 무기를 박고 말았다.");
                 return;
             }
-            mList[idx].Hp -= Player.Instance.BaseAttack;
 
-            //이곳에 몬스터 체력 몇 달았는지 적기
-            Console.WriteLine($"{mList[idx].Name}의 남은 HP: {mList[idx].Hp}");
-            Thread.Sleep(500);
-            if (mList[idx].Hp <= 0)
+            int missChance = new Random().Next(0, 101);
+            if(missChance < 10)
             {
-                DungeonScene.Reward(mList[idx], Player.Instance);
-                mList[idx].IsDead = true;
-                //mList.RemoveAt(idx);
+                Console.WriteLine($"{mList[idx].Name}을 공격했지만 아무 일도 일어나지 않았습니다.");
             }
+            else
+            {
+                mList[idx].Hp -= PlayerCritChance(PlayerDamageRange());
+
+                //이곳에 몬스터 체력 몇 달았는지 적기
+                Console.WriteLine($"{mList[idx].Name}의 남은 HP: {mList[idx].Hp:F0}");
+                Thread.Sleep(500);
+                if (mList[idx].Hp <= 0)
+                {
+                    DungeonScene.Reward(mList[idx], Player.Instance);
+                    mList[idx].IsDead = true;
+                    //mList.RemoveAt(idx);
+                }
+            }
+        }
+
+        public static float PlayerDamageRange()
+        {
+            float interval = Player.Instance.TotalAttack * 0.1f;
+            int damage = new Random().Next((int)Player.Instance.TotalAttack - (int)interval, (int)Player.Instance.TotalAttack + (int)interval);
+            return (float)damage;
+        }
+
+        public static float PlayerCritChance(float damage)
+        {
+            int Random = new Random().Next(0, 101);
+            if(Random < 16)
+            {
+                return damage * 1.6f;
+            }
+            return damage;
         }
 
         public static void PlayerSkillTurn(List<Monster> mList, int targetNumber, Skill selectedSkill)
@@ -119,8 +145,14 @@ namespace TextRPG.SaveDatas
             {
                 selectedSkill.UseSkill(selectedSkill, Player.Instance);
                 Console.WriteLine($"{Player.Instance.Name}의 남은 HP: {Player.Instance.Hp}");
+                return;
             }
-            else
+
+            if (mList[idx].IsDead)
+            {
+                Console.WriteLine("시체에 스킬을 박고 말았다.");
+                return;
+            }else
             {
                 selectedSkill.UseSkill(selectedSkill, mList[idx]);
                 //이곳에 몬스터 체력 몇 달았는지 적기
@@ -299,6 +331,7 @@ namespace TextRPG.SaveDatas
             }
 
             Player.Instance.LevelUpCheck();
+            Thread.Sleep(500);
 
             //몬스터의 턴
             Dungeon.MonsterTurn(spawnedMonster, Player.Instance);
