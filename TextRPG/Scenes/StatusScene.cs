@@ -25,6 +25,7 @@ namespace TextRPG.Scenes
                 Console.WriteLine($"공격력: {player.TotalAttack} {((player.AddAttack > 0) ? $"(+{player.AddAttack})" : "")}");
                 Console.WriteLine($"방어력: {player.TotalDefence} {((player.AddDefence > 0) ? $"(+{player.AddDefence})" : "")}");
                 Console.WriteLine($"체력: {player.Hp}");
+                Console.WriteLine($"마나: {player.Mana}");
                 Console.WriteLine($"골드: {player.Gold}\n");
 
                 Console.WriteLine("0. 나가기\n");

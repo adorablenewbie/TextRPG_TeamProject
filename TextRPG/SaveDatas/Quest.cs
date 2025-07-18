@@ -13,6 +13,32 @@ namespace TextRPG.SaveDatas
 {
     public class Quest
     {
+        public class QuestData
+        {
+            public string QuestTitle { get; set; }
+            public bool IsProgress { get; set; }
+            public bool IsCompleted { get; set; }
+        }
+        public class KillCountData
+        {
+            public int Slime { get; set; }
+            public int Goblin { get; set; }
+            public int Bandit { get; set; }
+            public int Werewolf { get; set; }
+            public int Bat { get; set; }
+            public int Zombie { get; set; }
+            public int Skeleton { get; set; }
+            public int Mimic { get; set; }
+            public int Vampire { get; set; }
+            public int BlackMage { get; set; }
+            public int BlackKnight { get; set; }
+            public int Orc { get; set; }
+            public int Dragon { get; set; }
+        }
+        public string QuestTitle => questTitle;
+        public bool IsProgress { get => isProgress; set => isProgress = value; }
+        public bool IsCompleted { get => isCompleted; set => isCompleted = value; }
+
         private string questTitle;
         private string questDescript;
         private float questRewardExp;
