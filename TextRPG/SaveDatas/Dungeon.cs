@@ -1,10 +1,12 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TextRPG.Items;
 using TextRPG.Object;
 using TextRPG.Scenes;
 
@@ -36,6 +38,41 @@ namespace TextRPG.SaveDatas
             DungeonType.DragonLair => "🐉 드래곤 둥지",
             _ => "알 수 없음"
         };
+
+        public static Usable UseBattleItem()
+        {
+            Console.WriteLine("어떤 아이템을 사용하겠습니까?\n");
+            List<Usable> usables = Player.Instance.Inventory.OfType<Usable>().ToList();
+            if (usables.Count <= 0)
+            {
+                Console.WriteLine("사용가능한 아이템이 없습니다");
+            }
+            else
+            {
+                for (int i = 0; i < usables.Count; i++)
+                {
+                    Console.WriteLine($"[{i + 1}] {usables[i].Name} {usables[i].Description}");
+                }
+            }
+
+            Console.WriteLine("[0] 이전으로");
+            Console.Write("행동 번호를 입력하세요: ");
+
+            int input;
+            int.TryParse(Console.ReadLine(), out input);
+            if (input < 0 || input > usables.Count)
+            {
+                Console.WriteLine("잘못된 입력입니다. 다시 시도하세요.");
+                return UseBattleItem(); // 재귀 호출로 다시 입력 받기
+            }
+            else if (input == 0)
+            {
+                Console.WriteLine("이전으로 돌아갑니다.");
+                return null; // 이전으로 돌아가기
+            }
+            Usable selectedItem = usables[input - 1];
+            return selectedItem;
+        }
 
         public static Skill UseSkill()
         {
@@ -276,6 +313,64 @@ namespace TextRPG.SaveDatas
             }
         }
 
+        public static bool AttackMonsterItem(List<Monster> spawnedMonster)
+        {
+            int targetNumber = 0;
+            Usable selectedItem = Dungeon.UseBattleItem();
+            if (selectedItem == null) {
+                Console.WriteLine("이전으로 돌아갑니다.");
+                return false;
+            }
+            Console.WriteLine("스킬을 사용할 대상 선택");
+            Console.WriteLine($"[1~{spawnedMonster.Count}]번까지의 몬스터를 선택하세요.");
+            Console.WriteLine($"[5] {Player.Instance.Name} (자신에게 사용)");
+            int.TryParse(Console.ReadLine(), out targetNumber);
+            if (targetNumber >= 1 && targetNumber <= spawnedMonster.Count || targetNumber == 5)
+            {
+                Dungeon.PlayerItemTurn(spawnedMonster, targetNumber, selectedItem);
+                Thread.Sleep(1000);
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("당신은 머뭇거리다 시간을 낭비했다..");
+                Thread.Sleep(1000);
+                return true;
+            }
+        }
+
+        private static void PlayerItemTurn(List<Monster> mList, int targetNumber, Usable selectedItem)
+        {
+            if(mList.Count <= 0) return;
+            int idx = targetNumber - 1;
+
+            if (targetNumber == 5)
+            {
+                selectedItem.UseItem();
+                Console.WriteLine($"{Player.Instance.Name}의 남은 HP: {Player.Instance.Hp}");
+                return;
+            }
+
+            if (mList[idx].IsDead)
+            {
+                Console.WriteLine("시체에 아이템을 쓰고 말았다.");
+                return;
+            }
+            else
+            {
+                selectedItem.UseItem(mList[idx]);
+                //이곳에 몬스터 체력 몇 달았는지 적기
+                Console.WriteLine($"{mList[idx].Name}의 남은 HP: {mList[idx].Hp}");
+                if (mList[idx].Hp <= 0)
+                {
+                    DungeonScene.Reward(mList[idx], Player.Instance);
+                    mList[idx].IsDead = true;
+                    //mList.RemoveAt(idx);
+                }
+            }
+            Thread.Sleep(500);
+        }
+
         public static bool RunbyMonster(DungeonType dungeonType)
         {
             Random random = new Random();
@@ -315,8 +410,14 @@ namespace TextRPG.SaveDatas
                     {
                         return false;
                     }
+                }else if(num == 3)
+                {
+                    if (!AttackMonsterItem(spawnedMonster))
+                    {
+                        return false;
+                    }
                 }
-                else if (num == 3)
+                else if (num == 4)
                 {
                     if (RunbyMonster(dungeonType))
                     {
