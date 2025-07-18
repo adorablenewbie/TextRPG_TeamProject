@@ -44,6 +44,7 @@ namespace TextRPG.Scenes
                         player.Skills.Add(Skill.Slam);
                         player.Skills.Add(Skill.Barrier);
                         player.Skills.Add(Skill.Heal);
+                        player.Skills.Add(Skill.Bomb);
                         break;
 
                 }

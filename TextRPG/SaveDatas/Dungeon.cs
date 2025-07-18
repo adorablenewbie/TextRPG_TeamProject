@@ -117,9 +117,12 @@ namespace TextRPG.SaveDatas
             {
                 if (!m.IsDead)
                 {
-                    p.Hp -= m.BaseAttack;
-                    Console.WriteLine($"몬스터 {m.Name} 의 공격! 데미지 {m.BaseAttack}");
-                    Thread.Sleep(1000);
+                    if (EffectCheck(m))
+                    {
+                        p.Hp -= m.BaseAttack;
+                        Console.WriteLine($"몬스터 {m.Name} 의 공격! 데미지 {m.BaseAttack}");
+                        Thread.Sleep(1000);
+                    }
                 }
             }
         }
@@ -295,6 +298,7 @@ namespace TextRPG.SaveDatas
                 Console.WriteLine("이전으로 돌아갑니다.");
                 return false; // 이전으로 돌아가기
             }
+
             Console.WriteLine("스킬을 사용할 대상 선택");
             Console.WriteLine($"[1~{spawnedMonster.Count}]번까지의 몬스터를 선택하세요.");
             Console.WriteLine($"[5] {Player.Instance.Name} (자신에게 사용)");
@@ -321,7 +325,7 @@ namespace TextRPG.SaveDatas
                 Console.WriteLine("이전으로 돌아갑니다.");
                 return false;
             }
-            Console.WriteLine("스킬을 사용할 대상 선택");
+            Console.WriteLine("아이템을 사용할 대상 선택");
             Console.WriteLine($"[1~{spawnedMonster.Count}]번까지의 몬스터를 선택하세요.");
             Console.WriteLine($"[5] {Player.Instance.Name} (자신에게 사용)");
             int.TryParse(Console.ReadLine(), out targetNumber);
@@ -392,13 +396,36 @@ namespace TextRPG.SaveDatas
             }
         }
 
+        public static void EffectAll(List<Monster> mList)
+        {
+            Player.Instance.ApplyEffect();
+            for (int i = 0; i < mList.Count; i++) {
+                mList[i].ApplyEffect();
+            }
+        }
+
+        public static bool EffectCheck(Status target)
+        {
+            if (target.HasEffect(Effects.Stun))
+            {
+                Console.Write($"{target}은 몸이 저릿해서 움직일 수 없다.");
+                return false;
+            }
+            else if (target.HasEffect(Effects.Stun))
+            {
+                Console.Write($"{target}은 자고 있다.");
+                return false;
+            }
+            return true;
+        }
+
         public static bool ChooseAction(List<Monster> spawnedMonster, DungeonType dungeonType)
         {
             int num = 0;
 
             //플레이어의 턴
             string input = Console.ReadLine();
-            if (int.TryParse(input, out num))
+            if (int.TryParse(input, out num) && EffectCheck(Player.Instance))
             {
                 if (num == 1)
                 {
@@ -443,10 +470,9 @@ namespace TextRPG.SaveDatas
                 Environment.Exit(0); // 게임 종료
             }
             //결과
-            Player.Instance.ApplyEffect();
+            Dungeon.EffectAll(spawnedMonster);
             return false;
             //turn++;
         }
-        
     }
 }

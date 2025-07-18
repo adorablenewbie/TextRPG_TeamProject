@@ -95,6 +95,8 @@ namespace TextRPG.Object
                     {
                         case Effects.Poison:
                             Hp -= 5;
+                            Console.WriteLine("독 데미지를 5 입었습니다.");
+                            Thread.Sleep(1000);
                             break;
                         case Effects.Sleep:
                             break;
@@ -102,6 +104,8 @@ namespace TextRPG.Object
                             break;
                         case Effects.Burn:
                             Hp -= 2;
+                            Console.WriteLine("화상 데미지를 2 입었습니다");
+                            Thread.Sleep(1000);
                             break;
                     }
                 }

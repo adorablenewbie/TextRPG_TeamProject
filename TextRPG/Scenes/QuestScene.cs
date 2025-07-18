@@ -12,14 +12,13 @@ namespace TextRPG.Scenes
         public override void ShowScene()
         {
             Console.Clear();
-            Console.WriteLine("Quest!!");
+            Console.WriteLine("----------[퀘스트]----------");
             Console.WriteLine();
-            for (int i = 0; i < Quest.questList.Count; i++) {
-                Quest.questList[i].ShowQuestList();
-            }
-            Console.WriteLine("원하시는 퀘스트를 선택해주세요.");
-            Console.WriteLine(">>");
-            
+
+            Quest.ShowQuestList();
+            Console.WriteLine("\n[0]: 나가기\n");
+
+            Console.Write("원하시는 퀘스트를 선택해주세요. >> ");
             string Input = Console.ReadLine();
             bool isNumber = int.TryParse(Input, out int result);
             
@@ -30,7 +29,7 @@ namespace TextRPG.Scenes
             else
             {
                 int selectedNum = result - 1;
-                //QuestList[selectedNum].ChooseQuest();
+                Quest.questList[selectedNum].ChooseQuest();
             }
         }
     }
