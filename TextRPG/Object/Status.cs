@@ -82,7 +82,10 @@ namespace TextRPG.Object
             {
                 return true;
             }
-            return false;
+            else
+            {
+                return false;
+            }
         }
         public bool HasEffect(Effects effect)
         {
@@ -119,7 +122,7 @@ namespace TextRPG.Object
                 }
                 effect.Duration--;
 
-                if (effect.Duration <= 0)
+                if (effect.Duration <= 0 || this.IsDead == true)
                 {
                     //제거됨
                     this.currentEffect.Remove(key);

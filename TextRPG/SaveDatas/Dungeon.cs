@@ -410,12 +410,12 @@ namespace TextRPG.SaveDatas
             
             for (int i = 0; i < mList.Count; i++) {
                 if (mList[i].HasEffect()) {
-                    Console.WriteLine($"{mList[i].Name}이(가)");
-                    mList[i].ApplyEffect();
                     if (mList[i].Hp <= 0)
                     {
                         mList[i].IsDead = true;
                     }
+                    Console.WriteLine($"{mList[i].Name}이(가)");
+                    mList[i].ApplyEffect();
                     Thread.Sleep(1000);
                 }
             }
