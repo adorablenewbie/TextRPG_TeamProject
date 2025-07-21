@@ -217,8 +217,10 @@ namespace TextRPG.SaveDatas
 
             if (dungeonType == DungeonType.DragonLair)
             {
-                List<Monster> dragon = Monster.monstersData.Where(m => m.DungeonType == DungeonType.DragonLair).ToList();
-                return dragon;
+                var matchDragon = Monster.monstersData.Where(m => m.DungeonType == DungeonType.DragonLair).ToList();
+                Monster selectedMonster = matchDragon[0].Clone();
+                mList.Add(selectedMonster.Clone());
+                return mList;
             }
             else
             {
