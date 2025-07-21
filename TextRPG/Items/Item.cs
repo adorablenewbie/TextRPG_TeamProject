@@ -33,6 +33,7 @@ namespace TextRPG.Items
     //}
     [JsonPolymorphic(TypeDiscriminatorPropertyName = "$type")]
     [JsonDerivedType(typeof(Equipable), "equipable")]
+    [JsonDerivedType(typeof(Usable), "usable")]
     public abstract class Item
     {
         //public ItemData itemData;
