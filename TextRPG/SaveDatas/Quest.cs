@@ -163,13 +163,13 @@ namespace TextRPG.SaveDatas
                 switch(this.questTitle)
                     {
                         case "장비 장착":
-                            if (Player.Instance.EquippedArmor != null || Player.Instance.EquippedWeapon != null)
+                            if (Player.Instance.EquippedArmor.IsEquipped || Player.Instance.EquippedWeapon.IsEquipped)
                             {
                                 isCompleted = true;
                                 CompleteQuest();
                             
                             }
-                            break;
+                        break;
                         case "단련":
                             if (Player.Instance.Level >= 5)
                             {
