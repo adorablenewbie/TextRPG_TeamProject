@@ -38,7 +38,7 @@ namespace TextRPG.Object
             this.Level = 1;
             this.BaseAttack = 10;
             this.BaseDefense = 5; 
-            this.Gold = 0;
+            this.Gold = 1500;
             this.Exp = 0;
             this.Skills = new List<Skill>();
             this.EquippedSkills = new List<Skill>();
@@ -109,6 +109,7 @@ namespace TextRPG.Object
             // 출력
             Console.WriteLine($"== 레벨 업! 현재 레벨: {Level} ==");
             Console.WriteLine($"→ HP: {MaxHP}, 공격력: {TotalAttack}, 방어력: {TotalDefence}");
+            LevelUpCheck();
         }
         public void Initialize()
         {

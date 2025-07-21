@@ -409,7 +409,7 @@ namespace TextRPG.SaveDatas
             }
             
             for (int i = 0; i < mList.Count; i++) {
-                if (mList[i].HasEffect()) {
+                if (mList[i].HasEffect() && mList[i].IsDead == false) {
                     if (mList[i].Hp <= 0)
                     {
                         mList[i].IsDead = true;
@@ -428,7 +428,7 @@ namespace TextRPG.SaveDatas
                 Console.Write($"{target}은 몸이 저릿해서 움직일 수 없다.");
                 return false;
             }
-            else if (target.HasEffect(Effects.Stun))
+            else if (target.HasEffect(Effects.Sleep))
             {
                 Console.Write($"{target}은 자고 있다.");
                 return false;

@@ -62,7 +62,14 @@ namespace TextRPG.Items
                 if (Player.Instance.Mana > Player.Instance.MaxMana)
                     Player.Instance.Mana = Player.Instance.MaxMana;
                 Console.WriteLine($"마나가 {this.Value}만큼 회복되었습니다!");
+            }else if(this.Type == ItemType.Throwing)
+            {
+                Player.Instance.Hp -= this.Value;
+                if (Player.Instance.Hp > Player.Instance.MaxHP)
+                    Player.Instance.Hp = Player.Instance.MaxHP;
+                Console.WriteLine($"체력을 {this.Value}만큼 잃어버렸습니다 (이건 먹는게 아니다.)");
             }
+            Thread.Sleep(1000);
         }
 
         public void UseItem(Monster targetMonster)

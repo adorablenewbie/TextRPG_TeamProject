@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TextRPG.Items;
 using TextRPG.Object;
+using TextRPG.SaveDatas;
 
 namespace TextRPG.SaveDatas
 {
@@ -43,7 +44,7 @@ namespace TextRPG.SaveDatas
         private string questDescript;
         private float questRewardExp;
         private float questRewardGold;
-        private Item questSpecialReward;
+        private Skill questSpecialReward;
         private int requiredLevel;
         private bool isProgress = false;
         private bool isCompleted = false;
@@ -64,19 +65,30 @@ namespace TextRPG.SaveDatas
 
         public static List<Quest> questList = new()
         {
-            new Quest("장비 장착", "갑옷이든 무기든 착용해보자!", 0, 200, 10),
-            new Quest("더욱 더 강해지기", "레벨 5이상으로 달성하자", 2, 500, 25, Equipable.equipedItemData[0]),
-            new Quest("마을을 위협하는 오크", "동굴에 거주하는 오크 3마리 처치", 7, 1000, 30),
-            new Quest("구원", "세에에에에에에에계ㅔㅔㅔㅔㅔㅔㅔㅔ 평화를 위해 흑염룡 퇴치", 10, 5000, 60, Equipable.equipedItemData[0]),
+            new Quest("장비 장착", "인벤토리에서 아이템을 장착해 보세요.", 0, 200, 10, Skill.Slam),
+            new Quest("단련", "레벨 5 이상으로 달성해 보세요.", 2, 500, 25, Skill.Barrier),
+            new Quest("토양 오염의 근원 퇴치", "숲 던전에서 슬라임을 5마리 잡으세요.", 1, 250, 20, Skill.Heal),
+            new Quest("고블린의 습격 저지", "숲 던전에서 고블린을 5마리 잡으세요.", 3, 300, 25, Skill.Bomb),
+            new Quest("산적 대장 체포 작전", "숲 던전에서 산적 5명을 잡으세요.", 4, 400, 30, Skill.Stinger),
+            new Quest("밤의 공포", "숲 던전에서 늑대인간 5명을 잡으세요.", 5, 500, 40, null),
+            new Quest("동굴 탐험의 시작", "동굴 던전에서 박쥐를 7마리 잡으세요.", 6, 700, 50, Skill.Lightning),
+            new Quest("동굴 속 생존자의 흔적 탐색", "동굴 던전에서 좀비를 7마리 잡으세요.", 7, 800, 60, Skill.Hypnosis),
+            new Quest("유물 수집", "동굴 던전에서 스켈레톤을 7마리 잡으세요.", 8, 900, 75, null),
+            new Quest("동굴의 지배자 추적", "동굴 던전에서 오크를 10마리 잡으세요.", 8, 1000, 100, null),
+            new Quest("보물 상자 찾기", "성 던전에서 미믹을 10마리 잡으세요.", 10, 1200, 125, Skill.HealingWind),
+            new Quest("초대받지 않은 손님", "성 던전에서 뱀파이어 10명을 잡으세요.", 12, 1500, 150, null),
+            new Quest("흑막의 정체", "성 던전에서 흑마법사 12명을 잡으세요.", 13, 1750, 200, Skill.DeathBlow),
+            new Quest("마법진 해제 작업", "성 던전에서 흑기사 15명을 잡으세요.", 15, 2000, 300, null),
+            new Quest("구원", "드래곤 둥지에서 흑마법사가 최후의 발악으로 소환한 흑염룡을 처치하세요.", 20, 5000, 500, null)
         };
-        public Quest(string title, string descript, int requiredLevel, float questRewardGold, float questRewardExp, Item questSpecialReward = null)
+        public Quest(string title, string descript, int requiredLevel, float Gold, float Exp, Skill SpecialReward)
         {
             this.questTitle = title;
             this.questDescript = descript;
             this.requiredLevel = requiredLevel;
-            this.questRewardGold = questRewardGold;
-            this.questRewardExp = questRewardExp;
-            this.questSpecialReward = questSpecialReward;
+            this.questRewardGold = Gold;
+            this.questRewardExp = Exp;
+            this.questSpecialReward =SpecialReward;
             this.isProgress = false;
             this.isCompleted = false;
         }
@@ -138,7 +150,7 @@ namespace TextRPG.SaveDatas
             Console.WriteLine($"퀘스트 '{questTitle}' 완료! {questRewardGold} 골드와 {questRewardExp} 경험치를 획득했습니다.\n");
             if (questSpecialReward != null)
             {
-                Player.Instance.Inventory.Add(questSpecialReward);
+                Player.Instance.Skills.Add(questSpecialReward);
                 Console.WriteLine($"특별 보상으로 {questSpecialReward.Name}을 획득했습니다.\n");
             }
             Console.WriteLine($"퀘스트 '{questTitle}' 완료! 보상을 받았습니다.");
@@ -158,15 +170,92 @@ namespace TextRPG.SaveDatas
                             
                             }
                             break;
-                        case "더욱 더 강해지기":
+                        case "단련":
                             if (Player.Instance.Level >= 5)
                             {
                                 isCompleted = true;
                                 CompleteQuest();
                             }
                             break;
-                        case "마을을 위협하는 오크":
-                            if (orcKillCount >= 3)
+                        case "토양 오염의 근원 퇴치":
+                            if (slimeKillCount >= 5)
+                            {
+                                isCompleted = true;
+                                CompleteQuest();
+                            }
+                            break;
+                        case "고블린의 습격 저지":
+                            if (goblinKillCount >= 5)
+                            {
+                                isCompleted = true;
+                                CompleteQuest();
+                            }
+                            break;
+                        case "산적 대장 체포 작전":
+                            if (banditKillCount >= 5)
+                            {
+                                isCompleted = true;
+                                CompleteQuest();
+                            }
+                            break;
+                        case "밤의 공포":
+                            if (werewolfKillCount >= 5)
+                            {
+                                isCompleted = true;
+                                CompleteQuest();
+                            }
+                            break;
+                        case "동굴 탐험의 시작":
+                            if (batKillCount >= 7)
+                            {
+                                isCompleted = true;
+                                CompleteQuest();
+                            }
+                            break;
+                        case "동굴 속 생존자의 흔적 탐색":
+                            if (zombieKillCount >= 7)
+                            {
+                                isCompleted = true;
+                                CompleteQuest();
+                            }
+                            break;
+                        case "유물 수집":
+                            if (skeletonKillCount >= 7)
+                            {
+                                isCompleted = true;
+                                CompleteQuest();
+                            }
+                            break;
+                        case "동굴의 지배자 추적":
+                            if (orcKillCount >= 10)
+                            {
+                                isCompleted = true;
+                                CompleteQuest();
+                            }
+                            break;
+                        case "보물 상자 찾기":
+                            if (mimicKillCount >= 10)
+                            {
+                                isCompleted = true;
+                                CompleteQuest();
+                            }
+                            break;
+                        case "초대받지 않은 손님":
+                            if (vampireKillCount >= 10)
+                            {
+                                isCompleted = true;
+                                CompleteQuest();
+                            }
+                            break;
+                        case "흑막의 정체":
+                            if (blackMageKillCount >= 12)
+                            {
+                                isCompleted = true;
+                                CompleteQuest();
+                            }
+                            break;
+                        case "마법진 해제 작업":
+                            if (blackKnightKillCount >= 15)
                             {
                                 isCompleted = true;
                                 CompleteQuest();
