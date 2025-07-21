@@ -13,6 +13,7 @@ namespace TextRPG.Items
     {
         public float Value;
 
+        public Usable() { }
         public Usable(string name, string descript, float price, float value, ItemType type)
         {
             this.Name = name;
